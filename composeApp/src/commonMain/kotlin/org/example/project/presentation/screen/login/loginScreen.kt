@@ -3,6 +3,7 @@ package org.example.project.presentation.screen.login
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -77,7 +78,11 @@ fun LoginScreen(
         // Language Toggle
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
+            horizontalArrangement = Arrangement.Start,
+            modifier = Modifier
+                .clip(RoundedCornerShape(50.dp))
+                .background(Color(0xFFF0F0F0))
+                .padding(4.dp)
         ) {
             LanguageToggleButton(
                 label = "Spa",
@@ -85,7 +90,6 @@ fun LoginScreen(
                 showFlag = true,
                 onClick = { selectedLanguage = "Spa" }
             )
-            Spacer(modifier = Modifier.size(8.dp))
             LanguageToggleButton(
                 label = "Eng",
                 selected = selectedLanguage == "Eng",
@@ -210,14 +214,19 @@ private fun LanguageToggleButton(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .clip(RoundedCornerShape(50.dp))
-            .background(if (selected) Color.White else Color.Transparent)
+            .background(
+                if (selected) Color.White else Color.Transparent
+            )
             .border(
                 width = if (selected) 1.dp else 0.dp,
-                color = if (selected) Color(0xFFE0E0E0) else Color.Transparent,
+                color = if (selected) Color(0xFFDDDDDD) else Color.Transparent,
                 shape = RoundedCornerShape(50.dp)
             )
-            .clickable { onClick() }
-            .padding(horizontal = 12.dp, vertical = 6.dp)
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) { onClick() }
+            .padding(horizontal = 14.dp, vertical = 8.dp)
     ) {
         if (showFlag) {
             Box(
@@ -234,7 +243,7 @@ private fun LanguageToggleButton(
             text = label,
             fontSize = 14.sp,
             fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
-            color = Color(0xFF1A1A1A)
+            color = if (selected) Color(0xFF1A1A1A) else Color(0xFF888888)
         )
     }
 }

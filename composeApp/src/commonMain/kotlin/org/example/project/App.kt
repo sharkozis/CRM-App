@@ -12,6 +12,6 @@ import org.example.project.presentation.theme.AppTheme
 fun App() {
     AppTheme {
 //       SplashScreen()
-        LoginScreen {  }
+        LoginScreen {}
     }
 }
