@@ -68,7 +68,7 @@ fun LoginScreen(
                 .fillMaxWidth(0.9f)
                 .height(bgCardHeight)
                 .align(Alignment.BottomCenter)
-                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
                 .background(Color.White.copy(alpha = 0.8f))
         )
 
@@ -78,7 +78,7 @@ fun LoginScreen(
                 .fillMaxWidth()
                 .height(mainCardHeight)
                 .align(Alignment.BottomCenter)
-                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
                 .background(Color.White)
         ) {
             // Back Button

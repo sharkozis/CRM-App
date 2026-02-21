@@ -1,5 +1,6 @@
 package org.example.project.presentation.screen.signup
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,14 +15,15 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -46,6 +48,7 @@ import org.example.project.presentation.theme.DarkPurple
 import org.example.project.presentation.theme.DeepMaroon
 import org.example.project.presentation.theme.MuteColor
 import org.example.project.presentation.theme.PinkPrimary
+import org.example.project.presentation.theme.grayTextColor
 
 @Composable
 fun SignUpScreen(
@@ -67,148 +70,167 @@ fun SignUpScreen(
         val mainCardHeight = screenHeight * 0.9f
         val bgCardHeight = screenHeight * 0.92f
 
-        // Background Card (Stacked effect)
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .height(bgCardHeight)
-                .align(Alignment.BottomCenter)
-                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .background(Color.White.copy(alpha = 0.8f))
-        )
-
-        // Main Content Card
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(mainCardHeight)
-                .align(Alignment.BottomCenter)
-                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .background(Color.White)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
+            // Spacer to start the card lower down initially
+            Spacer(modifier = Modifier.height(screenHeight * 0.12f))
+
+            // Stack container that grows with its content
+            Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 24.dp, vertical = 24.dp),
-                verticalArrangement = Arrangement.Top
+                    .fillMaxWidth()
+                    .wrapContentHeight()
             ) {
-                // Back Button
-                CircularIconButton(
-                    onClick = onBackClick,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-
-                // Title
-                Text(
-                    text = "Create Account to Empty Driver Apps",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF1A1A1A)
-                )
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                // Subtitle
-                Text(
-                    text = "Join Our Driver Community today.",
-                    fontSize = 14.sp,
-                    color = MuteColor
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                // Language Toggle
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start,
+                // Background card (Peeks at the top)
+                Box(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(50.dp))
-                        .background(Color(0xFFF0F0F0))
-                        .padding(4.dp)
-                ) {
-                    LanguageToggleButton(
-                        label = "Spa",
-                        selected = selectedLanguage == "Spa",
-                        showFlag = true,
-                        onClick = { selectedLanguage = "Spa" }
-                    )
-                    LanguageToggleButton(
-                        label = "Eng",
-                        selected = selectedLanguage == "Eng",
-                        showFlag = false,
-                        onClick = { selectedLanguage = "Eng" }
-                    )
-                }
+                        .fillMaxWidth(0.9f)
+//                        .matchParentSize() // Matches the final height of the main card Box
+                        .offset(y = (-20).dp) // Peeks 12dp above the main card
+                        .align(Alignment.TopCenter)
+                        .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
+                        .background(Color.White.copy(alpha = 0.8f))
+                        .height(bgCardHeight)
+                )
 
-                Spacer(modifier = Modifier.height(28.dp))
-
-                // Fields
-                SignUpField(label = "Full Name", placeholder = "Enter your full name", value = name, onValueChange = { name = it })
-                SignUpField(label = "Email", placeholder = "Enter your email", value = email, onValueChange = { email = it }, keyboardType = KeyboardType.Email)
-                
-                // Phone Number Field (Simulated with prefix)
-                Text(text = "Phone Number", fontSize = 14.sp, fontWeight = FontWeight.Medium, color = Color(0xFF1A1A1A))
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Row(
-                        modifier = Modifier
-                            .height(56.dp)
-                            .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(12.dp))
-                            .padding(horizontal = 12.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = "🇺🇸 +1", fontSize = 14.sp)
-                        Text(text = "▼", fontSize = 12.sp, color = MuteColor)
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    OutlinedTextField(
-                        value = phoneNumber,
-                        onValueChange = { phoneNumber = it },
-                        placeholder = { Text("Enter your phone number", color = Color(0xFFBBBBBB), fontSize = 14.sp) },
-                        shape = RoundedCornerShape(12.dp),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = PinkPrimary,
-                            unfocusedBorderColor = Color(0xFFE0E0E0),
-                            cursorColor = PinkPrimary
-                        ),
-                        modifier = Modifier.weight(1f),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
-                    )
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-
-                SignUpDropdownField(label = "Weekly Driving Hours", placeholder = "Select weekly driving hours")
-                SignUpDropdownField(label = "Vehicle Year", placeholder = "Select vehicle year")
-                SignUpDropdownField(label = "Vehicle Brand", placeholder = "Select vehicle brand")
-                
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(vertical = 8.dp)) {
-                    Text(text = "ⓘ", fontSize = 16.sp, color = MuteColor)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Select year to enable brand suggestions", fontSize = 12.sp, color = MuteColor)
-                }
-                
-                SignUpDropdownField(label = "Vehicle Model", placeholder = "Select vehicle model")
-                SignUpField(label = "Vehicle Color", placeholder = "Select or enter vehicle color", value = "", onValueChange = {})
-                SignUpDropdownField(label = "City", placeholder = "Select your city")
-                SignUpDropdownField(label = "Neighborhood", placeholder = "Select your neighborhood")
-                SignUpField(label = "Referral Code (Optional)", placeholder = "Enter referral code (optional)", value = referralCode, onValueChange = { referralCode = it })
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                // Create Account Button
-                PrimaryButton(
-                    title = "Create Account",
-                    onClick = onCreateAccountClick,
+                // Main content card
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(52.dp),
-                    // We need to override the background color in PrimaryButton or handle it here if PrimaryButton doesn't support custom colors
-                    // Since PrimaryButton uses PinkPrimary by default, I'll update it to accept a custom color or just implement a themed button here.
-                    containerColor = DarkPurple
-                )
+                        .wrapContentHeight()
+                        .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
+                        .background(Color.White)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp, vertical = 24.dp),
+                        verticalArrangement = Arrangement.Top
+                    ) {
+                        // Back Button
+                        CircularIconButton(
+                            onClick = onBackClick,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
 
-                Spacer(modifier = Modifier.height(40.dp))
+                        // Title
+                        Text(
+                            text = "Create Account to Empty Driver Apps",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF1A1A1A)
+                        )
+
+                        Spacer(modifier = Modifier.height(6.dp))
+
+                        // Subtitle
+                        Text(
+                            text = "Join Our Driver Community today.",
+                            fontSize = 16.sp,
+                            color = grayTextColor
+
+                            //grayTextColor
+                        )
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        // Language Toggle
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Start,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(50.dp))
+                                .background(Color(0xFFF0F0F0))
+                                .padding(4.dp)
+                        ) {
+                            LanguageToggleButton(
+                                label = "Spa",
+                                selected = selectedLanguage == "Spa",
+                                showFlag = true,
+                                onClick = { selectedLanguage = "Spa" }
+                            )
+                            LanguageToggleButton(
+                                label = "Eng",
+                                selected = selectedLanguage == "Eng",
+                                showFlag = false,
+                                onClick = { selectedLanguage = "Eng" }
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(28.dp))
+
+                        // Fields
+                        SignUpField(label = "Full Name", placeholder = "Enter your full name", value = name, onValueChange = { name = it })
+                        SignUpField(label = "Email", placeholder = "Enter your email", value = email, onValueChange = { email = it }, keyboardType = KeyboardType.Email)
+
+                        // Phone Number Field (Simulated with prefix)
+                        Text(text = "Phone Number", fontSize = 14.sp, fontWeight = FontWeight.Medium, color = Color(0xFF1A1A1A))
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Row(
+                                modifier = Modifier
+                                    .height(56.dp)
+                                    .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(12.dp))
+                                    .padding(horizontal = 12.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(text = "🇺🇸 +1", fontSize = 14.sp)
+                                Text(text = "▼", fontSize = 12.sp, color = MuteColor)
+                            }
+                            Spacer(modifier = Modifier.width(8.dp))
+                            OutlinedTextField(
+                                value = phoneNumber,
+                                onValueChange = { phoneNumber = it },
+                                placeholder = { Text("Enter your phone number", color = Color(0xFFBBBBBB), fontSize = 14.sp) },
+                                shape = RoundedCornerShape(12.dp),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    focusedBorderColor = PinkPrimary,
+                                    unfocusedBorderColor = Color(0xFFE0E0E0),
+                                    cursorColor = PinkPrimary
+                                ),
+                                modifier = Modifier.weight(1f),
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        SignUpDropdownField(label = "Weekly Driving Hours", placeholder = "Select weekly driving hours")
+                        SignUpDropdownField(label = "Vehicle Year", placeholder = "Select vehicle year")
+                        SignUpDropdownField(label = "Vehicle Brand", placeholder = "Select vehicle brand")
+
+                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(vertical = 2.dp)) {
+                            Text(text = "ⓘ", fontSize = 16.sp, color = MuteColor)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("Select year to enable brand suggestions", fontSize = 14.sp, color = grayTextColor)
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        SignUpDropdownField(label = "Vehicle Model", placeholder = "Select vehicle model")
+                        SignUpField(label = "Vehicle Color", placeholder = "Select or enter vehicle color", value = "", onValueChange = {})
+                        SignUpDropdownField(label = "City", placeholder = "Select your city")
+                        SignUpDropdownField(label = "Neighborhood", placeholder = "Select your neighborhood")
+                        SignUpField(label = "Referral Code (Optional)", placeholder = "Enter referral code (optional)", value = referralCode, onValueChange = { referralCode = it })
+
+                        Spacer(modifier = Modifier.height(32.dp))
+
+                        // Create Account Button
+                        PrimaryButton(
+                            title = "Create Account",
+                            onClick = onCreateAccountClick,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(52.dp),
+                            containerColor = DarkPurple // Custom color passed to button
+                        )
+
+                        Spacer(modifier = Modifier.height(40.dp))
+                    }
+                }
             }
         }
     }
