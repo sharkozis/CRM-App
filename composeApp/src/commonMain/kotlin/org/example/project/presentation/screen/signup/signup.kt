@@ -46,6 +46,7 @@ import org.example.project.presentation.component.CircularIconButton
 import org.example.project.presentation.component.PrimaryButton
 import org.example.project.presentation.theme.DarkPurple
 import org.example.project.presentation.theme.DeepMaroon
+import org.example.project.presentation.theme.DiffWhiteBg
 import org.example.project.presentation.theme.MuteColor
 import org.example.project.presentation.theme.PinkPrimary
 import org.example.project.presentation.theme.grayTextColor
@@ -131,9 +132,7 @@ fun SignUpScreen(
                         Text(
                             text = "Join Our Driver Community today.",
                             fontSize = 16.sp,
-                            color = grayTextColor
-
-                            //grayTextColor
+                            color = grayTextColor,
                         )
 
                         Spacer(modifier = Modifier.height(24.dp))
@@ -144,7 +143,7 @@ fun SignUpScreen(
                             horizontalArrangement = Arrangement.Start,
                             modifier = Modifier
                                 .clip(RoundedCornerShape(50.dp))
-                                .background(Color(0xFFF0F0F0))
+                                .background(DiffWhiteBg)
                                 .padding(4.dp)
                         ) {
                             LanguageToggleButton(

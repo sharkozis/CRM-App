@@ -41,6 +41,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import org.example.project.presentation.component.CircularIconButton
 import org.example.project.presentation.component.PrimaryButton
 import org.example.project.presentation.theme.DeepMaroon
+import org.example.project.presentation.theme.DiffWhiteBg
 import org.example.project.presentation.theme.PinkPrimary
 
 @Composable
@@ -123,7 +124,7 @@ fun LoginScreen(
                     horizontalArrangement = Arrangement.Start,
                     modifier = Modifier
                         .clip(RoundedCornerShape(50.dp))
-                        .background(Color(0xFFF0F0F0))
+                        .background(DiffWhiteBg)
                         .padding(4.dp)
                 ) {
                     LanguageToggleButton(
