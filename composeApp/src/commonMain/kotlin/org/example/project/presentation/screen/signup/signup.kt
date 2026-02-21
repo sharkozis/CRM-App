@@ -90,8 +90,8 @@ fun SignUpScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
-//                        .matchParentSize() // Matches the final height of the main card Box
-                        .offset(y = (-20).dp) // Peeks 12dp above the main card
+                        // .matchParentSize() // Matches the size of the box (determined by the main card)
+                        .offset(y = (-15).dp) // Peeks 15dp above the main card
                         .align(Alignment.TopCenter)
                         .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
                         .background(Color.White.copy(alpha = 0.8f))

@@ -2,7 +2,7 @@ package org.example.project.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
-val PinkPrimary = Color(0xFFD77CA4)
+
 
 val DeepMaroon = Color(0xFF7B264B)
 val MuteColor = Color(0xFFDEDCE3)
@@ -28,6 +28,7 @@ val AlertCardBg = Color(0xFFF8D0D0)
 val AlertTextCol = Color(0xFFC63C3C)
 
 //bg colors
+val PinkPrimary = Color(0xFFD77CA4)
 val DiffWhiteBg = Color(0xFFF0F0F0)
 val PageSecondaryBg = Color(0xFFF8F7FA)
 

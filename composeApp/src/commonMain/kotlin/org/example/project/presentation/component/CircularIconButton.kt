@@ -21,9 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinproject.composeapp.generated.resources.Res
-import kotlinproject.composeapp.generated.resources.arrow_left
-import org.jetbrains.compose.resources.painterResource
+import com.composables.icArrowleft
+import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
 fun CircularIconButton(
@@ -51,9 +50,10 @@ fun CircularIconButton(
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(Res.drawable.arrow_left),
+            imageVector = icArrowleft,
             contentDescription = "Back",
             modifier = Modifier.size(20.dp)
         )
     }
 }
+
