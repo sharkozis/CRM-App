@@ -3,6 +3,8 @@ package org.example.project.presentation.screen.campaign.activeCampaign
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -153,6 +155,53 @@ fun ActiveCampaignScreen() {
                     statusLabel = "Connected",
                     showSwitch = false
                 )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Campaign Tabs Section
+        var selectedTab by remember { mutableStateOf("Active") }
+        
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(50.dp))
+                .border(1.dp, grayTextColor, RoundedCornerShape(50.dp))
+                .background(PageSecondaryBg)
+                .padding(4.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            val tabs = listOf("Active", "Past", "Upcoming")
+            tabs.forEach { tab ->
+                val isSelected = selectedTab == tab
+                val interactionSource = remember { MutableInteractionSource() }
+                
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(48.dp)
+                        .clip(RoundedCornerShape(50.dp))
+                        .then(
+                            if (isSelected) Modifier
+                                .shadow(elevation = 2.dp, shape = RoundedCornerShape(50.dp))
+                                .background(Color.White)
+                            else Modifier
+                        )
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null
+                        ) { selectedTab = tab },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                         text = if (isSelected) tab.uppercase() else tab,
+                         fontSize = 16.sp,
+                         fontWeight = FontWeight.Medium,
+                        color = if (isSelected) MainTextCol else grayTextColor
+                    )
+                }
             }
         }
     }
