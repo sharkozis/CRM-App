@@ -19,16 +19,17 @@ fun PrimaryButton(
     title: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    containerColor: Color = PinkPrimary
 ) {
     Button(
         onClick = onClick,
         enabled = enabled,
         shape = RoundedCornerShape(50.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = PinkPrimary,
+            containerColor = containerColor,
             contentColor = Color.White,
-            disabledContainerColor = PinkPrimary.copy(alpha = 0.5f),
+            disabledContainerColor = containerColor.copy(alpha = 0.5f),
             disabledContentColor = Color.White.copy(alpha = 0.7f)
         ),
         modifier = modifier
