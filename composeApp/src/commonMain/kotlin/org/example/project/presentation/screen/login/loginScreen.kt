@@ -36,7 +36,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.BoxWithConstraints
+import org.example.project.presentation.component.CircularIconButton
 import org.example.project.presentation.component.PrimaryButton
+import org.example.project.presentation.theme.DeepMaroon
 import org.example.project.presentation.theme.PinkPrimary
 
 @Composable
@@ -49,156 +53,196 @@ fun LoginScreen(
     var passwordVisible by remember { mutableStateOf(false) }
     var selectedLanguage by remember { mutableStateOf("Spa") }
 
-    Column(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
-            .padding(horizontal = 24.dp, vertical = 48.dp),
-        verticalArrangement = Arrangement.Top
+            .background(DeepMaroon)
     ) {
-        // Title
-        Text(
-            text = "Sign in to Empty Driver Apps",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF1A1A1A)
-        )
+        val screenHeight = maxHeight
+        val mainCardHeight = screenHeight * 0.9f
+        val bgCardHeight = screenHeight * 0.92f
 
-        Spacer(modifier = Modifier.height(6.dp))
-
-        // Subtitle
-        Text(
-            text = "Sign in with your email and password",
-            fontSize = 14.sp,
-            color = Color(0xFF888888)
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Language Toggle
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
+        // Background Card (Stacked effect)
+        Box(
             modifier = Modifier
-                .clip(RoundedCornerShape(50.dp))
-                .background(Color(0xFFF0F0F0))
-                .padding(4.dp)
+                .fillMaxWidth(0.9f)
+                .height(bgCardHeight)
+                .align(Alignment.BottomCenter)
+                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                .background(Color.White.copy(alpha = 0.8f))
+        )
+
+        // Main Content Card
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(mainCardHeight)
+                .align(Alignment.BottomCenter)
+                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                .background(Color.White)
         ) {
-            LanguageToggleButton(
-                label = "Spa",
-                selected = selectedLanguage == "Spa",
-                showFlag = true,
-                onClick = { selectedLanguage = "Spa" }
+            // Back Button
+            CircularIconButton(
+                onClick = { /* Handle back click */ },
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.TopStart)
             )
-            LanguageToggleButton(
-                label = "Eng",
-                selected = selectedLanguage == "Eng",
-                showFlag = false,
-                onClick = { selectedLanguage = "Eng" }
-            )
-        }
 
-        Spacer(modifier = Modifier.height(28.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp, vertical = 24.dp),
+                verticalArrangement = Arrangement.Top
+            ) {
+                // Percentage-based top spacing inside the card
+                Spacer(modifier = Modifier.fillMaxHeight(0.12f))
 
-        // Email Field Label
-        Text(
-            text = "Email/number",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            color = Color(0xFF1A1A1A)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Email Field
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            placeholder = {
+                // Title
                 Text(
-                    text = "Enter your email or number",
-                    color = Color(0xFFBBBBBB),
-                    fontSize = 14.sp
+                    text = "Sign in to Empty Driver Apps",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1A1A1A)
                 )
-            },
-            shape = RoundedCornerShape(12.dp),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = PinkPrimary,
-                unfocusedBorderColor = Color(0xFFE0E0E0),
-                cursorColor = PinkPrimary
-            ),
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            modifier = Modifier.fillMaxWidth()
-        )
 
-        Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(6.dp))
 
-        // Password Field Label
-        Text(
-            text = "Password",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            color = Color(0xFF1A1A1A)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Password Field
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            placeholder = {
+                // Subtitle
                 Text(
-                    text = "Enter your password",
-                    color = Color(0xFFBBBBBB),
-                    fontSize = 14.sp
+                    text = "Sign in with your email and password",
+                    fontSize = 14.sp,
+                    color = Color(0xFF888888)
                 )
-            },
-            shape = RoundedCornerShape(12.dp),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = PinkPrimary,
-                unfocusedBorderColor = Color(0xFFE0E0E0),
-                cursorColor = PinkPrimary
-            ),
-            singleLine = true,
-            visualTransformation = if (passwordVisible) VisualTransformation.None
-            else PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            trailingIcon = {
-                TextButton(onClick = { passwordVisible = !passwordVisible }) {
-                    Text(
-                        text = if (passwordVisible) "Hide" else "Show",
-                        color = PinkPrimary,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Medium
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Language Toggle
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50.dp))
+                        .background(Color(0xFFF0F0F0))
+                        .padding(4.dp)
+                ) {
+                    LanguageToggleButton(
+                        label = "Spa",
+                        selected = selectedLanguage == "Spa",
+                        showFlag = true,
+                        onClick = { selectedLanguage = "Spa" }
+                    )
+                    LanguageToggleButton(
+                        label = "Eng",
+                        selected = selectedLanguage == "Eng",
+                        showFlag = false,
+                        onClick = { selectedLanguage = "Eng" }
                     )
                 }
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
 
-        Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(28.dp))
 
-        // Sign In Button
-        PrimaryButton(
-            title = "Sign in",
-            onClick = onSignInClick
-        )
+                // Email Field Label
+                Text(
+                    text = "Email/number",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color(0xFF1A1A1A)
+                )
 
-        Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-        // Forgot password
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = "Forgot your password?",
-                fontSize = 14.sp,
-                color = Color(0xFF888888),
-                modifier = Modifier.clickable { onForgotPasswordClick() }
-            )
+                // Email Field
+                OutlinedTextField(
+                    value = email,
+                    onValueChange = { email = it },
+                    placeholder = {
+                        Text(
+                            text = "Enter your email or number",
+                            color = Color(0xFFBBBBBB),
+                            fontSize = 14.sp
+                        )
+                    },
+                    shape = RoundedCornerShape(12.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = PinkPrimary,
+                        unfocusedBorderColor = Color(0xFFE0E0E0),
+                        cursorColor = PinkPrimary
+                    ),
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Password Field Label
+                Text(
+                    text = "Password",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color(0xFF1A1A1A)
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Password Field
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    placeholder = {
+                        Text(
+                            text = "Enter your password",
+                            color = Color(0xFFBBBBBB),
+                            fontSize = 14.sp
+                        )
+                    },
+                    shape = RoundedCornerShape(12.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = PinkPrimary,
+                        unfocusedBorderColor = Color(0xFFE0E0E0),
+                        cursorColor = PinkPrimary
+                    ),
+                    singleLine = true,
+                    visualTransformation = if (passwordVisible) VisualTransformation.None
+                    else PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    trailingIcon = {
+                        TextButton(onClick = { passwordVisible = !passwordVisible }) {
+                            Text(
+                                text = if (passwordVisible) "Hide" else "Show",
+                                color = PinkPrimary,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                // Sign In Button
+                PrimaryButton(
+                    title = "Sign in",
+                    onClick = onSignInClick
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                // Forgot password
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Forgot your password?",
+                        fontSize = 14.sp,
+                        color = Color(0xFF888888),
+                        modifier = Modifier.clickable { onForgotPasswordClick() }
+                    )
+                }
+            }
         }
     }
 }
