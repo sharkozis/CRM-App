@@ -36,7 +36,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.*
+import kotlinproject.composeapp.generated.resources.Res
 import org.example.project.presentation.theme.*
+import kotlinproject.composeapp.generated.resources.ic_nexus
+import org.example.project.presentation.component.PrimaryButton
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun ActiveCampaignScreen() {
@@ -44,21 +48,23 @@ fun ActiveCampaignScreen() {
         modifier = Modifier
             .fillMaxSize()
             .background(PageSecondaryBg)
-            .padding(horizontal = 24.dp)
+            // .padding(horizontal = 24.dp) // Removed padding from root to allow 100% width backgrounds
     ) {
         Spacer(modifier = Modifier.height(32.dp))
 
         // Top Bar
         Box(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp) // Applied padding individually
         ) {
+            // ... (Top Bar content remains same)
             // Menu Icon (Left)
             Box(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .clip(RoundedCornerShape(12.dp))
-                    // .background(PinkPrimary.copy(alpha = 0.4f))
-                    .padding(horizontal = 18.dp, vertical = 4.dp), // Increased X, reduced Y
+                    .padding(horizontal = 18.dp, vertical = 4.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
@@ -74,13 +80,13 @@ fun ActiveCampaignScreen() {
                     .align(Alignment.Center)
                     .shadow(elevation = 2.dp, shape = RoundedCornerShape(50.dp))
                     .background(Color.White, RoundedCornerShape(50.dp))
-                    .padding(horizontal = 20.dp, vertical = 10.dp), // Slightly reduced Y padding for compactness
+                    .padding(horizontal = 20.dp, vertical = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
                 Box(
                     modifier = Modifier
-                        .size(12.dp) // Adjusted dot size to match design
+                        .size(12.dp)
                         .clip(CircleShape)
                         .background(SuccessActive)
                 )
@@ -105,17 +111,17 @@ fun ActiveCampaignScreen() {
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Main Card Container
+        // Main Card Container (SYSTEM STATUS)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 24.dp) // Applied padding individually
                 .shadow(
                     elevation = 8.dp,
                     shape = RoundedCornerShape(14.dp),
                     clip = false
                 )
                 .background(Color.White, RoundedCornerShape(14.dp))
-//                .padding(24.dp)
                 .padding(start = 14.dp, top = 24.dp, end = 10.dp, bottom = 10.dp)
         ) {
             Column {
@@ -130,7 +136,6 @@ fun ActiveCampaignScreen() {
                     Text(
                         text = "SYSTEM STATUS:",
                         fontSize = 18.sp,
-//                        fontWeight = FontWeight.Bold,
                         color = MainTextCol
                     )
                 }
@@ -160,47 +165,226 @@ fun ActiveCampaignScreen() {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Campaign Tabs Section
+        // Campaign Tabs and Detail Section Stack
         var selectedTab by remember { mutableStateOf("Active") }
-        
-        Row(
+
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(50.dp))
-                .border(1.dp, grayTextColor, RoundedCornerShape(50.dp))
-                .background(PageSecondaryBg)
-                .padding(4.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .weight(1f)
         ) {
-            val tabs = listOf("Active", "Past", "Upcoming")
-            tabs.forEach { tab ->
-                val isSelected = selectedTab == tab
-                val interactionSource = remember { MutableInteractionSource() }
-                
-                Box(
+            // Background White Surface (Starts halfway behind tabs)
+            Box(
+                modifier = Modifier
+                    .fillMaxSize() // Fills 100% width because parent Box is fillMaxWidth and root padding is removed
+                    .padding(top = 28.dp)
+                    .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
+                    .background(Color.White)
+            )
+
+            // Foreground Content
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Campaign Tabs Row (85% Width)
+                Row(
                     modifier = Modifier
-                        .weight(1f)
-                        .height(48.dp)
+                        .fillMaxWidth(0.85f) // Restricted to 85% width
                         .clip(RoundedCornerShape(50.dp))
-                        .then(
-                            if (isSelected) Modifier
-                                .shadow(elevation = 2.dp, shape = RoundedCornerShape(50.dp))
-                                .background(Color.White)
-                            else Modifier
-                        )
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null
-                        ) { selectedTab = tab },
-                    contentAlignment = Alignment.Center
+                        .border(1.dp, grayTextColor, RoundedCornerShape(50.dp))
+                        .background(PageSecondaryBg)
+                        .padding(4.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val tabs = listOf("Active", "Past", "Upcoming")
+                    tabs.forEach { tab ->
+                        val isSelected = selectedTab == tab
+                        val interactionSource = remember { MutableInteractionSource() }
+                        
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(48.dp)
+                                .clip(RoundedCornerShape(50.dp))
+                                .then(
+                                    if (isSelected) Modifier
+                                        .shadow(elevation = 2.dp, shape = RoundedCornerShape(50.dp))
+                                        .background(Color.White)
+                                    else Modifier
+                                )
+                                .clickable(
+                                    interactionSource = interactionSource,
+                                    indication = null
+                                ) { selectedTab = tab },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                 text = if (isSelected) tab.uppercase() else tab,
+                                 fontSize = 16.sp,
+                                 fontWeight = FontWeight.Medium,
+                                color = if (isSelected) MainTextCol else grayTextColor
+                            )
+                        }
+                    }
+                }
+
+                // Detail Content inside White Surface
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp) // Padded to align with top sections
+                        .padding(top = 20.dp)
                 ) {
                     Text(
-                         text = if (isSelected) tab.uppercase() else tab,
-                         fontSize = 16.sp,
-                         fontWeight = FontWeight.Medium,
-                        color = if (isSelected) MainTextCol else grayTextColor
+                        text = "ACTIVE CAMPAIGN",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MainTextCol,
+                        modifier = Modifier.padding(bottom = 16.dp)
                     )
+
+                    // Nested Bordered Box for Details
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .border(1.dp, DiffWhiteBg, RoundedCornerShape(24.dp))
+                            .padding(16.dp)
+                    ) {
+                        Column {
+                            // Campaign Info Row (MORDER)
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(16.dp))
+                                    .background(PageSecondaryBg.copy(alpha = 0.5f))
+                                    .padding(12.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column {
+                                    Text(
+                                        text = "MORDER",
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MainTextCol
+                                    )
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Text(
+                                            text = "Timeline: Feb 1 - April 1",
+                                            fontSize = 14.sp,
+                                            color = grayTextColor
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .size(10.dp)
+                                                    .border(2.dp, SuccessActive, CircleShape)
+                                            )
+                                            Spacer(modifier = Modifier.width(4.dp))
+                                            Text(
+                                                text = "67%",
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.SemiBold,
+                                                color = SuccessActive
+                                            )
+                                        }
+                                    }
+                                }
+
+                                Image(
+                                    painter = painterResource(Res.drawable.ic_nexus),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(60.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(20.dp))
+
+                            // Payment Tracker Section
+                            Text(
+                                text = "PAYMENT TRACKER",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = grayTextColor
+                            )
+
+                            Row(
+                                verticalAlignment = Alignment.Bottom,
+                                modifier = Modifier.padding(vertical = 8.dp)
+                            ) {
+                                Text(
+                                    text = "$300",
+                                    fontSize = 32.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MainTextCol
+                                )
+                                Text(
+                                    text = "/$600",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = grayTextColor,
+                                    modifier = Modifier.padding(bottom = 4.dp)
+                                )
+                            }
+
+                            // Segmented Progress Bar
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 12.dp),
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                val totalSegments = 30
+                                val filledSegments = (totalSegments * 0.67).toInt()
+
+                                repeat(totalSegments) { index ->
+                                    Box(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .height(20.dp)
+                                            .clip(RoundedCornerShape(2.dp))
+                                            .background(if (index < filledSegments) SuccessActive else MuteColor)
+                                    )
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            // Action Buttons Group
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
+                                PrimaryButton(
+                                    title = "View Wallet",
+                                    onClick = { },
+                                    modifier = Modifier.weight(1f),
+                                    containerColor = PinkPrimary.copy(alpha = 0.8f)
+                                )
+
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .height(52.dp)
+                                        .border(1.dp, MuteColor, RoundedCornerShape(50.dp))
+                                        .clickable { },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = "View Contract",
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = MainTextCol
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
