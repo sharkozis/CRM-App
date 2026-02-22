@@ -43,6 +43,7 @@ import kotlinproject.composeapp.generated.resources.Res
 import org.example.project.presentation.theme.*
 import kotlinproject.composeapp.generated.resources.ic_nexus
 import org.example.project.presentation.component.PrimaryButton
+import org.example.project.presentation.resources.icCpu
 import org.jetbrains.compose.resources.painterResource
 
 @Composable

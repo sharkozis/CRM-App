@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.composables.*
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.ic_nexus
+import org.example.project.presentation.resources.icDoc
 import org.example.project.presentation.theme.*
 import org.jetbrains.compose.resources.painterResource
 

@@ -1,4 +1,4 @@
-package com.composables
+package org.example.project.presentation.resources
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
