@@ -17,13 +17,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.*
+import kotlinproject.composeapp.generated.resources.Res
+import kotlinproject.composeapp.generated.resources.ic_nexus
 import org.example.project.presentation.theme.*
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun PastCampaignScreen(
@@ -84,12 +88,13 @@ fun PastCampaignScreen(
                     )
                 }
 
+                // Notification Icon (Right)
                 Image(
                     imageVector = icAction,
                     contentDescription = "Notification",
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
-                        .size(24.dp)
+                        .size(28.dp)
                 )
             }
 
@@ -189,7 +194,7 @@ fun PastCampaignScreen(
                         Spacer(modifier = Modifier.height(12.dp))
 
                         FileItem(
-                            fileType = "PDF",
+                            fileIcon = icPdf,
                             fileName = "Contract.pdf",
                             fileSize = "12.2 MB",
                             fileDate = "Mon, 12 may 2025"
@@ -198,7 +203,7 @@ fun PastCampaignScreen(
                         Spacer(modifier = Modifier.height(10.dp))
 
                         FileItem(
-                            fileType = "DOC",
+                            fileIcon = icDoc,
                             fileName = "Fulfillment_Proof_History.doc",
                             fileSize = "12.2 MB",
                             fileDate = "Mon, 12 may 2025"
@@ -223,10 +228,6 @@ fun PastCampaignScreen(
                         PaymentHistoryItem(date = "Dec 15", amount = "$150.00", isPaid = true)
                         Spacer(modifier = Modifier.height(12.dp))
                         PaymentHistoryItem(date = "Jan 15", amount = "$150.00", isPaid = true)
-                        Spacer(modifier = Modifier.height(12.dp))
-                        PaymentHistoryItem(date = "Feb 15", amount = "$150.00", isPaid = false)
-                        Spacer(modifier = Modifier.height(12.dp))
-                        PaymentHistoryItem(date = "Mar 15", amount = "$150.00", isPaid = false)
 
                         Spacer(modifier = Modifier.height(32.dp))
                     }
@@ -243,9 +244,9 @@ fun PastCampaignCard() {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = PageSecondaryBg),
         border = BorderStroke(1.dp, MuteColor.copy(alpha = 0.3f)),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
             modifier = Modifier
@@ -253,33 +254,15 @@ fun PastCampaignCard() {
                 .padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Ad thumbnail (purple background with text decoration)
-            Box(
+            // Ad thumbnail using ic_nexus drawable
+            Image(
+                painter = painterResource(Res.drawable.ic_nexus),
+                contentDescription = "Campaign thumbnail",
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(width = 80.dp, height = 64.dp)
                     .clip(RoundedCornerShape(10.dp))
-                    .background(Color(0xFF5C35A8))
-            ) {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(4.dp)
-                        .background(Color(0xFF7B52D4), RoundedCornerShape(4.dp))
-                        .padding(horizontal = 4.dp, vertical = 2.dp)
-                ) {
-                    Text(text = "$5K\n$1M", fontSize = 6.sp, color = Color.White, lineHeight = 8.sp)
-                }
-                Column(
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .padding(6.dp)
-                ) {
-                    Text(text = "Fonds", fontSize = 6.sp, color = Color.White, fontWeight = FontWeight.Bold)
-                    Text(text = "Rapides", fontSize = 6.sp, color = Color.White, fontWeight = FontWeight.Bold)
-                    Text(text = "Pour", fontSize = 6.sp, color = Color.White, fontWeight = FontWeight.Bold)
-                    Text(text = "Entreprises", fontSize = 6.sp, color = Color(0xFF90CAF9), fontWeight = FontWeight.Bold)
-                }
-            }
+            )
 
             Spacer(modifier = Modifier.width(14.dp))
 
@@ -306,13 +289,11 @@ fun PastCampaignCard() {
                 }
             }
 
-            // Chevron (pointing down = expand)
+            // Down arrow chevron
             Image(
-                imageVector = icArrowleft,
+                imageVector = icDownArrow,
                 contentDescription = "Expand",
-                modifier = Modifier
-                    .size(18.dp)
-                    .graphicsLayer { rotationZ = -90f }
+                modifier = Modifier.size(18.dp)
             )
         }
     }
@@ -321,8 +302,7 @@ fun PastCampaignCard() {
 // ─── File Item ────────────────────────────────────────────────────────────────
 
 @Composable
-fun FileItem(fileType: String, fileName: String, fileSize: String, fileDate: String) {
-    val isPdf = fileType == "PDF"
+fun FileItem(fileIcon: ImageVector, fileName: String, fileSize: String, fileDate: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -332,40 +312,12 @@ fun FileItem(fileType: String, fileName: String, fileSize: String, fileDate: Str
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // File type icon badge
-        Box(
-            modifier = Modifier
-                .size(width = 44.dp, height = 52.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(if (isPdf) Color(0xFFFFEBEE) else Color(0xFFE3F2FD)),
-            contentAlignment = Alignment.BottomCenter
-        ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Bottom
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 4.dp)
-                        .padding(bottom = 4.dp)
-                        .background(
-                            if (isPdf) Color(0xFFE53935) else Color(0xFF1E88E5),
-                            RoundedCornerShape(4.dp)
-                        )
-                        .padding(vertical = 3.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = fileType,
-                        fontSize = 9.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                }
-            }
-        }
+        // File icon from resources
+        Image(
+            imageVector = fileIcon,
+            contentDescription = null,
+            modifier = Modifier.size(44.dp)
+        )
 
         Spacer(modifier = Modifier.width(14.dp))
 
@@ -417,29 +369,34 @@ fun PaymentHistoryItem(date: String, amount: String, isPaid: Boolean) {
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(
-            modifier = Modifier
-                .size(36.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(PinkPrimary.copy(alpha = 0.08f)),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                imageVector = icCalendar,
-                contentDescription = null,
-                modifier = Modifier.size(20.dp)
-            )
-        }
+        // Calendar tick icon — no background
+        Image(
+            imageVector = icCalendarTic,
+            contentDescription = null,
+            modifier = Modifier.size(32.dp)
+        )
 
         Spacer(modifier = Modifier.width(14.dp))
 
+        // Date label
         Text(
-            text = "$date: $amount",
+            text = "$date:",
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
-            color = MainTextCol,
-            modifier = Modifier.weight(1f)
+            color = MainTextCol
         )
+
+        Spacer(modifier = Modifier.width(6.dp))
+
+        // Amount + (Paid) inline
+        Text(
+            text = amount,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Medium,
+            color = MainTextCol
+        )
+
+        Spacer(modifier = Modifier.width(6.dp))
 
         Text(
             text = if (isPaid) "(Paid)" else "(Pending)",
