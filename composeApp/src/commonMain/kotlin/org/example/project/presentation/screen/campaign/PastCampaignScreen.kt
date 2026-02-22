@@ -166,7 +166,7 @@ fun PastCampaignScreen(
                     // Content
                     Column(modifier = Modifier.padding(horizontal = 24.dp)) {
 
-                        // PAST CAMPAIGNS header (outside the card)
+                        // PAST CAMPAIGNS header
                         Text(
                             text = "PAST CAMPAIGNS",
                             fontSize = 18.sp,
@@ -176,164 +176,184 @@ fun PastCampaignScreen(
 
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        // ── Outer bordered Card wrapping all sections ──
-                        var isExpanded by remember { mutableStateOf(false) }
-                        val chevronRotation by animateFloatAsState(
-                            targetValue = if (isExpanded) 180f else 0f,
-                            label = "chevronRotation"
+                        // 5 campaign accordion items — each has independent expand state
+                        val campaigns = listOf(
+                            CampaignData("OLYNBEE",  "Dec 1 - Feb 7",  "$600.00"),
+                            CampaignData("NEXUS CO", "Jan 5 - Mar 5",  "$480.00"),
+                            CampaignData("VORTEX",   "Feb 10 - Apr 10","$320.00"),
+                            CampaignData("ZENITH",   "Mar 1 - May 1",  "$560.00"),
+                            CampaignData("AURELIA",  "Apr 3 - Jun 3",  "$400.00")
                         )
+                        val expandedStates = remember { campaigns.map { mutableStateOf(false) } }
 
-                        Card(
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color.White),
-                            border = BorderStroke(1.dp, MuteColor.copy(alpha = 0.35f)),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
-                        ) {
-                            Column(modifier = Modifier.padding(16.dp)) {
-
-                                // Campaign Card (header — always visible)
-                                PastCampaignCard(
-                                    isExpanded = isExpanded,
-                                    chevronRotation = chevronRotation,
-                                    onToggle = { isExpanded = !isExpanded }
-                                )
-
-                                // Expandable content
-                                if (isExpanded) {
-                                    HorizontalDivider(
-                                        color = MuteColor.copy(alpha = 0.4f),
-                                        thickness = 1.dp,
-                                        modifier = Modifier.padding(vertical = 16.dp)
-                                    )
-
-                                    // FILES Section
-                                    Text(
-                                        text = "FILES",
-                                        fontSize = 16.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MainTextCol
-                                    )
-
-                                    Spacer(modifier = Modifier.height(12.dp))
-
-                                    FileItem(
-                                        fileIcon = icPdf,
-                                        fileName = "Contract.pdf",
-                                        fileSize = "12.2 MB",
-                                        fileDate = "Mon, 12 may 2025"
-                                    )
-
-                                    Spacer(modifier = Modifier.height(10.dp))
-
-                                    FileItem(
-                                        fileIcon = icDoc,
-                                        fileName = "Fulfillment_Proof_History.doc",
-                                        fileSize = "12.2 MB",
-                                        fileDate = "Mon, 12 may 2025"
-                                    )
-
-                                    HorizontalDivider(
-                                        color = MuteColor.copy(alpha = 0.4f),
-                                        thickness = 1.dp,
-                                        modifier = Modifier.padding(vertical = 16.dp)
-                                    )
-
-                                    // PAYMENT HISTORY Section
-                                    Text(
-                                        text = "PAYMENT HISTORY",
-                                        fontSize = 16.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MainTextCol
-                                    )
-
-                                    Spacer(modifier = Modifier.height(12.dp))
-
-                                    PaymentHistoryItem(date = "Dec 15", amount = "$150.00", isPaid = true)
-                                    Spacer(modifier = Modifier.height(12.dp))
-                                    PaymentHistoryItem(date = "Jan 15", amount = "$150.00", isPaid = true)
-
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                }
+                        campaigns.forEachIndexed { index, campaign ->
+                            CampaignAccordionItem(
+                                campaign = campaign,
+                                isExpanded = expandedStates[index].value,
+                                onToggle = { expandedStates[index].value = !expandedStates[index].value }
+                            )
+                            if (index < campaigns.lastIndex) {
+                                Spacer(modifier = Modifier.height(12.dp))
                             }
                         }
 
                         Spacer(modifier = Modifier.height(32.dp))
                     }
+
                 }
             }
         }
     }
 }
 
-// ─── Campaign Card ────────────────────────────────────────────────────────────
+// ─── Data model ───────────────────────────────────────────────────────────────
+
+data class CampaignData(
+    val name: String,
+    val period: String,
+    val earned: String
+)
+
+// ─── Accordion Item ───────────────────────────────────────────────────────────
 
 @Composable
-fun PastCampaignCard(
-    isExpanded: Boolean = false,
-    chevronRotation: Float = 0f,
-    onToggle: () -> Unit = {}
+fun CampaignAccordionItem(
+    campaign: CampaignData,
+    isExpanded: Boolean,
+    onToggle: () -> Unit
 ) {
+    val chevronRotation by animateFloatAsState(
+        targetValue = if (isExpanded) 180f else 0f,
+        label = "chevron_${campaign.name}"
+    )
+
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(14.dp),
-        colors = CardDefaults.cardColors(containerColor = PageSecondaryBg),
-        border = BorderStroke(1.dp, MuteColor.copy(alpha = 0.3f)),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        border = BorderStroke(1.dp, MuteColor.copy(alpha = 0.35f)),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Ad thumbnail using ic_nexus drawable
-            Image(
-                painter = painterResource(Res.drawable.ic_nexus),
-                contentDescription = "Campaign thumbnail",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(width = 80.dp, height = 64.dp)
-                    .clip(RoundedCornerShape(10.dp))
-            )
+        Column(modifier = Modifier.padding(16.dp)) {
 
-            Spacer(modifier = Modifier.width(14.dp))
+            // ── Header row (always visible) ─────────────────
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(14.dp),
+                colors = CardDefaults.cardColors(containerColor = PageSecondaryBg),
+                border = BorderStroke(1.dp, MuteColor.copy(alpha = 0.3f)),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // Ad thumbnail
+                    Image(
+                        painter = painterResource(Res.drawable.ic_nexus),
+                        contentDescription = "Campaign thumbnail",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(width = 80.dp, height = 64.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                    )
 
-            // Name + date/earned
-            Column(modifier = Modifier.weight(1f)) {
+                    Spacer(modifier = Modifier.width(14.dp))
+
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = campaign.name,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MainTextCol
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(text = campaign.period, fontSize = 12.sp, color = grayTextColor)
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Box(
+                                modifier = Modifier
+                                    .size(4.dp)
+                                    .clip(CircleShape)
+                                    .background(grayTextColor)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(text = "${campaign.earned} Earned", fontSize = 12.sp, color = grayTextColor)
+                        }
+                    }
+
+                    // Animated chevron
+                    Image(
+                        imageVector = icDownArrow,
+                        contentDescription = if (isExpanded) "Collapse" else "Expand",
+                        modifier = Modifier
+                            .size(18.dp)
+                            .graphicsLayer { rotationZ = chevronRotation }
+                            .clickable(onClick = onToggle)
+                    )
+                }
+            }
+
+            // ── Expandable content ─────────────────────────
+            if (isExpanded) {
+                HorizontalDivider(
+                    color = MuteColor.copy(alpha = 0.4f),
+                    thickness = 1.dp,
+                    modifier = Modifier.padding(vertical = 16.dp)
+                )
+
                 Text(
-                    text = "OLYNBEE",
-                    fontSize = 18.sp,
+                    text = "FILES",
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = MainTextCol
                 )
-                Spacer(modifier = Modifier.height(4.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "Dec 1 - Feb 7", fontSize = 12.sp, color = grayTextColor)
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Box(
-                        modifier = Modifier
-                            .size(4.dp)
-                            .clip(CircleShape)
-                            .background(grayTextColor)
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(text = "$600.00 Earned", fontSize = 12.sp, color = grayTextColor)
-                }
-            }
 
-            // Animated chevron — rotates 180° when expanded
-            Image(
-                imageVector = icDownArrow,
-                contentDescription = if (isExpanded) "Collapse" else "Expand",
-                modifier = Modifier
-                    .size(18.dp)
-                    .graphicsLayer { rotationZ = chevronRotation }
-                    .clickable(onClick = onToggle)
-            )
+                Spacer(modifier = Modifier.height(12.dp))
+
+                FileItem(
+                    fileIcon = icPdf,
+                    fileName = "Contract.pdf",
+                    fileSize = "12.2 MB",
+                    fileDate = "Mon, 12 may 2025"
+                )
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                FileItem(
+                    fileIcon = icDoc,
+                    fileName = "Fulfillment_Proof_History.doc",
+                    fileSize = "12.2 MB",
+                    fileDate = "Mon, 12 may 2025"
+                )
+
+                HorizontalDivider(
+                    color = MuteColor.copy(alpha = 0.4f),
+                    thickness = 1.dp,
+                    modifier = Modifier.padding(vertical = 16.dp)
+                )
+
+                Text(
+                    text = "PAYMENT HISTORY",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MainTextCol
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                PaymentHistoryItem(date = "Dec 15", amount = "$150.00", isPaid = true)
+                Spacer(modifier = Modifier.height(12.dp))
+                PaymentHistoryItem(date = "Jan 15", amount = "$150.00", isPaid = true)
+
+                Spacer(modifier = Modifier.height(8.dp))
+            }
         }
     }
 }
+
 
 // ─── File Item ────────────────────────────────────────────────────────────────
 
