@@ -164,7 +164,7 @@ fun PastCampaignScreen(
                     // Content
                     Column(modifier = Modifier.padding(horizontal = 24.dp)) {
 
-                        // PAST CAMPAIGNS header
+                        // PAST CAMPAIGNS header (outside the card)
                         Text(
                             text = "PAST CAMPAIGNS",
                             fontSize = 18.sp,
@@ -174,60 +174,74 @@ fun PastCampaignScreen(
 
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        // Campaign Card
-                        PastCampaignCard()
+                        // ── Outer bordered Card wrapping all sections ──
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(16.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color.White),
+                            border = BorderStroke(1.dp, MuteColor.copy(alpha = 0.35f)),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                        ) {
+                            Column(modifier = Modifier.padding(16.dp)) {
 
-                        HorizontalDivider(
-                            color = MuteColor.copy(alpha = 0.4f),
-                            thickness = 1.dp,
-                            modifier = Modifier.padding(vertical = 16.dp)
-                        )
+                                // Campaign Card
+                                PastCampaignCard()
 
-                        // FILES Section
-                        Text(
-                            text = "FILES",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MainTextCol
-                        )
+                                HorizontalDivider(
+                                    color = MuteColor.copy(alpha = 0.4f),
+                                    thickness = 1.dp,
+                                    modifier = Modifier.padding(vertical = 16.dp)
+                                )
 
-                        Spacer(modifier = Modifier.height(12.dp))
+                                // FILES Section
+                                Text(
+                                    text = "FILES",
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MainTextCol
+                                )
 
-                        FileItem(
-                            fileIcon = icPdf,
-                            fileName = "Contract.pdf",
-                            fileSize = "12.2 MB",
-                            fileDate = "Mon, 12 may 2025"
-                        )
+                                Spacer(modifier = Modifier.height(12.dp))
 
-                        Spacer(modifier = Modifier.height(10.dp))
+                                FileItem(
+                                    fileIcon = icPdf,
+                                    fileName = "Contract.pdf",
+                                    fileSize = "12.2 MB",
+                                    fileDate = "Mon, 12 may 2025"
+                                )
 
-                        FileItem(
-                            fileIcon = icDoc,
-                            fileName = "Fulfillment_Proof_History.doc",
-                            fileSize = "12.2 MB",
-                            fileDate = "Mon, 12 may 2025"
-                        )
+                                Spacer(modifier = Modifier.height(10.dp))
 
-                        HorizontalDivider(
-                            color = MuteColor.copy(alpha = 0.4f),
-                            thickness = 1.dp,
-                            modifier = Modifier.padding(vertical = 16.dp)
-                        )
+                                FileItem(
+                                    fileIcon = icDoc,
+                                    fileName = "Fulfillment_Proof_History.doc",
+                                    fileSize = "12.2 MB",
+                                    fileDate = "Mon, 12 may 2025"
+                                )
 
-                        // PAYMENT HISTORY Section
-                        Text(
-                            text = "PAYMENT HISTORY",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MainTextCol
-                        )
+                                HorizontalDivider(
+                                    color = MuteColor.copy(alpha = 0.4f),
+                                    thickness = 1.dp,
+                                    modifier = Modifier.padding(vertical = 16.dp)
+                                )
 
-                        Spacer(modifier = Modifier.height(12.dp))
+                                // PAYMENT HISTORY Section
+                                Text(
+                                    text = "PAYMENT HISTORY",
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MainTextCol
+                                )
 
-                        PaymentHistoryItem(date = "Dec 15", amount = "$150.00", isPaid = true)
-                        Spacer(modifier = Modifier.height(12.dp))
-                        PaymentHistoryItem(date = "Jan 15", amount = "$150.00", isPaid = true)
+                                Spacer(modifier = Modifier.height(12.dp))
+
+                                PaymentHistoryItem(date = "Dec 15", amount = "$150.00", isPaid = true)
+                                Spacer(modifier = Modifier.height(12.dp))
+                                PaymentHistoryItem(date = "Jan 15", amount = "$150.00", isPaid = true)
+
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+                        }
 
                         Spacer(modifier = Modifier.height(32.dp))
                     }
