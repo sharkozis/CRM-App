@@ -1,4 +1,4 @@
-package org.example.project.presentation.components.navbar
+package org.example.project.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -6,21 +6,25 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.icHome
-import com.composables.icWallet
 import com.composables.icMessage
 import com.composables.icUser
-import org.example.project.presentation.theme.PageSecondaryBg
+import com.composables.icWallet
+import org.example.project.presentation.theme.GradientMain
 import org.example.project.presentation.theme.grayTextColor
 
 @Composable
@@ -29,50 +33,34 @@ fun Navbar(
     onTabSelected: (NavbarTab) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    Box(
+    // Internal state so tapping immediately activates the tab
+    var selectedTab by remember { mutableStateOf(currentTab) }
+
+    val tabs = listOf(
+        Triple(NavbarTab.Campaigns, icHome,    "Campaigns"),
+        Triple(NavbarTab.Wallet,    icWallet,  "Wallet"),
+        Triple(NavbarTab.Chat,      icMessage, "Chat"),
+        Triple(NavbarTab.Profile,   icUser,    "Profile"),
+    )
+
+    Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(80.dp)
-            .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
-            .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        Color.White.copy(alpha = 0.95f),
-                        Color.White.copy(alpha = 0.90f)
-                    )
-                )
-            )
+            .height(72.dp)
+            .background(Color.White)
+            .padding(horizontal = 8.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 24.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        tabs.forEach { (tab, icon, label) ->
             NavbarTabItem(
-                icon = icHome,
-                label = "Campaigns",
-                isSelected = currentTab == NavbarTab.Campaigns,
-                onClick = { onTabSelected(NavbarTab.Campaigns) }
-            )
-            NavbarTabItem(
-                icon = icWallet,
-                label = "Wallet",
-                isSelected = currentTab == NavbarTab.Wallet,
-                onClick = { onTabSelected(NavbarTab.Wallet) }
-            )
-            NavbarTabItem(
-                icon = icMessage,
-                label = "Chat",
-                isSelected = currentTab == NavbarTab.Chat,
-                onClick = { onTabSelected(NavbarTab.Chat) }
-            )
-            NavbarTabItem(
-                icon = icUser,
-                label = "Profile",
-                isSelected = currentTab == NavbarTab.Profile,
-                onClick = { onTabSelected(NavbarTab.Profile) }
+                icon = icon,
+                label = label,
+                isSelected = selectedTab == tab,
+                onClick = {
+                    selectedTab = tab
+                    onTabSelected(tab)
+                }
             )
         }
     }
@@ -88,32 +76,64 @@ private fun NavbarTabItem(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
+            .clip(RoundedCornerShape(12.dp))
             .clickable(onClick = onClick)
-            .padding(horizontal = 8.dp, vertical = 8.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Box(
+        // Icon — gradient when selected, gray when not
+        Image(
+            imageVector = icon,
+            contentDescription = label,
             modifier = Modifier
-                .size(32.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .background(
-                    if (isSelected) PageSecondaryBg.copy(alpha = 0.12f)
-                    else Color.Transparent
-                ),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                imageVector = icon,
-                contentDescription = label,
-                modifier = Modifier.size(22.dp)
+                .size(24.dp)
+                // CompositingStrategy.Offscreen is required for BlendMode.SrcIn to work correctly
+                .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+                .then(
+                    if (isSelected) {
+                        Modifier.drawWithCache {
+                            onDrawWithContent {
+                                drawContent()
+                                drawRect(
+                                    brush = GradientMain,
+                                    blendMode = BlendMode.SrcIn
+                                )
+                            }
+                        }
+                    } else {
+                        // Gray tint for non-selected
+                        Modifier.drawWithCache {
+                            onDrawWithContent {
+                                drawContent()
+                                drawRect(
+                                    color = grayTextColor,
+                                    blendMode = BlendMode.SrcIn
+                                )
+                            }
+                        }
+                    }
+                )
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        // Text — gradient when selected, gray when not
+        if (isSelected) {
+            Text(
+                text = label,
+                style = TextStyle(
+                    brush = GradientMain,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            )
+        } else {
+            Text(
+                text = label,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Normal,
+                color = grayTextColor
             )
         }
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = label,
-            fontSize = 10.sp,
-            fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
-            color = if (isSelected) PageSecondaryBg else grayTextColor
-        )
     }
 }
 
