@@ -2,6 +2,7 @@ package org.example.project
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import org.example.project.presentation.components.navbar.Navbar
 import org.example.project.presentation.screen.campaign.PastCampaignScreen
 //import org.example.project.presentation.screen.campaign.weeklyCheckin.WeeklyCheckinScreen
 
@@ -18,10 +19,19 @@ fun App() {
 //        DemoScreen()
 //        WeeklyCheckingScreen {  }
 //        UpcomingCampaignScreen {  }
-        PastCampaignScreen {  }
+//        PastCampaignScreen {  }
+
+
 
 
 
 
     }
 }
+@Preview
+@Composable
+fun AppPreview() {
+    Navbar()
+}
+
+//

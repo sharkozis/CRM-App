@@ -1,7 +1,8 @@
 package org.example.project.presentation.theme
 
 import androidx.compose.ui.graphics.Color
-
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.geometry.Offset
 
 
 val DeepMaroon = Color(0xFF7B264B)
@@ -35,3 +36,26 @@ val PageSecondaryBg = Color(0xFFF8F7FA)
 //Text colors
 val MainTextCol = Color (0xFF1B0E2F)
 val grayTextColor = Color(0xFF7A767F)
+
+
+
+
+
+
+// ─── Gradient Colors ─────────────────────────────────────────────
+
+val GradientMainStart = Color(0xFFEE2A7B)
+val GradientMainMid = Color(0xFFF65399)
+val GradientMainEnd = Color(0xFFFF7DB8)
+
+
+// ─── Gradient Brushes ────────────────────────────────────────────
+val GradientMain = Brush.linearGradient(
+    colors = listOf(
+        GradientMainStart,
+        GradientMainMid,
+        GradientMainEnd
+    ),
+    start = Offset.Zero,
+    end = Offset(800f, 400f) // approximates 299.64deg
+)
