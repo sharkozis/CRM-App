@@ -21,5 +21,6 @@ fun App() {
 //        DemoScreen()
 //        WeeklyCheckinScreen()
         WeeklyCheckinScreen()
+        
     }
 }
