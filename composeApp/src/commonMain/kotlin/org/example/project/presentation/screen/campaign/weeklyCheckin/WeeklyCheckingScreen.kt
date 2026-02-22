@@ -2,7 +2,6 @@
 
 package org.example.project.presentation.screen.campaign.weeklyCheckin
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,9 +26,9 @@ import org.example.project.presentation.theme.*
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun WeeklyCheckinScreen(
+fun WeeklyCheckingScreen(
     onBackClicked: () -> Unit = {},
-    onCheckinClicked: () -> Unit = {}
+    onCheckingClicked: () -> Unit = {}
 ) {
     val scrollState = rememberScrollState()
 
@@ -229,7 +228,7 @@ fun WeeklyCheckinScreen(
             // Check-in Button
             PrimaryButton(
                 title = "Check-in",
-                onClick = onCheckinClicked,
+                onClick = onCheckingClicked,
                 modifier = Modifier.fillMaxWidth(),
                 containerColor = PinkPrimary.copy(alpha = 0.8f)
             )
@@ -313,8 +312,8 @@ fun BottomNavigationBar() {
 
 @Preview
 @Composable
-fun WeeklyCheckinScreenPreview() {
+fun WeeklyCheckingScreenPreview() {
     AppTheme {
-        WeeklyCheckinScreen()
+        WeeklyCheckingScreen()
     }
 }
