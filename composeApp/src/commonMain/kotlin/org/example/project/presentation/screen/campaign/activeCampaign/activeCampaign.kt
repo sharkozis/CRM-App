@@ -69,9 +69,9 @@ fun ActiveCampaignScreen() {
             Box(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
-                    .clip(RoundedCornerShape(12.dp))
-                    .padding(horizontal = 18.dp, vertical = 4.dp),
-                contentAlignment = Alignment.Center
+//                    .clip(RoundedCornerShape(12.dp))
+                    // .padding(horizontal = 18.dp, vertical = 4.dp),
+//                contentAlignment = Alignment.Center
             ) {
                 Image(
                     imageVector = icMenu,
@@ -86,7 +86,7 @@ fun ActiveCampaignScreen() {
                     .align(Alignment.Center)
                     .shadow(elevation = 2.dp, shape = RoundedCornerShape(50.dp))
                     .background(Color.White, RoundedCornerShape(50.dp))
-                    .padding(horizontal = 20.dp, vertical = 10.dp),
+                    .padding(horizontal = 16.dp, vertical = 3.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -99,7 +99,7 @@ fun ActiveCampaignScreen() {
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
                     text = "Online",
-                    fontSize = 18.sp,
+                    fontSize = 12.sp,
                     fontWeight = FontWeight.Medium,
                     color = MainTextCol
                 )
@@ -304,7 +304,7 @@ fun ActiveCampaignScreen() {
                                     painter = painterResource(Res.drawable.ic_nexus),
                                     contentDescription = null,
                                     modifier = Modifier
-                                        .size(60.dp)
+                                        .size(80.dp)
                                         .clip(RoundedCornerShape(8.dp))
                                 )
                             }
@@ -370,7 +370,8 @@ fun ActiveCampaignScreen() {
                                     title = "View Wallet",
                                     onClick = { },
                                     modifier = Modifier.weight(1f),
-                                    containerColor = PinkPrimary.copy(alpha = 0.8f)
+                                    containerColor = PinkPrimary.copy(alpha = 0.8f),
+
                                 )
 
                                 Box(
@@ -379,11 +380,12 @@ fun ActiveCampaignScreen() {
                                         .height(52.dp)
                                         .border(1.dp, MuteColor, RoundedCornerShape(50.dp))
                                         .clickable { },
+
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
                                         text = "View Contract",
-                                        fontSize = 16.sp,
+                                        fontSize = 14.sp,
                                         fontWeight = FontWeight.SemiBold,
                                         color = MainTextCol
                                     )
