@@ -226,9 +226,9 @@ fun ActiveCampaignScreen() {
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                 text = if (isSelected) tab.uppercase() else tab,
-                                 fontSize = 16.sp,
-                                 fontWeight = FontWeight.Medium,
+                                text = tab,
+                                fontSize = 14.sp,
+                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                                 color = if (isSelected) MainTextCol else grayTextColor
                             )
                         }

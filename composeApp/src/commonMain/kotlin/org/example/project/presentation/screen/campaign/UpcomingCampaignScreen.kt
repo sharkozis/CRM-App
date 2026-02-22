@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.font.FontWeight
@@ -30,6 +31,7 @@ import org.example.project.presentation.theme.*
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 
+
 @Composable
 fun UpcomingCampaignScreen(
     onBackClicked: () -> Unit = {},
@@ -39,11 +41,7 @@ fun UpcomingCampaignScreen(
     val scrollState = rememberScrollState()
     var selectedTab by remember { mutableStateOf("Upcoming") }
 
-    Scaffold(
-        bottomBar = {
-            BottomNavigationBar()
-        }
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -117,13 +115,14 @@ fun UpcomingCampaignScreen(
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
                     .background(Color.White)
-                    .padding(top = 24.dp)
+                    .padding(top = 24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // Tab Row
                 Row(
                     modifier = Modifier
-                        .padding(horizontal = 24.dp)
-                        .fillMaxWidth()
+//                        .padding(horizontal = 24.dp)
+                        .fillMaxWidth(0.85f)
                         .clip(RoundedCornerShape(50.dp))
                         .border(1.dp, MuteColor, RoundedCornerShape(50.dp))
                         .background(PageSecondaryBg)
@@ -131,7 +130,7 @@ fun UpcomingCampaignScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val tabs = listOf("Acitve", "Past", "Upcoming")
+                    val tabs = listOf("Active", "Past", "Upcoming")
                     tabs.forEach { tab ->
                         val isSelected = selectedTab == tab
                         Box(
@@ -180,11 +179,12 @@ fun UpcomingCampaignScreen(
 
                     // Requirements
                     SectionHeader(title = "REQUIREMENTS")
-                    RequirementItem(icon = null, text = "Full Time Commitment") // icBadge placeholder
-                    RequirementItem(icon = null, text = "40 hrs+ / week") // icClock placeholder
+                    RequirementItem(icon = icMedal, text = "Full Time Commitment")
+                    RequirementItem(icon = icWatch, text = "40 hrs+ / week")
 
                     Spacer(modifier = Modifier.height(8.dp))
                     HorizontalDivider(color = MuteColor.copy(alpha = 0.5f), thickness = 1.dp, modifier = Modifier.padding(vertical = 8.dp))
+
 
                     // Payment
                     SectionHeader(title = "PAYMENT")
@@ -201,7 +201,8 @@ fun UpcomingCampaignScreen(
                     }
                     
                     Spacer(modifier = Modifier.height(12.dp))
-                    
+
+
                     LocationItem(text = "Garage Location")
 
                     Spacer(modifier = Modifier.height(32.dp))
@@ -242,6 +243,7 @@ fun UpcomingCampaignScreen(
     }
 }
 
+@Preview
 @Composable
 fun SystemStatusCard(modifier: Modifier = Modifier) {
     Card(
@@ -354,7 +356,7 @@ fun OfferCard() {
                 contentAlignment = Alignment.Center
             ) {
                 // Using icAlert as a placeholder for the yellow exclamation icon
-                Image(imageVector = icAlert, contentDescription = null, modifier = Modifier.size(24.dp))
+                Image(imageVector = icYellowAlert, contentDescription = null, modifier = Modifier.size(24.dp))
             }
             
             Spacer(modifier = Modifier.width(16.dp))
@@ -385,7 +387,7 @@ fun OfferCard() {
 fun SectionHeader(title: String) {
     Text(
         text = title,
-        fontSize = 12.sp,
+        fontSize = 14.sp,
         fontWeight = FontWeight.Bold,
         color = MainTextCol,
         modifier = Modifier.padding(vertical = 8.dp)
@@ -398,7 +400,7 @@ fun RequirementItem(icon: ImageVector?, text: String) {
         modifier = Modifier
             .padding(vertical = 4.dp)
             .fillMaxWidth()
-            .border(1.dp, MuteColor.copy(alpha = 0.5f), RoundedCornerShape(12.dp))
+            .border(1.dp, MuteColor.copy(alpha = 0.5f), RoundedCornerShape(14.dp))
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -423,12 +425,10 @@ fun PaymentItem(text: String) {
     ) {
         Box(
             modifier = Modifier
-                .size(32.dp)
-                .clip(CircleShape)
-                .background(AlertCardBg.copy(alpha = 0.3f)),
+                .size(32.dp),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "$", color = AlertTextCol, fontWeight = FontWeight.Bold)
+            Image(imageVector = icDollar, contentDescription = null, modifier = Modifier.size(18.dp))
         }
         Spacer(modifier = Modifier.width(12.dp))
         Text(text = text, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = MainTextCol)
@@ -443,12 +443,17 @@ fun DateTimeItem(modifier: Modifier = Modifier, text: String, isDate: Boolean) {
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(modifier = Modifier.size(20.dp).background(Color.Gray.copy(alpha = 0.2f), RoundedCornerShape(4.dp)))
+        Image(
+            imageVector = if (isDate) icCalendar else icClock,
+            contentDescription = null,
+            modifier = Modifier.size(20.dp)
+        )
         Spacer(modifier = Modifier.width(10.dp))
         Text(text = text, fontSize = 12.sp, fontWeight = FontWeight.Medium, color = MainTextCol)
     }
 }
 
+@Preview
 @Composable
 fun LocationItem(text: String) {
     Row(
@@ -458,41 +463,18 @@ fun LocationItem(text: String) {
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(modifier = Modifier.size(20.dp).background(Color.Gray.copy(alpha = 0.2f), CircleShape))
+        Image(imageVector = icGps, contentDescription = null, modifier = Modifier.size(20.dp))
         Spacer(modifier = Modifier.width(12.dp))
         Text(text = text, fontSize = 14.sp, fontWeight = FontWeight.Medium, color = MainTextCol, modifier = Modifier.weight(1f))
-        Box(modifier = Modifier.size(20.dp).background(Color.Gray.copy(alpha = 0.1f), CircleShape))
+        Image(
+            imageVector = icEye,
+            contentDescription = null,
+            modifier = Modifier.size(16.dp).graphicsLayer { rotationZ = 180f }
+        )
     }
 }
 
-@Composable
-fun BottomNavigationBar() {
-    NavigationBar(
-        containerColor = Color.White,
-        tonalElevation = 8.dp
-    ) {
-        val items = listOf("Campaigns", "Chat", "Wallet", "Profile")
-        items.forEach { item ->
-            NavigationBarItem(
-                selected = item == "Campaigns",
-                onClick = {},
-                icon = {
-                    Box(modifier = Modifier.size(24.dp).background(if (item == "Campaigns") PinkPrimary else Color.Gray.copy(alpha = 0.3f), RoundedCornerShape(6.dp)))
-                },
-                label = {
-                    Text(text = item, color = if (item == "Campaigns") PinkPrimary else grayTextColor, fontSize = 10.sp)
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = PinkPrimary,
-                    selectedTextColor = PinkPrimary,
-                    unselectedIconColor = grayTextColor,
-                    unselectedTextColor = grayTextColor,
-                    indicatorColor = Color.Transparent
-                )
-            )
-        }
-    }
-}
+
 
 @Preview
 @Composable

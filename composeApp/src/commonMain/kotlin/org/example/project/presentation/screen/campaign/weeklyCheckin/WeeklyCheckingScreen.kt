@@ -56,9 +56,6 @@ fun WeeklyCheckingScreen(
                     containerColor = Color.White
                 )
             )
-        },
-        bottomBar = {
-            BottomNavigationBar()
         }
     ) { paddingValues ->
         Column(
@@ -277,35 +274,6 @@ fun PhotoUploadItem(
                     color = grayTextColor
                 )
             }
-        }
-    }
-}
-
-@Composable
-fun BottomNavigationBar() {
-    NavigationBar(
-        containerColor = Color.White,
-        tonalElevation = 8.dp
-    ) {
-        val items = listOf("Campaigns", "Wallet", "Chat", "Profile")
-        items.forEach { item ->
-            NavigationBarItem(
-                selected = item == "Campaigns",
-                onClick = {},
-                icon = {
-                    Box(modifier = Modifier.size(24.dp).background(if (item == "Campaigns") PinkPrimary else Color.Gray.copy(alpha = 0.3f), RoundedCornerShape(6.dp)))
-                },
-                label = {
-                    Text(text = item, color = if (item == "Campaigns") PinkPrimary else grayTextColor, fontSize = 10.sp)
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = PinkPrimary,
-                    selectedTextColor = PinkPrimary,
-                    unselectedIconColor = grayTextColor,
-                    unselectedTextColor = grayTextColor,
-                    indicatorColor = Color.Transparent
-                )
-            )
         }
     }
 }
