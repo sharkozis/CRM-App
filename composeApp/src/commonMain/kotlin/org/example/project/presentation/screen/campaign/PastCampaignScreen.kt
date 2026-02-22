@@ -31,6 +31,7 @@ import kotlinproject.composeapp.generated.resources.ic_nexus
 import org.example.project.presentation.resources.icDoc
 import org.example.project.presentation.theme.*
 import org.jetbrains.compose.resources.painterResource
+import org.example.project.presentation.component.Navbar
 
 @Composable
 fun PastCampaignScreen(
@@ -39,7 +40,9 @@ fun PastCampaignScreen(
     val scrollState = rememberScrollState()
     var selectedTab by remember { mutableStateOf("Past") }
 
-    Scaffold { paddingValues ->
+    Scaffold(
+        bottomBar = { Navbar() }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

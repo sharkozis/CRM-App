@@ -27,6 +27,7 @@ import org.example.project.presentation.component.PrimaryButton
 import org.example.project.presentation.theme.*
 import androidx.compose.ui.tooling.preview.Preview
 import org.example.project.presentation.resources.icCpu
+import org.example.project.presentation.component.Navbar
 
 
 @Composable
@@ -38,7 +39,9 @@ fun UpcomingCampaignScreen(
     val scrollState = rememberScrollState()
     var selectedTab by remember { mutableStateOf("Upcoming") }
 
-    Scaffold { paddingValues ->
+    Scaffold(
+        bottomBar = { Navbar() }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
