@@ -5,11 +5,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -44,11 +47,14 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun ActiveCampaignScreen() {
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(PageSecondaryBg)
-            // .padding(horizontal = 24.dp) // Removed padding from root to allow 100% width backgrounds
+            .verticalScroll(scrollState)
+            .padding(bottom = 40.dp)
     ) {
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -171,12 +177,11 @@ fun ActiveCampaignScreen() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
         ) {
             // Background White Surface (Starts halfway behind tabs)
             Box(
                 modifier = Modifier
-                    .fillMaxSize() // Fills 100% width because parent Box is fillMaxWidth and root padding is removed
+                    .matchParentSize() // Match height of foreground content
                     .padding(top = 28.dp)
                     .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
                     .background(Color.White)
@@ -184,7 +189,7 @@ fun ActiveCampaignScreen() {
 
             // Foreground Content
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // Campaign Tabs Row (85% Width)
@@ -253,6 +258,7 @@ fun ActiveCampaignScreen() {
                             .padding(16.dp)
                     ) {
                         Column {
+                            // ... (MORDER, Payment Tracker, Buttons code remains same)
                             // Campaign Info Row (MORDER)
                             Row(
                                 modifier = Modifier
@@ -379,6 +385,148 @@ fun ActiveCampaignScreen() {
                                         text = "View Contract",
                                         fontSize = 16.sp,
                                         fontWeight = FontWeight.SemiBold,
+                                        color = MainTextCol
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    // ---------------------------------------------------------------------------------
+                    // WEEKLY TASKS SECTION
+                    // ---------------------------------------------------------------------------------
+                    
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    Text(
+                        text = "WEEKLY TASKS",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MainTextCol,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+
+                    // Weekly Tasks Card
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(AlertCardBg)
+                            .border(1.dp, MuteColor, RoundedCornerShape(24.dp))
+                            .padding(20.dp)
+                    ) {
+                        Column {
+                            // Status Row: 4/12 Task completed - 2 Days left
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Row(verticalAlignment = Alignment.Bottom) {
+                                    Text(
+                                        text = "4",
+                                        fontSize = 22.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MainTextCol
+                                    )
+                                    Text(
+                                        text = "/12",
+                                        fontSize = 22.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = grayTextColor,
+                                        modifier = Modifier.padding(bottom = 2.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(12.dp))
+                                    Text(
+                                        text = "Task completed",
+                                        fontSize = 12.sp,
+                                        color = grayTextColor,
+//                                        modifier = Modifier.padding(bottom = 4.dp)
+                                    )
+                                }
+
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text(
+                                        text = "2",
+                                        fontSize = 32.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = AlertTextCol
+                                    )
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text(
+                                        text = "Days left",
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Medium,
+                                        color = grayTextColor
+                                    )
+                                    Spacer(modifier = Modifier.width(10.dp))
+                                    Image(
+                                        imageVector = icAlert,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(28.dp)
+                                    )
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            // Continuous Progress Bar
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(10.dp)
+                                    .clip(CircleShape)
+                                    .background(Color.White.copy(alpha = 0.5f))
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.85f) // Representing progress
+                                        .fillMaxHeight()
+                                        .clip(CircleShape)
+                                        .background(AlertTextCol)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(24.dp))
+
+                            // Action Button: Take Pictures And Feedback
+                            Box(
+                                modifier = Modifier
+                                    .border(1.dp, MuteColor, RoundedCornerShape(50.dp))
+                                    .fillMaxWidth()
+                                    .height(40.dp)
+                                    .clip(RoundedCornerShape(50.dp))
+                                    .background(Color.White)
+                                    .clickable { },
+
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center, // Centered row content
+                                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                                ) {
+                                    // Icon Container
+//                                    Box(
+//                                        modifier = Modifier
+//                                            .size(40.dp)
+//                                            .clip(RoundedCornerShape(12.dp))
+//                                            .background(AlertCardBg.copy(alpha = 0.6f)),
+//                                        contentAlignment = Alignment.Center
+//                                    ) {
+                                        Image(
+                                            imageVector = icCamera,
+                                            contentDescription = null,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+//                                    }
+                                    
+                                    Spacer(modifier = Modifier.width(16.dp))
+                                    
+                                    Text(
+                                        text = "Take Pictures And Feedback",
+                                        fontSize = 14.sp,
+//                                        fontWeight = FontWeight.SemiBold,
                                         color = MainTextCol
                                     )
                                 }
