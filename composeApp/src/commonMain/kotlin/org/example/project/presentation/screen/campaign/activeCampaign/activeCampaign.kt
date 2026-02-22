@@ -197,7 +197,7 @@ fun ActiveCampaignScreen() {
                     modifier = Modifier
                         .fillMaxWidth(0.85f) // Restricted to 85% width
                         .clip(RoundedCornerShape(50.dp))
-                        .border(1.dp, grayTextColor, RoundedCornerShape(50.dp))
+                        .border(1.dp, MuteColor, RoundedCornerShape(50.dp))
                         .background(PageSecondaryBg)
                         .padding(4.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,

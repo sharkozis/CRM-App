@@ -109,134 +109,143 @@ fun UpcomingCampaignScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Tabs and Content
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
-                    .background(Color.White)
-                    .padding(top = 24.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+            // Tabs and Content Detail Section Stack
+            Box(
+                modifier = Modifier.fillMaxWidth()
             ) {
-                // Tab Row
-                Row(
+                // Background White Surface (Starts halfway behind tabs)
+                Box(
                     modifier = Modifier
-//                        .padding(horizontal = 24.dp)
-                        .fillMaxWidth(0.85f)
-                        .clip(RoundedCornerShape(50.dp))
-                        .border(1.dp, MuteColor, RoundedCornerShape(50.dp))
-                        .background(PageSecondaryBg)
-                        .padding(4.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                        .matchParentSize()
+                        .padding(top = 24.dp)
+                        .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                        .background(Color.White)
+                )
+
+                // Foreground Content
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    val tabs = listOf("Active", "Past", "Upcoming")
-                    tabs.forEach { tab ->
-                        val isSelected = selectedTab == tab
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .height(40.dp)
-                                .clip(RoundedCornerShape(50.dp))
-                                .then(
-                                    if (isSelected) Modifier
-                                        .shadow(elevation = 1.dp, shape = RoundedCornerShape(50.dp))
-                                        .background(Color.White)
-                                    else Modifier
+                    // Tab Row
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(0.85f)
+                            .clip(RoundedCornerShape(50.dp))
+                            .border(1.dp, MuteColor, RoundedCornerShape(50.dp))
+                            .background(PageSecondaryBg)
+                            .padding(4.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        val tabs = listOf("Active", "Past", "Upcoming")
+                        tabs.forEach { tab ->
+                            val isSelected = selectedTab == tab
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(40.dp)
+                                    .clip(RoundedCornerShape(50.dp))
+                                    .then(
+                                        if (isSelected) Modifier
+                                            .shadow(elevation = 1.dp, shape = RoundedCornerShape(50.dp))
+                                            .background(Color.White)
+                                        else Modifier
+                                    )
+                                    .clickable { selectedTab = tab },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = tab,
+                                    fontSize = 14.sp,
+                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                                    color = if (isSelected) MainTextCol else grayTextColor
                                 )
-                                .clickable { selectedTab = tab },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = tab,
-                                fontSize = 14.sp,
-                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                color = if (isSelected) MainTextCol else grayTextColor
-                            )
+                            }
                         }
                     }
-                }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
 
-                // Current Offers Section
-                Column(modifier = Modifier.padding(horizontal = 24.dp)) {
-                    Text(
-                        text = "CURRENT OFFERS",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MainTextCol
-                    )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    // Morder Offer Card
-                    OfferCard()
-
-                    Spacer(modifier = Modifier.height(16.dp))
-                    
-                    HorizontalDivider(color = MuteColor.copy(alpha = 0.5f), thickness = 1.dp, modifier = Modifier.padding(vertical = 8.dp))
-
-                    // Requirements
-                    SectionHeader(title = "REQUIREMENTS")
-                    RequirementItem(icon = icMedal, text = "Full Time Commitment")
-                    RequirementItem(icon = icWatch, text = "40 hrs+ / week")
-
-                    Spacer(modifier = Modifier.height(8.dp))
-                    HorizontalDivider(color = MuteColor.copy(alpha = 0.5f), thickness = 1.dp, modifier = Modifier.padding(vertical = 8.dp))
-
-
-                    // Payment
-                    SectionHeader(title = "PAYMENT")
-                    PaymentItem(text = "$320 Total ( 160$ monthly payments )")
-
-                    Spacer(modifier = Modifier.height(8.dp))
-                    HorizontalDivider(color = MuteColor.copy(alpha = 0.5f), thickness = 1.dp, modifier = Modifier.padding(vertical = 8.dp))
-
-                    // Installation
-                    SectionHeader(title = "INSTALLATION")
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        DateTimeItem(modifier = Modifier.weight(1.3f), text = "Friday, February 1", isDate = true)
-                        DateTimeItem(modifier = Modifier.weight(1f), text = "10:00 AM", isDate = false)
-                    }
-                    
-                    Spacer(modifier = Modifier.height(12.dp))
-
-
-                    LocationItem(text = "Garage Location")
-
-                    Spacer(modifier = Modifier.height(32.dp))
-
-                    // Action Buttons
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        PrimaryButton(
-                            title = "Participate",
-                            onClick = onParticipateClicked,
-                            modifier = Modifier.weight(1f),
-                            containerColor = SuccessActive
+                    // Current Offers Section
+                    Column(modifier = Modifier.padding(horizontal = 24.dp)) {
+                        Text(
+                            text = "CURRENT OFFERS",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MainTextCol
                         )
 
-                        OutlinedButton(
-                            onClick = onIgnoreClicked,
-                            modifier = Modifier
-                                .weight(1f)
-                                .height(52.dp),
-                            shape = RoundedCornerShape(50.dp),
-                            border = BorderStroke(1.dp, MuteColor),
-                            colors = ButtonDefaults.outlinedButtonColors(contentColor = AlertTextCol)
-                        ) {
-                            Text(
-                                text = "Ignore",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold
-                            )
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        // Morder Offer Card
+                        OfferCard()
+
+                        Spacer(modifier = Modifier.height(16.dp))
+                        
+                        HorizontalDivider(color = MuteColor.copy(alpha = 0.5f), thickness = 1.dp, modifier = Modifier.padding(vertical = 8.dp))
+
+                        // Requirements
+                        SectionHeader(title = "REQUIREMENTS")
+                        RequirementItem(icon = icMedal, text = "Full Time Commitment")
+                        RequirementItem(icon = icWatch, text = "40 hrs+ / week")
+
+                        Spacer(modifier = Modifier.height(8.dp))
+                        HorizontalDivider(color = MuteColor.copy(alpha = 0.5f), thickness = 1.dp, modifier = Modifier.padding(vertical = 8.dp))
+
+
+                        // Payment
+                        SectionHeader(title = "PAYMENT")
+                        PaymentItem(text = "$320 Total ( 160$ monthly payments )")
+
+                        Spacer(modifier = Modifier.height(8.dp))
+                        HorizontalDivider(color = MuteColor.copy(alpha = 0.5f), thickness = 1.dp, modifier = Modifier.padding(vertical = 8.dp))
+
+                        // Installation
+                        SectionHeader(title = "INSTALLATION")
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            DateTimeItem(modifier = Modifier.weight(1.3f), text = "Friday, February 1", isDate = true)
+                            DateTimeItem(modifier = Modifier.weight(1f), text = "10:00 AM", isDate = false)
                         }
+                        
+                        Spacer(modifier = Modifier.height(12.dp))
+
+
+                        LocationItem(text = "Garage Location")
+
+                        Spacer(modifier = Modifier.height(32.dp))
+
+                        // Action Buttons
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            PrimaryButton(
+                                title = "Participate",
+                                onClick = onParticipateClicked,
+                                modifier = Modifier.weight(1f),
+                                containerColor = SuccessActive
+                            )
+
+                            OutlinedButton(
+                                onClick = onIgnoreClicked,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(52.dp),
+                                shape = RoundedCornerShape(50.dp),
+                                border = BorderStroke(1.dp, MuteColor),
+                                colors = ButtonDefaults.outlinedButtonColors(contentColor = AlertTextCol)
+                            ) {
+                                Text(
+                                    text = "Ignore",
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            }
+                        }
+                        
+                        Spacer(modifier = Modifier.height(16.dp))
                     }
-                    
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }
