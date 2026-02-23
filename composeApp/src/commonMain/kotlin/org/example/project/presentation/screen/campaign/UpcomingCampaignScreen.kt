@@ -32,12 +32,12 @@ import org.example.project.presentation.resources.icCpu
 
 @Composable
 fun UpcomingCampaignScreen(
-    onBackClicked: () -> Unit = {},
+    modifier: Modifier = Modifier,
+    selectedTab: String = "Upcoming",
     onParticipateClicked: () -> Unit = {},
     onIgnoreClicked: () -> Unit = {},
     onTabSelected: (String) -> Unit = {},
-    selectedTab: String = "Upcoming",
-    modifier: Modifier = Modifier
+    onBackClicked: () -> Unit = {}
 ) {
     val scrollState = rememberScrollState()
 

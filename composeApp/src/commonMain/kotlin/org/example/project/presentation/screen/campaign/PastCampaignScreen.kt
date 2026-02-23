@@ -35,10 +35,10 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun PastCampaignScreen(
-    onBackClicked: () -> Unit = {},
-    onTabSelected: (String) -> Unit = {},
+    modifier: Modifier = Modifier,
     selectedTab: String = "Past",
-    modifier: Modifier = Modifier
+    onTabSelected: (String) -> Unit = {},
+    onBackClicked: () -> Unit = {}
 ) {
     val scrollState = rememberScrollState()
 

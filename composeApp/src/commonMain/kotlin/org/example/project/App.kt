@@ -27,7 +27,7 @@ fun App() {
 //        ActiveCampaignScreen()
 //        DemoScreen()
 //        WeeklyCheckingScreen {  }
-        UpcomingCampaignScreen {  }
+        UpcomingCampaignScreen {}
 //        PastCampaignScreen {  }
 
 
