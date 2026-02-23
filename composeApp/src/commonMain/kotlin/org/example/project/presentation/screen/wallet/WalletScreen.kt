@@ -16,15 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.example.project.presentation.component.Navbar
-import org.example.project.presentation.component.NavbarTab
 import org.example.project.presentation.screen.wallet.composables.IncomeSummaryCard
 import org.example.project.presentation.screen.wallet.composables.PaymentTrackerCard
 import org.example.project.presentation.screen.wallet.composables.ReferralCard
 import org.example.project.presentation.screen.wallet.composables.TransactionHistoryList
 import org.example.project.presentation.theme.PageSecondaryBg
 import androidx.compose.ui.tooling.preview.Preview
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WalletScreen(modifier: Modifier = Modifier) {
@@ -42,9 +39,6 @@ fun WalletScreen(modifier: Modifier = Modifier) {
                     containerColor = PageSecondaryBg
                 )
             )
-        },
-        bottomBar = {
-            Navbar(currentTab = NavbarTab.Wallet)
         },
         containerColor = PageSecondaryBg
     ) { paddingValues ->
