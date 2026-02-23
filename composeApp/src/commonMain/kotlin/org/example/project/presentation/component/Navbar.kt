@@ -6,7 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -34,8 +34,6 @@ fun Navbar(
     onTabSelected: (NavbarTab) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    var selectedTab by remember { mutableStateOf(currentTab) }
-
     val tabs = listOf(
         Triple(NavbarTab.Campaigns, icHome, "Campaigns"),
         Triple(NavbarTab.Wallet, icWallet, "Wallet"),
@@ -46,39 +44,22 @@ fun Navbar(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(90.dp)
+            .height(72.dp)
+            .background(Color.White)
+            .padding(horizontal = 8.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-
-        // Blur + translucent background layer
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .graphicsLayer {
-                    compositingStrategy = CompositingStrategy.Offscreen
+        tabs.forEach { (tab, icon, label) ->
+            NavbarTabItem(
+                icon = icon,
+                label = label,
+                isSelected = selectedTab == tab,
+                onClick = {
+                    selectedTab = tab
+                    onTabSelected(tab)
                 }
-                .background(Color.White)
-                .blur(100.dp)
-        )
-
-        // Foreground navbar content (NOT blurred)
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 8.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            tabs.forEach { (tab, icon, label) ->
-                NavbarTabItem(
-                    icon = icon,
-                    label = label,
-                    isSelected = selectedTab == tab,
-                    onClick = {
-                        selectedTab = tab
-                        onTabSelected(tab)
-                    }
-                )
-            }
+            )
         }
     }
 }
