@@ -27,29 +27,26 @@ import org.example.project.presentation.component.PrimaryButton
 import org.example.project.presentation.theme.*
 import androidx.compose.ui.tooling.preview.Preview
 import org.example.project.presentation.resources.icCpu
-import org.example.project.presentation.component.Navbar
+
 
 
 @Composable
 fun UpcomingCampaignScreen(
     onBackClicked: () -> Unit = {},
     onParticipateClicked: () -> Unit = {},
-    onIgnoreClicked: () -> Unit = {}
+    onIgnoreClicked: () -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
     var selectedTab by remember { mutableStateOf("Upcoming") }
 
-    Scaffold(
-        bottomBar = { Navbar() }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(PageSecondaryBg)
-                .verticalScroll(scrollState)
-                .padding(paddingValues)
-                .padding(bottom = 24.dp)
-        ) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(PageSecondaryBg)
+            .verticalScroll(scrollState)
+            .padding(bottom = 24.dp)
+    ) {
             Spacer(modifier = Modifier.height(32.dp))
 
             // Top Bar
@@ -248,7 +245,6 @@ fun UpcomingCampaignScreen(
                     }
                 }
             }
-        }
     }
 }
 

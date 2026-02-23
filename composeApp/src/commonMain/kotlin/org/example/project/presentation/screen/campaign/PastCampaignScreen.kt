@@ -31,26 +31,23 @@ import kotlinproject.composeapp.generated.resources.ic_nexus
 import org.example.project.presentation.resources.icDoc
 import org.example.project.presentation.theme.*
 import org.jetbrains.compose.resources.painterResource
-import org.example.project.presentation.component.Navbar
+
 
 @Composable
 fun PastCampaignScreen(
     onBackClicked: () -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
     var selectedTab by remember { mutableStateOf("Past") }
 
-    Scaffold(
-        bottomBar = { Navbar() }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(PageSecondaryBg)
-                .verticalScroll(scrollState)
-                .padding(paddingValues)
-                .padding(bottom = 24.dp)
-        ) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(PageSecondaryBg)
+            .verticalScroll(scrollState)
+            .padding(bottom = 24.dp)
+    ) {
             Spacer(modifier = Modifier.height(32.dp))
 
             // Top Bar
@@ -206,7 +203,6 @@ fun PastCampaignScreen(
 
                 }
             }
-        }
     }
 }
 

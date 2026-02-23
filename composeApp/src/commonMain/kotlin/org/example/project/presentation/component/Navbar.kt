@@ -6,7 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,9 +33,6 @@ fun Navbar(
     onTabSelected: (NavbarTab) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    // Internal state so tapping immediately activates the tab
-    var selectedTab by remember { mutableStateOf(currentTab) }
-
     val tabs = listOf(
         Triple(NavbarTab.Campaigns, icHome,    "Campaigns"),
         Triple(NavbarTab.Wallet,    icWallet,  "Wallet"),
@@ -56,11 +53,8 @@ fun Navbar(
             NavbarTabItem(
                 icon = icon,
                 label = label,
-                isSelected = selectedTab == tab,
-                onClick = {
-                    selectedTab = tab
-                    onTabSelected(tab)
-                }
+                isSelected = currentTab == tab,
+                onClick = { onTabSelected(tab) }
             )
         }
     }

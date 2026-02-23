@@ -1,38 +1,67 @@
 package org.example.project
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import org.example.project.presentation.component.Navbar
-import org.example.project.presentation.screen.campaign.PastCampaignScreen
+import org.example.project.presentation.component.NavbarTab
 import org.example.project.presentation.screen.campaign.UpcomingCampaignScreen
-//import org.example.project.presentation.screen.campaign.weeklyCheckin.WeeklyCheckinScreen
-
+import org.example.project.presentation.screen.chat.ChatScreen
+import org.example.project.presentation.screen.profile.ProfileScreen
+import org.example.project.presentation.screen.wallet.WalletScreen
 import org.example.project.presentation.theme.AppTheme
 
-@Preview
 @Composable
 fun App() {
     AppTheme {
-//       SplashScreen()
-//        LoginScreen {}
-//        SignUpScreen {}
-//        ActiveCampaignScreen()
-//        DemoScreen()
-//        WeeklyCheckingScreen {  }
-        UpcomingCampaignScreen {  }
-//        PastCampaignScreen {  }
+        var currentTab by remember { mutableStateOf(NavbarTab.Campaigns) }
+        var campaignSubTab by remember { mutableStateOf("Upcoming") }
 
-
-
-
-
-
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            bottomBar = {
+                Navbar(
+                    currentTab = currentTab,
+                    onTabSelected = { currentTab = it }
+                )
+            }
+        ) { innerPadding ->
+            val screenModifier = Modifier.padding(innerPadding)
+            
+            when (currentTab) {
+                NavbarTab.Campaigns -> {
+                    when (campaignSubTab) {
+                        "Active" -> org.example.project.presentation.screen.campaign.activeCampaign.ActiveCampaignScreen(
+                            modifier = screenModifier,
+                            onTabSelected = { campaignSubTab = it }
+                        )
+                        "Past" -> org.example.project.presentation.screen.campaign.PastCampaignScreen(
+                            modifier = screenModifier,
+                            onTabSelected = { campaignSubTab = it }
+                        )
+                        "Upcoming" -> org.example.project.presentation.screen.campaign.UpcomingCampaignScreen(
+                            modifier = screenModifier,
+                            onTabSelected = { campaignSubTab = it }
+                        )
+                    }
+                }
+                NavbarTab.Wallet   -> WalletScreen(modifier = screenModifier)
+                NavbarTab.Chat     -> ChatScreen(modifier = screenModifier)
+                NavbarTab.Profile  -> ProfileScreen(modifier = screenModifier)
+            }
+        }
     }
 }
+
 @Preview
 @Composable
 fun AppPreview() {
-    Navbar()
+    App()
 }
-
-//

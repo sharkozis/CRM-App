@@ -47,11 +47,11 @@ import org.example.project.presentation.resources.icCpu
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun ActiveCampaignScreen() {
+fun ActiveCampaignScreen(modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(PageSecondaryBg)
             .verticalScroll(scrollState)
