@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.BlendMode
@@ -33,35 +34,51 @@ fun Navbar(
     onTabSelected: (NavbarTab) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    // Internal state so tapping immediately activates the tab
     var selectedTab by remember { mutableStateOf(currentTab) }
 
     val tabs = listOf(
-        Triple(NavbarTab.Campaigns, icHome,    "Campaigns"),
-        Triple(NavbarTab.Wallet,    icWallet,  "Wallet"),
-        Triple(NavbarTab.Chat,      icMessage, "Chat"),
-        Triple(NavbarTab.Profile,   icUser,    "Profile"),
+        Triple(NavbarTab.Campaigns, icHome, "Campaigns"),
+        Triple(NavbarTab.Wallet, icWallet, "Wallet"),
+        Triple(NavbarTab.Chat, icMessage, "Chat"),
+        Triple(NavbarTab.Profile, icUser, "Profile"),
     )
 
-    Row(
+    Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(72.dp)
-            .background(Color.White)
-            .padding(horizontal = 8.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically
+            .height(90.dp)
     ) {
-        tabs.forEach { (tab, icon, label) ->
-            NavbarTabItem(
-                icon = icon,
-                label = label,
-                isSelected = selectedTab == tab,
-                onClick = {
-                    selectedTab = tab
-                    onTabSelected(tab)
+
+        // Blur + translucent background layer
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .graphicsLayer {
+                    compositingStrategy = CompositingStrategy.Offscreen
                 }
-            )
+                .background(Color.White)
+                .blur(100.dp)
+        )
+
+        // Foreground navbar content (NOT blurred)
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 8.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            tabs.forEach { (tab, icon, label) ->
+                NavbarTabItem(
+                    icon = icon,
+                    label = label,
+                    isSelected = selectedTab == tab,
+                    onClick = {
+                        selectedTab = tab
+                        onTabSelected(tab)
+                    }
+                )
+            }
         }
     }
 }

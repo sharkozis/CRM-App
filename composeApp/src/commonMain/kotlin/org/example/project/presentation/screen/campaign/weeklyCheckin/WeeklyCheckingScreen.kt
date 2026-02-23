@@ -22,7 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.*
 import org.example.project.presentation.component.PrimaryButton
+import androidx.compose.ui.graphics.ColorFilter
 import org.example.project.presentation.theme.*
+import androidx.compose.ui.graphics.vector.ImageVector
+
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -69,7 +72,7 @@ fun WeeklyCheckingScreen(
             // Instructions Card
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
+                shape = RoundedCornerShape(20.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
             ) {
@@ -111,7 +114,7 @@ fun WeeklyCheckingScreen(
             // Photos Card
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(20.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
             ) {
@@ -119,7 +122,7 @@ fun WeeklyCheckingScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(horizontal = 20.dp, vertical = 16.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -138,7 +141,7 @@ fun WeeklyCheckingScreen(
                         )
                     }
 
-                    HorizontalDivider(color = PageSecondaryBg, thickness = 1.dp)
+                    HorizontalDivider(color = MuteColor.copy(alpha = 0.5f), thickness = 1.dp)
 
                     Row(
                         modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min)
@@ -148,7 +151,7 @@ fun WeeklyCheckingScreen(
                             label = "Left Side"
                         )
                         
-                        VerticalDivider(color = PageSecondaryBg, thickness = 1.dp)
+                        VerticalDivider(color = MuteColor.copy(alpha = 0.5f), thickness = 1.dp)
                         
                         PhotoUploadItem(
                             modifier = Modifier.weight(1f),
@@ -163,22 +166,22 @@ fun WeeklyCheckingScreen(
             // Driver Feedback Card
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(20.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         // Feedback Icon Placeholder
-                        Box(
-                            modifier = Modifier
-                                .size(32.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(PinkPrimary.copy(alpha = 0.6f)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                             Image(imageVector = icAction, contentDescription = null, modifier = Modifier.size(20.dp))
-                        }
+//                        Box(
+//                            modifier = Modifier
+//                                .size(32.dp)
+//                                .clip(RoundedCornerShape(8.dp))
+//                                .background(PinkPrimary.copy(alpha = 0.6f)),
+//                            contentAlignment = Alignment.Center
+//                        ) {
+                             Image(imageVector = icDriverIcon, contentDescription = null, modifier = Modifier.size(20.dp))
+//                        }
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
                             text = "Driver Feedback",
@@ -241,36 +244,49 @@ fun PhotoUploadItem(
     label: String
 ) {
     Column(
-        modifier = modifier.padding(16.dp),
-        horizontalAlignment = Alignment.Start
+        modifier = modifier
     ) {
         Text(
             text = label,
-            fontSize = 16.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            color = MainTextCol
+            color = MainTextCol,
+            modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)
         )
         
-        Spacer(modifier = Modifier.height(16.dp))
+        HorizontalDivider(color = MuteColor.copy(alpha = 0.5f), thickness = 1.dp)
         
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .border(1.dp, MuteColor, RoundedCornerShape(24.dp))
-                .padding(vertical = 12.dp)
-                .clickable { },
+                .padding(vertical = 32.dp, horizontal = 16.dp),
             contentAlignment = Alignment.Center
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    imageVector = icCamera,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
+            Row(
+                modifier = Modifier
+                    .border(1.dp, MuteColor.copy(alpha = 0.6f), RoundedCornerShape(32.dp))
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .clickable { },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .background(PinkPrimary.copy(alpha = 0.15f), RoundedCornerShape(10.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        imageVector = icCamera,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp),
+                        colorFilter = ColorFilter.tint(PinkPrimary)
+                    )
+                }
+                Spacer(modifier = Modifier.width(12.dp))
                 Text(
                     text = "Add Photo",
-                    fontSize = 12.sp,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
                     color = grayTextColor
                 )
             }

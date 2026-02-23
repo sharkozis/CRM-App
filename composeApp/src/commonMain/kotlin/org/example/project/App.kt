@@ -5,6 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import org.example.project.presentation.component.Navbar
 import org.example.project.presentation.screen.campaign.PastCampaignScreen
 import org.example.project.presentation.screen.campaign.UpcomingCampaignScreen
+import org.example.project.presentation.screen.campaign.weeklyCheckin.WeeklyCheckingScreen
 //import org.example.project.presentation.screen.campaign.weeklyCheckin.WeeklyCheckinScreen
 
 import org.example.project.presentation.theme.AppTheme
@@ -18,8 +19,8 @@ fun App() {
 //        SignUpScreen {}
 //        ActiveCampaignScreen()
 //        DemoScreen()
-//        WeeklyCheckingScreen {  }
-        UpcomingCampaignScreen {  }
+        WeeklyCheckingScreen {  }
+//        UpcomingCampaignScreen {  }
 //        PastCampaignScreen {  }
 
 

@@ -49,7 +49,7 @@ fun PastCampaignScreen(
                 .background(PageSecondaryBg)
                 .verticalScroll(scrollState)
                 .padding(paddingValues)
-                .padding(bottom = 24.dp)
+//                .padding(bottom = 24.dp)
         ) {
             Spacer(modifier = Modifier.height(32.dp))
 
