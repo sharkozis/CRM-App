@@ -1,6 +1,7 @@
 package org.example.project.presentation.screen.wallet.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,15 +22,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.icDownArrow
+import org.example.project.presentation.theme.PageSecondaryBg
 import org.example.project.presentation.theme.grayTextColor
 
+@Preview(showBackground = true)
 @Composable
 fun IncomeSummaryCard(modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.fillMaxWidth(),
+//            .background(PageSecondaryBg),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
@@ -38,9 +43,12 @@ fun IncomeSummaryCard(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(16.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
+                    .background(PageSecondaryBg, shape = RoundedCornerShape(14.dp))
+                    .padding(16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+
             ) {
                 Column {
                     Text(
@@ -58,6 +66,7 @@ fun IncomeSummaryCard(modifier: Modifier = Modifier) {
 
                 Box(
                     modifier = Modifier
+                        .background(Color.White, RoundedCornerShape(20.dp))
                         .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(20.dp))
                         .padding(horizontal = 12.dp, vertical = 6.dp)
                 ) {

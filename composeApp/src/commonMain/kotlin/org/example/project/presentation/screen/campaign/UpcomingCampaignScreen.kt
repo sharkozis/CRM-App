@@ -459,7 +459,7 @@ fun DateTimeItem(modifier: Modifier = Modifier, text: String, isDate: Boolean) {
     }
 }
 
-@Preview
+//@Preview
 @Composable
 fun LocationItem(text: String) {
     Row(
