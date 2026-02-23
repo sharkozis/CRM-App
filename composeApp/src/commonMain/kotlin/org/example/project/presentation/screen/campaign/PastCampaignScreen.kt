@@ -36,10 +36,11 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun PastCampaignScreen(
     onBackClicked: () -> Unit = {},
+    onTabSelected: (String) -> Unit = {},
+    selectedTab: String = "Past",
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
-    var selectedTab by remember { mutableStateOf("Past") }
 
     Column(
         modifier = modifier
@@ -149,7 +150,7 @@ fun PastCampaignScreen(
                                             .background(Color.White)
                                         else Modifier
                                     )
-                                    .clickable { selectedTab = tab },
+                                    .clickable { onTabSelected(tab) },
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(

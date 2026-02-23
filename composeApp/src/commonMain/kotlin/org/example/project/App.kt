@@ -40,14 +40,17 @@ fun App() {
                     when (campaignSubTab) {
                         "Active" -> org.example.project.presentation.screen.campaign.activeCampaign.ActiveCampaignScreen(
                             modifier = screenModifier,
+                            selectedTab = campaignSubTab,
                             onTabSelected = { campaignSubTab = it }
                         )
                         "Past" -> org.example.project.presentation.screen.campaign.PastCampaignScreen(
                             modifier = screenModifier,
+                            selectedTab = campaignSubTab,
                             onTabSelected = { campaignSubTab = it }
                         )
                         "Upcoming" -> org.example.project.presentation.screen.campaign.UpcomingCampaignScreen(
                             modifier = screenModifier,
+                            selectedTab = campaignSubTab,
                             onTabSelected = { campaignSubTab = it }
                         )
                     }

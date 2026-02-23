@@ -47,7 +47,11 @@ import org.example.project.presentation.resources.icCpu
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun ActiveCampaignScreen(modifier: Modifier = Modifier) {
+fun ActiveCampaignScreen(
+    onTabSelected: (String) -> Unit = {},
+    selectedTab: String = "Active",
+    modifier: Modifier = Modifier
+) {
     val scrollState = rememberScrollState()
 
     Column(
@@ -173,7 +177,6 @@ fun ActiveCampaignScreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(24.dp))
 
         // Campaign Tabs and Detail Section Stack
-        var selectedTab by remember { mutableStateOf("Active") }
 
         Box(
             modifier = Modifier
@@ -223,7 +226,7 @@ fun ActiveCampaignScreen(modifier: Modifier = Modifier) {
                                 .clickable(
                                     interactionSource = interactionSource,
                                     indication = null
-                                ) { selectedTab = tab },
+                                ) { onTabSelected(tab) },
                             contentAlignment = Alignment.Center
                         ) {
                             Text(

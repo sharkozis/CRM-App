@@ -35,10 +35,11 @@ fun UpcomingCampaignScreen(
     onBackClicked: () -> Unit = {},
     onParticipateClicked: () -> Unit = {},
     onIgnoreClicked: () -> Unit = {},
+    onTabSelected: (String) -> Unit = {},
+    selectedTab: String = "Upcoming",
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
-    var selectedTab by remember { mutableStateOf("Upcoming") }
 
     Column(
         modifier = modifier
@@ -149,7 +150,7 @@ fun UpcomingCampaignScreen(
                                             .background(Color.White)
                                         else Modifier
                                     )
-                                    .clickable { selectedTab = tab },
+                                    .clickable { onTabSelected(tab) },
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
