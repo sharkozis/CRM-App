@@ -9,7 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.BlendMode
@@ -41,7 +40,7 @@ fun Navbar(
         Triple(NavbarTab.Profile, icUser, "Profile"),
     )
 
-    Box(
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
@@ -54,11 +53,8 @@ fun Navbar(
             NavbarTabItem(
                 icon = icon,
                 label = label,
-                isSelected = selectedTab == tab,
-                onClick = {
-                    selectedTab = tab
-                    onTabSelected(tab)
-                }
+                isSelected = currentTab == tab,
+                onClick = { onTabSelected(tab) }
             )
         }
     }
