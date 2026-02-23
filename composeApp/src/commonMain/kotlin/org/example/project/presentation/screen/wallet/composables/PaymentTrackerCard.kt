@@ -40,107 +40,112 @@ fun PaymentTrackerCard(modifier: Modifier = Modifier) {
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
+        PaymentTrackerContent()
+    }
+}
+
+@Composable
+fun PaymentTrackerContent() {
+    Column(
+        modifier = Modifier.padding(12.dp)
+    ) {
+        // Campaign Info Row (MORDER)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .background(PageSecondaryBg.copy(alpha = 0.5f))
+                .padding(12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            // Campaign Info Row (MORDER)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(PageSecondaryBg.copy(alpha = 0.5f))
-                    .padding(12.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column {
-                    Text(
-                        text = "MORDER",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MainTextCol
-                    )
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = "Timeline: Feb 1 - April 1",
-                            fontSize = 14.sp,
-                            color = grayTextColor
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(
-                                modifier = Modifier
-                                    .size(10.dp)
-                                    .border(2.dp, SuccessActive, CircleShape)
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text(
-                                text = "67%",
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = SuccessActive
-                            )
-                        }
-                    }
-                }
-
-                Image(
-                    painter = painterResource(Res.drawable.ic_nexus),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                )
-            }
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // Payment Tracker Section
-            Text(
-                text = "PAYMENT TRACKER",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = grayTextColor
-            )
-
-            Row(
-                verticalAlignment = Alignment.Bottom,
-                modifier = Modifier.padding(vertical = 8.dp)
-            ) {
+            Column {
                 Text(
-                    text = "$300",
-                    fontSize = 32.sp,
+                    text = "MORDER",
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = MainTextCol
                 )
-                Text(
-                    text = "/$600",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = grayTextColor,
-                    modifier = Modifier.padding(bottom = 4.dp)
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = "Timeline: Feb 1 - April 1",
+                        fontSize = 14.sp,
+                        color = grayTextColor
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(10.dp)
+                                .border(2.dp, SuccessActive, CircleShape)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "67%",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = SuccessActive
+                        )
+                    }
+                }
             }
 
-            // Segmented Progress Bar
-            Row(
+            Image(
+                painter = painterResource(Res.drawable.ic_nexus),
+                contentDescription = null,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                val totalSegments = 30
-                val filledSegments = (totalSegments * 0.67).toInt()
+                    .size(80.dp)
+                    .clip(RoundedCornerShape(8.dp))
+            )
+        }
 
-                repeat(totalSegments) { index ->
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(20.dp)
-                            .clip(RoundedCornerShape(2.dp))
-                            .background(if (index < filledSegments) SuccessActive else MuteColor)
-                    )
-                }
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // Payment Tracker Section
+        Text(
+            text = "PAYMENT TRACKER",
+            fontSize = 14.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = grayTextColor
+        )
+
+        Row(
+            verticalAlignment = Alignment.Bottom,
+            modifier = Modifier.padding(vertical = 8.dp)
+        ) {
+            Text(
+                text = "$300",
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold,
+                color = MainTextCol
+            )
+            Text(
+                text = "/$600",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = grayTextColor,
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+        }
+
+        // Segmented Progress Bar
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            val totalSegments = 30
+            val filledSegments = (totalSegments * 0.67).toInt()
+
+            repeat(totalSegments) { index ->
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(20.dp)
+                        .clip(RoundedCornerShape(2.dp))
+                        .background(if (index < filledSegments) SuccessActive else MuteColor)
+                )
             }
         }
     }

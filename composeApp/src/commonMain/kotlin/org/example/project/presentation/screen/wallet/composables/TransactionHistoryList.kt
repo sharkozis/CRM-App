@@ -1,5 +1,6 @@
 package org.example.project.presentation.screen.wallet.composables
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,10 +25,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.composables.icDiscount
+import com.composables.icDollarCircle
+import com.composables.icDownArrow
+import org.example.project.presentation.theme.PageSecondaryBg
+import org.example.project.presentation.theme.PinkPrimary
+import org.example.project.presentation.theme.actionTextPurple
 import org.example.project.presentation.theme.grayTextColor
-
+@Preview(showBackground = true)
 @Composable
 fun TransactionHistoryList(modifier: Modifier = Modifier) {
     Column(modifier = modifier.fillMaxWidth()) {
@@ -44,6 +54,7 @@ fun TransactionHistoryList(modifier: Modifier = Modifier) {
 
             Box(
                 modifier = Modifier
+                    .background(Color.White, RoundedCornerShape(20.dp))
                     .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(20.dp))
                     .padding(horizontal = 12.dp, vertical = 6.dp)
             ) {
@@ -54,7 +65,11 @@ fun TransactionHistoryList(modifier: Modifier = Modifier) {
                         color = Color(0xFF1B0E2F)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Box(modifier = Modifier.size(12.dp).background(Color.Gray))
+                    Image(
+                        imageVector = icDownArrow,
+                        contentDescription = null,
+                        modifier = Modifier.size(12.dp)
+                    )
                 }
             }
         }
@@ -67,7 +82,7 @@ fun TransactionHistoryList(modifier: Modifier = Modifier) {
             date = "Feb 15",
             appName = "Oringina",
             amount = "$10.00",
-            iconText = "%"
+            icon = icDiscount
         )
         Spacer(modifier = Modifier.height(12.dp))
         TransactionItem(
@@ -76,7 +91,7 @@ fun TransactionHistoryList(modifier: Modifier = Modifier) {
             date = "Feb 10",
             appName = "Oringina",
             amount = "$300.00",
-            iconText = "M"
+            icon = icDollarCircle
         )
     }
 }
@@ -88,10 +103,11 @@ private fun TransactionItem(
     date: String,
     appName: String,
     amount: String,
-    iconText: String
+    icon: ImageVector
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .border(1.dp, PageSecondaryBg),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
@@ -103,15 +119,16 @@ private fun TransactionItem(
             // Circular Icon
             Box(
                 modifier = Modifier
-                    .size(48.dp)
-                    .border(1.dp, Color(0xFFFDEBF3), CircleShape),
+                    .size(38.dp)
+                    .clip(CircleShape),
+                    // .background(Color(0xFFFDEBF3))
+//                    .padding(12.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = iconText,
-                    color = Color(0xFFD77CA4),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
+                Image(
+                    imageVector = icon,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
                 )
             }
 
@@ -143,13 +160,13 @@ private fun TransactionItem(
                     text = appName,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF7B264B)
+                    color = actionTextPurple
                 )
                 Text(
                     text = amount,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFFD77CA4)
+                    color = PinkPrimary
                 )
             }
         }

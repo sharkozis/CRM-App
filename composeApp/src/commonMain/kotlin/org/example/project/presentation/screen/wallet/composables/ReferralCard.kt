@@ -34,27 +34,31 @@ fun ReferralCard(modifier: Modifier = Modifier) {
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(10.dp),
+        ReferralContent()
+    }
+}
 
-            horizontalAlignment = Alignment.CenterHorizontally
-
-        ) {
-            Text(
-                text = "Invite a driver to join the platform—once they sign up and get fully onboarded, you get paid. Easy!",
-                fontSize = 14.sp,
-                textAlign = TextAlign.Center,
-                color = Color(0xFF1B0E2F),
-                modifier = Modifier.background(PageSecondaryBg, shape = RoundedCornerShape(12.dp)).padding(16.dp)
-
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            PrimaryButton(
-                title = "Go to Referral",
-                onClick = {},
-                containerColor = PinkPrimary,
-                modifier = Modifier.background(shape = RoundedCornerShape(12.dp), color = PinkPrimary)
-            )
-        }
+@Composable
+fun ReferralContent() {
+    Column(
+        modifier = Modifier.padding(8.dp)
+            .border(1.dp, PageSecondaryBg, RoundedCornerShape(16.dp))
+            .padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Invite a driver to join the platform—once they sign up and get fully onboarded, you get paid. Easy!",
+            fontSize = 14.sp,
+            textAlign = TextAlign.Center,
+            color = Color(0xFF1B0E2F),
+            modifier = Modifier.background(PageSecondaryBg, shape = RoundedCornerShape(12.dp)).padding(16.dp)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        PrimaryButton(
+            title = "Go to Referral",
+            onClick = {},
+            containerColor = PinkPrimary,
+            modifier = Modifier.background(shape = RoundedCornerShape(12.dp), color = PinkPrimary)
+        )
     }
 }
