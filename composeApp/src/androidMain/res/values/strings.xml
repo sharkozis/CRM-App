@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">KotlinProject</string>
+    <string name="wallet_title">Wallet</string>
+    <string name="income_summary">INCOME SUMMARY</string>
+    <string name="all_time">All time</string>
+    <string name="lifetime_earnings">Lifetime Earnings:</string>
+    <string name="upcoming_payouts">Upcoming Payouts:</string>
+    <string name="banking">Banking:</string>
+    <string name="stripe_connected">[Stripe Connected]</string>
+    <string name="referral_text">Invite a driver to join the platform—once they sign up and get fully onboarded, you get paid. Easy!</string>
+    <string name="go_to_referral">Go to Referral</string>
+    <string name="morder">MORDER</string>
+    <string name="timeline_morder">Timeline: Feb 1 - April 1</string>
+    <string name="payment_tracker">PAYMENT TRACKER</string>
+    <string name="transaction_history">TRANSACTION HISTORY</string>
+    <string name="all">All</string>
+    <string name="referral">Referral</string>
 </resources>
