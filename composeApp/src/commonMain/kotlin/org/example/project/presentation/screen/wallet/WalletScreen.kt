@@ -34,6 +34,7 @@ import org.example.project.presentation.component.Navbar
 import org.example.project.presentation.component.NavbarTab
 import org.example.project.presentation.screen.wallet.composables.IncomeSummaryContent
 import org.example.project.presentation.screen.wallet.composables.PaymentTrackerContent
+import org.example.project.presentation.screen.wallet.composables.ReferralCard
 import org.example.project.presentation.screen.wallet.composables.ReferralContent
 import org.example.project.presentation.screen.wallet.composables.TransactionHistoryList
 import org.example.project.presentation.theme.PageSecondaryBg
@@ -95,7 +96,7 @@ fun WalletScreen(modifier: Modifier = Modifier) {
                         DashedDivider(Modifier.padding(vertical = 12.dp, horizontal = 16.dp))
 
                         // Referral Section
-                        ReferralContent()
+                        ReferralCard()
 
                         DashedDivider(Modifier.padding(vertical = 12.dp, horizontal = 16.dp))
 

@@ -3,11 +3,15 @@ package org.example.project.presentation.screen.wallet
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,11 +22,32 @@ import com.composables.icLink
 import org.example.project.presentation.component.PrimaryButton
 import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PinkPrimary
+import org.example.project.presentation.theme.SuccessActive
 import org.example.project.presentation.theme.grayTextColor
+import org.example.project.presentation.theme.yellowTextColor
 
-@Preview
+data class ReferralItem(
+    val name: String,
+    val email: String,
+    val status: String,
+    val amount: String,
+    val statusColor: Color
+)
+
 @Composable
-fun WalletModal(modifier: Modifier = Modifier) {
+fun WalletModal(
+    modifier: Modifier = Modifier,
+    referrals: List<ReferralItem> = listOf(
+        ReferralItem("Steve Henry", "steve_henry@gmail.com", "Pending", "$10", yellowTextColor),
+        ReferralItem("Arman Aditya", "arman@gmail.com", "Earned", "$10", SuccessActive),
+        ReferralItem("Michael Chen", "michael.c@example.com", "Pending", "$15", yellowTextColor),
+        ReferralItem("Sarah Johnson", "sarah.j@example.com", "Earned", "$20", SuccessActive),
+        ReferralItem("David Kim", "david.k@example.com", "Pending", "$12", yellowTextColor),
+        ReferralItem("Emily Davis", "emily.d@example.com", "Earned", "$18", SuccessActive)
+    )
+) {
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -33,8 +58,8 @@ fun WalletModal(modifier: Modifier = Modifier) {
             )
     ) {
         Spacer(modifier = Modifier.height(16.dp))
-        
-        // Handle bar for modal (optional but looks good for modals)
+
+        // Handle bar for modal
         Box(
             modifier = Modifier
                 .width(40.dp)
@@ -56,7 +81,13 @@ fun WalletModal(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Column(modifier = Modifier.padding(horizontal = 24.dp)) {
+        // Scrollable content
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(scrollState)
+                .padding(horizontal = 24.dp)
+        ) {
             // Section Title
             Text(
                 text = "Invite member",
@@ -197,14 +228,108 @@ fun WalletModal(modifier: Modifier = Modifier) {
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Referral Members List
+            referrals.forEach { item ->
+                ReferralMemberItem(
+                    name = item.name,
+                    email = item.email,
+                    status = item.status,
+                    amount = item.amount,
+                    statusColor = item.statusColor
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
         }
     }
 }
 
+@Composable
+fun ReferralMemberItem(
+    name: String,
+    email: String,
+    status: String,
+    amount: String,
+    statusColor: Color
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Round Box Placeholder for Avatar
+        Box(
+            modifier = Modifier
+                .size(56.dp)
+                .clip(CircleShape)
+                .background(Color(0xFFF0F0F0), CircleShape)
+                .border(1.dp, Color(0xFFE0E0E0), CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = name.firstOrNull()?.toString() ?: "U",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = MainTextCol.copy(alpha = 0.5f)
+            )
+        }
 
+        Spacer(modifier = Modifier.width(16.dp))
+
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = name,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = MainTextCol
+            )
+            Text(
+                text = email,
+                fontSize = 14.sp,
+                color = grayTextColor
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .border(
+                    1.dp,
+                    statusColor.copy(alpha = 0.3f),
+                    RoundedCornerShape(8.dp)
+                )
+                .padding(horizontal = 10.dp, vertical = 8.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = status,
+                    fontSize = 14.sp,
+                    color = statusColor.copy(alpha = 0.8f),
+                    modifier = Modifier.padding(end = 6.dp)
+                )
+                Text(
+                    text = amount,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = statusColor
+                )
+            }
+        }
+    }
+}
+
+@Preview
 @Composable
 fun WalletModalPreview() {
-    Box(modifier = Modifier.fillMaxSize().background(Color.Gray)) {
-        WalletModal(modifier = Modifier.align(Alignment.BottomCenter))
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Gray)
+    ) {
+        WalletModal(
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 }
