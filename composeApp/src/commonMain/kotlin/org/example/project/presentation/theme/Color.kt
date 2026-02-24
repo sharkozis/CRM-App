@@ -37,6 +37,7 @@ val PageSecondaryBg = Color(0xFFF8F7FA)
 val MainTextCol = Color (0xFF1B0E2F)
 val grayTextColor = Color(0xFF7A767F)
 val actionTextPurple = Color(0xFF661FAA)
+val yellowTextColor = Color(0xFFEEBA31)
 
 
 
