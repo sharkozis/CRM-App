@@ -34,6 +34,7 @@ import kotlinproject.composeapp.generated.resources.ic_avatar
 import org.example.project.presentation.component.IconButton
 import org.example.project.presentation.screen.profile.composables.LocationSection
 import org.example.project.presentation.screen.profile.composables.PreferenceSection
+import org.example.project.presentation.screen.profile.composables.SupportSection
 import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PinkPrimary
 import org.jetbrains.compose.resources.painterResource
@@ -110,6 +111,7 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                 UserInfoText(label = "Full Name", value = "Joseph Anthony")
                 UserInfoText(label = "Email", value = "joseph@email.com")
                 UserInfoText(label = "Phone", value = "555-0199")
+                UserInfoText(label = "Car Model", value = "Toyota Camry")
 
                 Spacer(modifier = Modifier.height(20.dp))
 
@@ -128,6 +130,10 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(40.dp))
 
                 LocationSection()
+
+                Spacer(modifier = Modifier.height(40.dp))
+
+                SupportSection {  }
 
                 Spacer(modifier = Modifier.height(40.dp))
             }

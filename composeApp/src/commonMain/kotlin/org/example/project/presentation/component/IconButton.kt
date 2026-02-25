@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun IconButton(
     title: String,
-    icon: ImageVector,
+    icon: ImageVector? = null,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -43,11 +43,15 @@ fun IconButton(
                 color = Color(0xFF1B0E2F)
             )
             Spacer(modifier = Modifier.width(4.dp))
-            Image(
-                imageVector = icon,
-                contentDescription = null,
-                modifier = Modifier.size(12.dp)
-            )
+            if (icon != null) {
+                Image(
+                    imageVector = icon,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
+
+//                Spacer(modifier = Modifier.width(8.dp))
+            }
         }
     }
 }

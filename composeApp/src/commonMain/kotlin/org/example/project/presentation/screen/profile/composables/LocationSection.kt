@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.composables.icRightarrow
+import com.composables.icDownArrow
 import com.composables.icCopyicon
 import org.example.project.presentation.component.IconButton
 import org.example.project.presentation.theme.MainTextCol
@@ -67,7 +67,7 @@ fun LocationSection(
                         color = actionTextPurple
                     )
                     Image(
-                        imageVector = icRightarrow,
+                        imageVector = icDownArrow,
                         contentDescription = null,
                         modifier = Modifier.size(12.dp)
                     )
