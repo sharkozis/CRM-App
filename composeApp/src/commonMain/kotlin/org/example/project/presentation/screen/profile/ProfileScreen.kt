@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,6 +32,8 @@ import com.composables.icPen
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.ic_avatar
 import org.example.project.presentation.component.IconButton
+import org.example.project.presentation.screen.profile.composables.LocationSection
+import org.example.project.presentation.screen.profile.composables.PreferenceSection
 import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PinkPrimary
 import org.jetbrains.compose.resources.painterResource
@@ -37,11 +41,13 @@ import org.jetbrains.compose.resources.painterResource
 @Preview
 @Composable
 fun ProfileScreen(modifier: Modifier = Modifier) {
+    val scrollState = rememberScrollState()
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
             .padding(top = 16.dp)
+            .verticalScroll(scrollState)
     ) {
         // Title
         Text(
@@ -57,7 +63,8 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
         // Gradient Section
         Box(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .wrapContentHeight()
                 .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
                 .background(
                     brush = Brush.verticalGradient(
@@ -112,6 +119,17 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                     icon = icPen,
                     onClick = { /* Handle edit */ }
                 )
+
+                Spacer(modifier = Modifier.height(40.dp))
+
+                // Preferences Section
+                PreferenceSection()
+
+                Spacer(modifier = Modifier.height(40.dp))
+
+                LocationSection()
+
+                Spacer(modifier = Modifier.height(40.dp))
             }
         }
     }
@@ -127,4 +145,3 @@ private fun UserInfoText(label: String, value: String) {
         modifier = Modifier.padding(vertical = 2.dp)
     )
 }
-
