@@ -18,38 +18,27 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.icRightarrow
-import org.example.project.presentation.component.IconButton
 import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.maroonTextColor
 
-@Preview
 @Composable
-fun SupportSection(
+fun CarPhotoSection(
     modifier: Modifier = Modifier,
     onUploadClick: () -> Unit = {},
-    onTakePhotoOrUploadClick: () -> Unit = {}
+    onSlot1Click: () -> Unit = {},
+    onSlot2Click: () -> Unit = {}
 ) {
     Column(modifier = modifier.fillMaxWidth().padding(horizontal = 20.dp)) {
-        Text(
-            text = "Support",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = MainTextCol
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White, RoundedCornerShape(12.dp))
                 .border(1.dp, Color(0xFFF1F1F1), RoundedCornerShape(12.dp))
         ) {
-            // LICENSE Row
+            // Header: CAR PHOTO + Upload >
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -58,14 +47,15 @@ fun SupportSection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "LICENSE",
-                    fontSize = 16.sp,
+                    text = "CAR PHOTO",
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = MainTextCol
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.clickable { onUploadClick() }
                 ) {
                     Text(
                         text = "Upload",
@@ -86,46 +76,66 @@ fun SupportSection(
                 color = Color(0xFFF1F1F1)
             )
 
-            // Dashed Upload Area
-            Box(
+            // Side-by-side dashed slots
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
-                    .height(140.dp) // Height to match the aspect ratio of the design
-                    .drawBehind {
-                        drawRoundRect(
-                            color = Color(0xFFE5E5E5),
-                            style = Stroke(
-                                width = 1.dp.toPx(),
-                                pathEffect = PathEffect.dashPathEffect(
-                                    floatArrayOf(10f, 10f), 0f
-                                )
-                            ),
-                            cornerRadius = CornerRadius(12.dp.toPx())
-                        )
-                    }
-                    .clickable { onTakePhotoOrUploadClick() }
-                    .padding(12.dp),
-                contentAlignment = Alignment.Center
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Inner rounded box
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.6f) // Centered relative box
-                        .fillMaxHeight(0.5f)
-                        .background(Color(0xFFFFFFFF), RoundedCornerShape(12.dp))
-                        .border(1.dp, Color(0xFFF8F8F8), RoundedCornerShape(12.dp)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Take Photo Or Upload",
-                        fontSize = 15.sp,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Normal,
-                        color = MainTextCol
-                    )
-                }
+                UploadSlot(
+                    modifier = Modifier.weight(1f),
+                    onClick = onSlot1Click
+                )
+                UploadSlot(
+                    modifier = Modifier.weight(1f),
+                    onClick = onSlot2Click
+                )
             }
+        }
+    }
+}
+
+@Composable
+private fun UploadSlot(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .aspectRatio(1.2f) // Adjust for horizontal orientation
+            .drawBehind {
+                drawRoundRect(
+                    color = Color(0xFFE5E5E5),
+                    style = Stroke(
+                        width = 1.dp.toPx(),
+                        pathEffect = PathEffect.dashPathEffect(
+                            floatArrayOf(10f, 10f), 0f
+                        )
+                    ),
+                    cornerRadius = CornerRadius(12.dp.toPx())
+                )
+            }
+            .clickable { onClick() }
+            .padding(12.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        // Inner rounded box
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFFCFCFC), RoundedCornerShape(12.dp))
+                .border(1.dp, Color(0xFFF8F8F8), RoundedCornerShape(12.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "Take Photo\nOr\nUpload",
+                fontSize = 15.sp,
+                lineHeight = 18.sp,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Normal,
+                color = MainTextCol
+            )
         }
     }
 }

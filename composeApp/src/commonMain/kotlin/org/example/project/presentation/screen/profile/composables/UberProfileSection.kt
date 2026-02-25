@@ -18,38 +18,26 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.icRightarrow
-import org.example.project.presentation.component.IconButton
 import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.maroonTextColor
 
-@Preview
 @Composable
-fun SupportSection(
+fun UberProfileSection(
     modifier: Modifier = Modifier,
     onUploadClick: () -> Unit = {},
-    onTakePhotoOrUploadClick: () -> Unit = {}
+    onSlotClick: () -> Unit = {}
 ) {
     Column(modifier = modifier.fillMaxWidth().padding(horizontal = 20.dp)) {
-        Text(
-            text = "Support",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = MainTextCol
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White, RoundedCornerShape(12.dp))
                 .border(1.dp, Color(0xFFF1F1F1), RoundedCornerShape(12.dp))
         ) {
-            // LICENSE Row
+            // Header: Uber Profile Photo + Upload >
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -58,14 +46,15 @@ fun SupportSection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "LICENSE",
-                    fontSize = 16.sp,
+                    text = "Uber Profile Photo",
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = MainTextCol
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.clickable { onUploadClick() }
                 ) {
                     Text(
                         text = "Upload",
@@ -86,7 +75,7 @@ fun SupportSection(
                 color = Color(0xFFF1F1F1)
             )
 
-            // Dashed Upload Area
+            // Full-width dashed slot
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -104,7 +93,7 @@ fun SupportSection(
                             cornerRadius = CornerRadius(12.dp.toPx())
                         )
                     }
-                    .clickable { onTakePhotoOrUploadClick() }
+                    .clickable { onSlotClick() }
                     .padding(12.dp),
                 contentAlignment = Alignment.Center
             ) {
