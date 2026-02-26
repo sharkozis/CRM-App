@@ -24,8 +24,10 @@ import org.example.project.presentation.screen.campaign.UpcomingCampaignScreen
 import org.example.project.presentation.screen.campaign.activeCampaign.ActiveCampaignScreen
 import org.example.project.presentation.screen.chat.ChatScreen
 import org.example.project.presentation.screen.login.LoginScreen
+//import org.example.project.presentation.screen.login.SignupScreen
 import org.example.project.presentation.screen.profile.ProfileScreen
-import org.example.project.presentation.screen.signup.SignUpScreen
+import org.example.project.presentation.screen.signup.SignupScreen
+//import org.example.project.presentation.screen.
 import org.example.project.presentation.screen.splash.SplashScreen
 import org.example.project.presentation.screen.wallet.WalletScreen
 import org.example.project.presentation.theme.AppTheme
@@ -85,13 +87,15 @@ fun App(){
     var currentScreen by remember { mutableStateOf("login") }
 
     AppTheme {
-        when (currentScreen) {
-            "login" -> LoginScreen(
-                onSignUpClick = { currentScreen = "signup" }
-            )
-            "signup" -> SignUpScreen(
-                onBackClick = { currentScreen = "login" }
-            )
-        }
+//        when (currentScreen) {
+//            "login" -> LoginScreen(
+//                onSignUpClick = { currentScreen = "signup" }
+//            )
+//            "signup" -> Signup(
+//                onBackClick = { currentScreen = "login" }
+//            )
+//        }
+//        LoginScreen {  }
+        SignupScreen {  }
     }
 }

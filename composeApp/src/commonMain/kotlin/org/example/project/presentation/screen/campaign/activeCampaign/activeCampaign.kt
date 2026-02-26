@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.*
@@ -46,6 +47,7 @@ import org.example.project.presentation.component.PrimaryButton
 import org.example.project.presentation.resources.icCpu
 import org.jetbrains.compose.resources.painterResource
 
+@Preview
 @Composable
 fun ActiveCampaignScreen(
     onTabSelected: (String) -> Unit = {},
