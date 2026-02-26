@@ -1,3 +1,4 @@
+// File: org/example/project/presentation/screen/login/LoginScreen.kt
 package org.example.project.presentation.screen.login
 
 import androidx.compose.foundation.Image
@@ -7,9 +8,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,10 +38,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.ui.tooling.preview.Preview
-//import androidx.compose.ui.res.painterResource
 import com.composables.icEye
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.ic_es
@@ -51,7 +50,6 @@ import org.example.project.presentation.theme.actionTextPurple
 import org.example.project.presentation.theme.grayTextColor
 import org.jetbrains.compose.resources.painterResource
 
-@Preview
 @Composable
 fun LoginScreen(
     onSignInClick: () -> Unit = {},
@@ -70,7 +68,6 @@ fun LoginScreen(
         val screenHeight = maxHeight
         val mainCardHeight = screenHeight * 0.9f
         val bgCardHeight = screenHeight * 0.92f
-
 
         // Background Card (Stacked effect)
         Box(
@@ -105,18 +102,15 @@ fun LoginScreen(
                     .padding(horizontal = 24.dp, vertical = 0.dp),
                 verticalArrangement = Arrangement.Top
             ) {
-                // Percentage-based top spacing inside the card
                 Spacer(modifier = Modifier.fillMaxHeight(0.12f))
-
 
                 // Language Toggle
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .clip(RoundedCornerShape(50.dp))
-                        .background(Color(0xFFF5F5F7)) // Subtle light gray background
+                        .background(Color(0xFFF5F5F7))
                         .padding(4.dp)
-//                        .padding(horizontal = 10.dp, vertical = 1.dp)
                 ) {
                     LanguageToggleButton(
                         label = "Spa",
@@ -151,8 +145,6 @@ fun LoginScreen(
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
-
-
 
                 // Email Field Label
                 Text(
@@ -252,10 +244,12 @@ fun LoginScreen(
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
-                
+
                 // Sign up prompt
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp), // Added padding for better alignment with image
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 24.dp),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -309,7 +303,6 @@ private fun LanguageToggleButton(
                     .clip(CircleShape),
                 contentAlignment = Alignment.Center
             ) {
-//                Text(text = "🇪🇸", fontSize = 14.sp)
                 Image(
                     painter = painterResource(Res.drawable.ic_es),
                     contentDescription = null,

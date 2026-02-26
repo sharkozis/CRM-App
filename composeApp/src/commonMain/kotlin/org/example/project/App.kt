@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.example.project.presentation.component.Navbar
 import org.example.project.presentation.component.NavbarTab
+import org.example.project.presentation.screen.MainAuthScreen.MainAuthScreen
 import org.example.project.presentation.screen.campaign.PastCampaignScreen
 import org.example.project.presentation.screen.campaign.UpcomingCampaignScreen
 import org.example.project.presentation.screen.campaign.activeCampaign.ActiveCampaignScreen
@@ -96,6 +97,7 @@ fun App(){
 //            )
 //        }
 //        LoginScreen {  }
-        SignupScreen {  }
+//        SignupScreen {  }
+        MainAuthScreen()
     }
 }

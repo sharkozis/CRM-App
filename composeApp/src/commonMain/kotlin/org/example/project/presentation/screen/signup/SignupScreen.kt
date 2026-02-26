@@ -1,3 +1,4 @@
+// File: org/example/project/presentation/screen/signup/SignupScreen.kt
 package org.example.project.presentation.screen.signup
 
 import androidx.compose.foundation.Image
@@ -41,7 +42,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.icDownArrow
@@ -54,11 +54,9 @@ import org.example.project.presentation.theme.DeepMaroon
 import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PinkPrimary
 import org.example.project.presentation.theme.grayTextColor
-import org.jetbrains.compose.resources.painterResource
-import androidx.compose.foundation.layout.offset
 import org.example.project.presentation.theme.MuteColor
+import org.jetbrains.compose.resources.painterResource
 
-@Preview
 @Composable
 fun SignupScreen(
     onBackClick: () -> Unit = {},
@@ -87,19 +85,19 @@ fun SignupScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            Spacer(modifier = Modifier.height(screenHeight * 0.08f)) // Top margin to push cards down
+            Spacer(modifier = Modifier.height(screenHeight * 0.08f))
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 12.dp) // Provide room for the background card offset
+                    .padding(top = 12.dp)
             ) {
-                // Background Card (Stacked effect)
+                // Background Card
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
-                        .heightIn(min = mainCardHeight)// Matches the size of the box (determined by main card)
-                        .offset(y = (-20).dp) // Peeks 12dp above the main card
+                        .heightIn(min = mainCardHeight)
+                        .offset(y = (-20).dp)
                         .align(Alignment.TopCenter)
                         .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
                         .background(Color.White.copy(alpha = 0.8f))
@@ -109,7 +107,7 @@ fun SignupScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(min = mainCardHeight) // Allow growth if content exceeds this
+                        .heightIn(min = mainCardHeight)
                         .align(Alignment.TopCenter)
                         .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
                         .background(Color.White)
@@ -128,7 +126,6 @@ fun SignupScreen(
                             .padding(horizontal = 24.dp, vertical = 0.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
-                        // Spacing below back button for language toggle (matches login screen 0.12f)
                         Spacer(modifier = Modifier.height(screenHeight * 0.12f))
 
                         // Language Toggle
@@ -155,7 +152,6 @@ fun SignupScreen(
 
                         Spacer(modifier = Modifier.height(28.dp))
 
-                        // Title
                         Text(
                             text = "Let’s get you started",
                             fontSize = 20.sp,
@@ -165,7 +161,6 @@ fun SignupScreen(
 
                         Spacer(modifier = Modifier.height(6.dp))
 
-                        // Subtitle
                         Text(
                             text = "Tell us a bit about yourself so we can set up your driver profile.",
                             fontSize = 16.sp,
@@ -291,7 +286,6 @@ fun SignupScreen(
                                         modifier = Modifier.size(14.dp)
                                     )
                                     Spacer(modifier = Modifier.width(12.dp))
-                                    // Vertical Divider
                                     Box(
                                         modifier = Modifier
                                             .height(24.dp)
@@ -411,14 +405,15 @@ fun SignupScreen(
                         ) {
                             TextButton(
                                 onClick = onCancelClick,
-                                modifier = Modifier.weight(1f).border(1.dp, MuteColor, RoundedCornerShape(50.dp))
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .border(1.dp, MuteColor, RoundedCornerShape(50.dp))
                             ) {
                                 Text(
                                     text = "Cancel",
                                     fontSize = 16.sp,
                                     fontWeight = FontWeight.Medium,
                                     color = grayTextColor,
-
                                 )
                             }
                             PrimaryButton(
