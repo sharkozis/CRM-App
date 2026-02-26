@@ -43,6 +43,9 @@ import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.tooling.preview.Preview
 //import androidx.compose.ui.res.painterResource
 import com.composables.icEye
+import kotlinproject.composeapp.generated.resources.Res
+import kotlinproject.composeapp.generated.resources.ic_es
+import kotlinproject.composeapp.generated.resources.ic_nexus
 import org.example.project.presentation.component.CircularIconButton
 import org.example.project.presentation.component.PrimaryButton
 import org.example.project.presentation.theme.DeepMaroon
@@ -51,6 +54,7 @@ import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PinkPrimary
 import org.example.project.presentation.theme.actionTextPurple
 import org.example.project.presentation.theme.grayTextColor
+import org.jetbrains.compose.resources.painterResource
 
 @Preview
 @Composable
@@ -71,6 +75,7 @@ fun LoginScreen(
         val screenHeight = maxHeight
         val mainCardHeight = screenHeight * 0.9f
         val bgCardHeight = screenHeight * 0.92f
+
 
         // Background Card (Stacked effect)
         Box(
@@ -112,11 +117,11 @@ fun LoginScreen(
                 // Language Toggle
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start,
                     modifier = Modifier
                         .clip(RoundedCornerShape(50.dp))
-                        .background(DiffWhiteBg)
+                        .background(Color(0xFFF5F5F7)) // Subtle light gray background
                         .padding(4.dp)
+//                        .padding(horizontal = 10.dp, vertical = 1.dp)
                 ) {
                     LanguageToggleButton(
                         label = "Spa",
@@ -309,7 +314,14 @@ private fun LanguageToggleButton(
                     .clip(CircleShape),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = "🇪🇸", fontSize = 14.sp)
+//                Text(text = "🇪🇸", fontSize = 14.sp)
+                Image(
+                    painter = painterResource(Res.drawable.ic_es),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                )
             }
             Spacer(modifier = Modifier.size(6.dp))
         }

@@ -1,6 +1,7 @@
 package org.example.project.presentation.screen.signup
 
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -43,6 +44,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinproject.composeapp.generated.resources.Res
+import kotlinproject.composeapp.generated.resources.ic_es
 import org.example.project.presentation.component.CircularIconButton
 import org.example.project.presentation.component.PrimaryButton
 import org.example.project.presentation.theme.DarkPurple
@@ -51,6 +54,7 @@ import org.example.project.presentation.theme.DiffWhiteBg
 import org.example.project.presentation.theme.MuteColor
 import org.example.project.presentation.theme.PinkPrimary
 import org.example.project.presentation.theme.grayTextColor
+import org.jetbrains.compose.resources.painterResource
 
 @Preview
 @Composable
@@ -73,6 +77,17 @@ fun SignUpScreen(
         val mainCardHeight = screenHeight * 0.9f
         val bgCardHeight = screenHeight * 0.92f
 
+
+        // Background Card (Stacked effect)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(0.9f)
+                .height(bgCardHeight)
+                .align(Alignment.BottomCenter)
+                .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
+                .background(Color.White.copy(alpha = 0.8f))
+        )
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -80,46 +95,80 @@ fun SignUpScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Spacer to start the card lower down initially
-            Spacer(modifier = Modifier.height(screenHeight * 0.12f))
+            Spacer(modifier = Modifier.height(screenHeight * 0.10f))
 
             // Stack container that grows with its content
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-            ) {
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .wrapContentHeight()
+//            ) {
                 // Background card (Peeks at the top)
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.9f)
-                        // .matchParentSize() // Matches the size of the box (determined by the main card)
-                        .offset(y = (-15).dp) // Peeks 15dp above the main card
-                        .align(Alignment.TopCenter)
-                        .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
-                        .background(Color.White.copy(alpha = 0.8f))
-                        .height(bgCardHeight)
-                )
+//                Box(
+//                    modifier = Modifier
+//                        .fillMaxWidth(0.9f)
+//                        // .matchParentSize() // Matches the size of the box (determined by the main card)
+//                        .offset(y = (-15).dp) // Peeks 15dp above the main card
+//                        .align(Alignment.TopCenter)
+//                        .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
+//                        .background(Color.White.copy(alpha = 0.8f))
+//                        .height(bgCardHeight)
+//                )
 
                 // Main content card
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
-//                        .height(mainCardHeight)
                         .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
                         .background(Color.White)
                 ) {
+                    // Back Button (Aligned to card top-left)
+                    CircularIconButton(
+                        onClick = onBackClick,
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .align(Alignment.TopStart)
+                    )
+
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 24.dp, vertical = 24.dp),
+                            .padding(horizontal = 24.dp, vertical = 0.dp),
                         verticalArrangement = Arrangement.Top
                     ) {
-                        // Back Button
-                        CircularIconButton(
-                            onClick = onBackClick,
-                            modifier = Modifier.padding(bottom = 16.dp)
-                        )
+                        // Standardized top spacing inside the card
+                        Spacer(modifier = Modifier.height(40.dp))
+
+                        // Language Toggle
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(50.dp))
+                                .background(Color(0xFFF5F5F7))
+                                .padding(4.dp)
+                        ) {
+                            LanguageToggleButton(
+                                label = "Spa",
+                                selected = selectedLanguage == "Spa",
+                                showFlag = true,
+                                onClick = { selectedLanguage = "Spa" }
+                            )
+                            LanguageToggleButton(
+                                label = "Eng",
+                                selected = selectedLanguage == "Eng",
+                                showFlag = false,
+                                onClick = { selectedLanguage = "Eng" }
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(28.dp))
+
+
+
+
+
+
 
                         // Title
                         Text(
@@ -140,30 +189,7 @@ fun SignUpScreen(
 
                         Spacer(modifier = Modifier.height(24.dp))
 
-                        // Language Toggle
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Start,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(50.dp))
-                                .background(DiffWhiteBg)
-                                .padding(4.dp)
-                        ) {
-                            LanguageToggleButton(
-                                label = "Spa",
-                                selected = selectedLanguage == "Spa",
-                                showFlag = true,
-                                onClick = { selectedLanguage = "Spa" }
-                            )
-                            LanguageToggleButton(
-                                label = "Eng",
-                                selected = selectedLanguage == "Eng",
-                                showFlag = false,
-                                onClick = { selectedLanguage = "Eng" }
-                            )
-                        }
 
-                        Spacer(modifier = Modifier.height(28.dp))
 
                         // Fields
                         SignUpField(label = "Full Name", placeholder = "Enter your full name", value = name, onValueChange = { name = it })
@@ -236,7 +262,7 @@ fun SignUpScreen(
             }
         }
     }
-}
+//}
 
 @Composable
 private fun SignUpField(
@@ -301,36 +327,37 @@ private fun LanguageToggleButton(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
         modifier = Modifier
-            .clip(RoundedCornerShape(50.dp))
-            .background(if (selected) Color.White else Color.Transparent)
-            .border(
-                width = if (selected) 1.dp else 0.dp,
-                color = if (selected) Color(0xFFDDDDDD) else Color.Transparent,
-                shape = RoundedCornerShape(50.dp)
+            .then(
+                if (selected) {
+                    Modifier
+                        .background(Color.White, RoundedCornerShape(50.dp))
+                        .border(1.dp, Color(0xFFE8E8E8), RoundedCornerShape(50.dp))
+                } else Modifier
             )
+            .clip(RoundedCornerShape(50.dp))
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
             ) { onClick() }
-            .padding(horizontal = 14.dp, vertical = 8.dp)
+            .padding(horizontal = 16.dp, vertical = 10.dp)
     ) {
         if (showFlag) {
-            Box(
+            Image(
+                painter = painterResource(Res.drawable.ic_es),
+                contentDescription = null,
                 modifier = Modifier
-                    .size(22.dp)
-                    .clip(CircleShape),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "🇪🇸", fontSize = 14.sp)
-            }
-            Spacer(modifier = Modifier.size(6.dp))
+                    .size(24.dp)
+                    .clip(CircleShape)
+            )
+            Spacer(modifier = Modifier.size(8.dp))
         }
         Text(
             text = label,
-            fontSize = 14.sp,
-            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
-            color = if (selected) Color(0xFF1A1A1A) else Color(0xFF888888)
+            fontSize = 16.sp,
+            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Medium,
+            color = if (selected) Color(0xFF2D2D32) else Color(0xFF8E8E93)
         )
     }
 }
