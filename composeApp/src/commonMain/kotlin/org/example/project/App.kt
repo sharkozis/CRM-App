@@ -30,56 +30,68 @@ import org.example.project.presentation.screen.splash.SplashScreen
 import org.example.project.presentation.screen.wallet.WalletScreen
 import org.example.project.presentation.theme.AppTheme
 
- @Composable
- fun App() {
-     AppTheme {
-         var currentTab by remember { mutableStateOf(NavbarTab.Campaigns) }
-         var campaignSubTab by remember { mutableStateOf("Upcoming") }
+// @Composable
+// fun App() {
+//     AppTheme {
+//         var currentTab by remember { mutableStateOf(NavbarTab.Campaigns) }
+//         var campaignSubTab by remember { mutableStateOf("Upcoming") }
+//
+//         Scaffold(
+//             modifier = Modifier.fillMaxSize(),
+//             bottomBar = {
+//                 Navbar(
+//                     currentTab = currentTab,
+//                     onTabSelected = { currentTab = it }
+//                 )
+//             }
+//         ) { innerPadding ->
+//             val screenModifier = Modifier.padding(innerPadding)
+//
+//             when (currentTab) {
+//                 NavbarTab.Campaigns -> {
+//                     when (campaignSubTab) {
+//                         "Active" -> ActiveCampaignScreen(
+//                             modifier = screenModifier,
+//                             selectedTab = campaignSubTab,
+//                             onTabSelected = { campaignSubTab = it }
+//                         )
+//                         "Past" -> PastCampaignScreen(
+//                             modifier = screenModifier,
+//                             selectedTab = campaignSubTab,
+//                             onTabSelected = { campaignSubTab = it }
+//                         )
+//                         "Upcoming" -> UpcomingCampaignScreen(
+//                             modifier = screenModifier,
+//                             selectedTab = campaignSubTab,
+//                             onTabSelected = { campaignSubTab = it }
+//                         )
+//                     }
+//                 }
+//                 NavbarTab.Wallet   -> WalletScreen(modifier = screenModifier)
+//                 NavbarTab.Chat     -> ChatScreen(modifier = screenModifier)
+//                 NavbarTab.Profile  -> ProfileScreen(modifier = screenModifier)
+//             }
+//         }
+//     }
+// }
+// @Preview
+// @Composable
+// fun AppPreview() {
+//     App()
+// }
 
-         Scaffold(
-             modifier = Modifier.fillMaxSize(),
-             bottomBar = {
-                 Navbar(
-                     currentTab = currentTab,
-                     onTabSelected = { currentTab = it }
-                 )
-             }
-         ) { innerPadding ->
-             val screenModifier = Modifier.padding(innerPadding)
+@Composable
+fun App(){
+    var currentScreen by remember { mutableStateOf("login") }
 
-             when (currentTab) {
-                 NavbarTab.Campaigns -> {
-                     when (campaignSubTab) {
-                         "Active" -> ActiveCampaignScreen(
-                             modifier = screenModifier,
-                             selectedTab = campaignSubTab,
-                             onTabSelected = { campaignSubTab = it }
-                         )
-                         "Past" -> PastCampaignScreen(
-                             modifier = screenModifier,
-                             selectedTab = campaignSubTab,
-                             onTabSelected = { campaignSubTab = it }
-                         )
-                         "Upcoming" -> UpcomingCampaignScreen(
-                             modifier = screenModifier,
-                             selectedTab = campaignSubTab,
-                             onTabSelected = { campaignSubTab = it }
-                         )
-                     }
-                 }
-                 NavbarTab.Wallet   -> WalletScreen(modifier = screenModifier)
-                 NavbarTab.Chat     -> ChatScreen(modifier = screenModifier)
-                 NavbarTab.Profile  -> ProfileScreen(modifier = screenModifier)
-             }
-         }
-     }
- }
- @Preview
- @Composable
- fun AppPreview() {
-     App()
- }
-
-//fun App(){
-//    LoginScreen()
-//}
+    AppTheme {
+        when (currentScreen) {
+            "login" -> LoginScreen(
+                onSignUpClick = { currentScreen = "signup" }
+            )
+            "signup" -> SignUpScreen(
+                onBackClick = { currentScreen = "login" }
+            )
+        }
+    }
+}

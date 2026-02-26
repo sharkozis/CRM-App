@@ -40,6 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.example.project.presentation.component.CircularIconButton
@@ -51,6 +52,7 @@ import org.example.project.presentation.theme.MuteColor
 import org.example.project.presentation.theme.PinkPrimary
 import org.example.project.presentation.theme.grayTextColor
 
+@Preview
 @Composable
 fun SignUpScreen(
     onBackClick: () -> Unit = {},
@@ -103,6 +105,7 @@ fun SignUpScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
+//                        .height(mainCardHeight)
                         .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
                         .background(Color.White)
                 ) {
@@ -120,7 +123,7 @@ fun SignUpScreen(
 
                         // Title
                         Text(
-                            text = "Create Account to Empty Driver Apps",
+                            text = "Let’s get you started",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color(0xFF1A1A1A)
@@ -130,7 +133,7 @@ fun SignUpScreen(
 
                         // Subtitle
                         Text(
-                            text = "Join Our Driver Community today.",
+                            text = "Tell us a bit about yourself so we can set up your driver profile.",
                             fontSize = 16.sp,
                             color = grayTextColor,
                         )

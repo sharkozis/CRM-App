@@ -37,6 +37,7 @@ import org.example.project.presentation.screen.profile.composables.LocationSecti
 import org.example.project.presentation.screen.profile.composables.PreferenceSection
 import org.example.project.presentation.screen.profile.composables.SupportSection
 import org.example.project.presentation.screen.profile.composables.UberProfileSection
+import org.example.project.presentation.screen.profile.composables.UberTripHistorySection
 import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PinkPrimary
 import org.jetbrains.compose.resources.painterResource
@@ -140,6 +141,10 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(40.dp))
 
                 UberProfileSection()
+                Spacer(modifier = Modifier.height(40.dp))
+
+
+                UberTripHistorySection {  }
                 Spacer(modifier = Modifier.height(40.dp))
 
             }

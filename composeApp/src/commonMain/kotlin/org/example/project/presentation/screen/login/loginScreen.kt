@@ -1,5 +1,6 @@
 package org.example.project.presentation.screen.login
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,7 +21,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,20 +38,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.material3.Icon
+import androidx.compose.ui.input.key.Key.Companion.R
+import androidx.compose.ui.tooling.preview.Preview
+//import androidx.compose.ui.res.painterResource
+import com.composables.icEye
 import org.example.project.presentation.component.CircularIconButton
 import org.example.project.presentation.component.PrimaryButton
 import org.example.project.presentation.theme.DeepMaroon
 import org.example.project.presentation.theme.DiffWhiteBg
+import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PinkPrimary
+import org.example.project.presentation.theme.actionTextPurple
+import org.example.project.presentation.theme.grayTextColor
 
+@Preview
 @Composable
 fun LoginScreen(
     onSignInClick: () -> Unit = {},
-    onForgotPasswordClick: () -> Unit = {}
+    onForgotPasswordClick: () -> Unit = {},
+    onSignUpClick: () -> Unit = {}
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var passwordVisible by remember { mutableStateOf(false) }
     var selectedLanguage by remember { mutableStateOf("Spa") }
 
     BoxWithConstraints(
@@ -93,30 +102,12 @@ fun LoginScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 24.dp, vertical = 24.dp),
+                    .padding(horizontal = 24.dp, vertical = 0.dp),
                 verticalArrangement = Arrangement.Top
             ) {
                 // Percentage-based top spacing inside the card
                 Spacer(modifier = Modifier.fillMaxHeight(0.12f))
 
-                // Title
-                Text(
-                    text = "Sign in to Empty Driver Apps",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF1A1A1A)
-                )
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                // Subtitle
-                Text(
-                    text = "Sign in with your email and password",
-                    fontSize = 14.sp,
-                    color = Color(0xFF888888)
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
 
                 // Language Toggle
                 Row(
@@ -142,6 +133,26 @@ fun LoginScreen(
                 }
 
                 Spacer(modifier = Modifier.height(28.dp))
+                // Title
+                Text(
+                    text = "Welcome back to Empty",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MainTextCol
+                )
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                // Subtitle
+                Text(
+                    text = "Sign in with your email and password",
+                    fontSize = 16.sp,
+                    color = grayTextColor
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+
 
                 // Email Field Label
                 Text(
@@ -205,18 +216,14 @@ fun LoginScreen(
                         cursorColor = PinkPrimary
                     ),
                     singleLine = true,
-                    visualTransformation = if (passwordVisible) VisualTransformation.None
-                    else PasswordVisualTransformation(),
+                    visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     trailingIcon = {
-                        TextButton(onClick = { passwordVisible = !passwordVisible }) {
-                            Text(
-                                text = if (passwordVisible) "Hide" else "Show",
-                                color = PinkPrimary,
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Medium
-                            )
-                        }
+                        Image(
+                            imageVector = icEye,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
                     },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -241,6 +248,28 @@ fun LoginScreen(
                         fontSize = 14.sp,
                         color = Color(0xFF888888),
                         modifier = Modifier.clickable { onForgotPasswordClick() }
+                    )
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+                
+                // Sign up prompt
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp), // Added padding for better alignment with image
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Didn’t have account? ",
+                        fontSize = 14.sp,
+                        color = Color(0xFF888888)
+                    )
+                    Text(
+                        text = "Sign up",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = actionTextPurple,
+                        modifier = Modifier.clickable { onSignUpClick() }
                     )
                 }
             }
