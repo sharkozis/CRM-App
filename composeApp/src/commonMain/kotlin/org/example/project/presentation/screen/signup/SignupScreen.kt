@@ -15,12 +15,16 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -51,6 +55,8 @@ import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PinkPrimary
 import org.example.project.presentation.theme.grayTextColor
 import org.jetbrains.compose.resources.painterResource
+import androidx.compose.foundation.layout.offset
+import org.example.project.presentation.theme.MuteColor
 
 @Preview
 @Composable
@@ -76,336 +82,352 @@ fun SignupScreen(
         val mainCardHeight = screenHeight * 0.9f
         val bgCardHeight = screenHeight * 0.92f
 
-        // Background Card (Stacked effect)
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .height(bgCardHeight)
-                .align(Alignment.BottomCenter)
-                .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
-                .background(Color.White.copy(alpha = 0.8f))
-        )
-
-        // Main Content Card
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(mainCardHeight)
-                .align(Alignment.BottomCenter)
-                .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
-                .background(Color.White)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
         ) {
-            // Back Button
-            CircularIconButton(
-                onClick = onBackClick,
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.TopStart)
-            )
+            Spacer(modifier = Modifier.height(screenHeight * 0.08f)) // Top margin to push cards down
 
-            Column(
+            Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 24.dp, vertical = 0.dp),
-                verticalArrangement = Arrangement.Top
+                    .fillMaxWidth()
+                    .padding(top = 12.dp) // Provide room for the background card offset
             ) {
-                // Top spacing
-                Spacer(modifier = Modifier.fillMaxHeight(0.12f))
-
-                // Language Toggle
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
+                // Background Card (Stacked effect)
+                Box(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(50.dp))
-                        .background(Color(0xFFF5F5F7))
-                        .padding(4.dp)
-                ) {
-                    LanguageToggleButton(
-                        label = "Spa",
-                        selected = selectedLanguage == "Spa",
-                        showFlag = true,
-                        onClick = { selectedLanguage = "Spa" }
-                    )
-                    LanguageToggleButton(
-                        label = "Eng",
-                        selected = selectedLanguage == "Eng",
-                        showFlag = false,
-                        onClick = { selectedLanguage = "Eng" }
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(28.dp))
-
-                // Title
-                Text(
-                    text = "Let’s get you started",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MainTextCol
+                        .fillMaxWidth(0.9f)
+                        .heightIn(min = mainCardHeight)// Matches the size of the box (determined by main card)
+                        .offset(y = (-20).dp) // Peeks 12dp above the main card
+                        .align(Alignment.TopCenter)
+                        .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
+                        .background(Color.White.copy(alpha = 0.8f))
                 )
 
-                Spacer(modifier = Modifier.height(6.dp))
-
-                // Subtitle
-                Text(
-                    text = "Tell us a bit about yourself so we can set up your driver profile.",
-                    fontSize = 16.sp,
-                    color = grayTextColor
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                // Full Name
-                Text(
-                    text = "Full Name",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MainTextCol
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = fullName,
-                    onValueChange = { fullName = it },
-                    shape = RoundedCornerShape(12.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = PinkPrimary,
-                        unfocusedBorderColor = Color(0xFFE0E0E0),
-                        cursorColor = PinkPrimary
-                    ),
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(),
-                    placeholder = {
-                        Text(
-                            text = "Enter your full name",
-                            color = Color(0xFFBBBBBB),
-                            fontSize = 14.sp
-                        )
-                    },
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // City
-                Text(
-                    text = "City",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MainTextCol
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = city,
-                    onValueChange = { city = it },
-                    placeholder = {
-                        Text(
-                            text = "Select your city",
-                            color = Color(0xFFBBBBBB),
-                            fontSize = 14.sp
-                        )
-                    },
-                    shape = RoundedCornerShape(12.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = PinkPrimary,
-                        unfocusedBorderColor = Color(0xFFE0E0E0),
-                        cursorColor = PinkPrimary
-                    ),
-                    singleLine = true,
-                    trailingIcon = {
-                        Image(
-                            imageVector = icDownArrow,
-                            contentDescription = "Dropdown",
-                            modifier = Modifier.size(15.dp)
-                        )
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Phone Number
-                Text(
-                    text = "Phone Number",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MainTextCol
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = phoneNumber,
-                    onValueChange = { phoneNumber = it },
-                    placeholder = {
-                        Text(
-                            text = "Enter your phone number",
-                            color = Color(0xFFBBBBBB),
-                            fontSize = 14.sp
-                        )
-                    },
-                    shape = RoundedCornerShape(12.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = PinkPrimary,
-                        unfocusedBorderColor = Color(0xFFE0E0E0),
-                        cursorColor = PinkPrimary
-                    ),
-                    singleLine = true,
-                    leadingIcon = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(start = 12.dp, end = 8.dp)
-                        ) {
-                            Image(
-                                painter = painterResource(Res.drawable.ic_eng),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .clip(CircleShape)
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = "+1",
-                                fontSize = 14.sp,
-                                color = MainTextCol
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Image(
-                                imageVector = icDownArrow,
-                                contentDescription = null,
-                                modifier = Modifier.size(14.dp)
-                            )
-                            Spacer(modifier = Modifier.width(12.dp))
-                            // Vertical Divider
-                            Box(
-                                modifier = Modifier
-                                    .height(24.dp)
-                                    .width(1.dp)
-                                    .background(Color(0xFFE0E0E0))
-                            )
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Email
-                Text(
-                    text = "Email",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MainTextCol
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    placeholder = {
-                        Text(
-                            text = "Enter your email",
-                            color = Color(0xFFBBBBBB),
-                            fontSize = 14.sp
-                        )
-                    },
-                    shape = RoundedCornerShape(12.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = PinkPrimary,
-                        unfocusedBorderColor = Color(0xFFE0E0E0),
-                        cursorColor = PinkPrimary,
-
-                    ),
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Password
-                Text(
-                    text = "Password",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MainTextCol
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    placeholder = {
-                        Text(
-                            text = "Create strong password",
-                            color = Color(0xFFBBBBBB),
-                            fontSize = 14.sp
-                        )
-                    },
-                    shape = RoundedCornerShape(12.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = PinkPrimary,
-                        unfocusedBorderColor = Color(0xFFE0E0E0),
-                        cursorColor = PinkPrimary
-                    ),
-                    singleLine = true,
-                    visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Confirm Password
-                Text(
-                    text = "Confirm Password",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MainTextCol
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                OutlinedTextField(
-                    value = confirmPassword,
-                    onValueChange = { confirmPassword = it },
-                    placeholder = {
-                        Text(
-                            text = "Re-enter your password",
-                            color = Color(0xFFBBBBBB),
-                            fontSize = 14.sp
-                        )
-                    },
-                    shape = RoundedCornerShape(12.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = PinkPrimary,
-                        unfocusedBorderColor = Color(0xFFE0E0E0),
-                        cursorColor = PinkPrimary
-                    ),
-                    singleLine = true,
-                    visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                // Cancel and Next buttons
-                Row(
+                // Main Content Card
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        .heightIn(min = mainCardHeight) // Allow growth if content exceeds this
+                        .align(Alignment.TopCenter)
+                        .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
+                        .background(Color.White)
                 ) {
-                    TextButton(
-                        onClick = onCancelClick,
-                        modifier = Modifier.weight(1f)
+                    // Back Button
+                    CircularIconButton(
+                        onClick = onBackClick,
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .align(Alignment.TopStart)
+                    )
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp, vertical = 0.dp),
+                        verticalArrangement = Arrangement.Top
                     ) {
+                        // Spacing below back button for language toggle (matches login screen 0.12f)
+                        Spacer(modifier = Modifier.height(screenHeight * 0.12f))
+
+                        // Language Toggle
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(50.dp))
+                                .background(Color(0xFFF5F5F7))
+                                .padding(4.dp)
+                        ) {
+                            LanguageToggleButton(
+                                label = "Spa",
+                                selected = selectedLanguage == "Spa",
+                                showFlag = true,
+                                onClick = { selectedLanguage = "Spa" }
+                            )
+                            LanguageToggleButton(
+                                label = "Eng",
+                                selected = selectedLanguage == "Eng",
+                                showFlag = false,
+                                onClick = { selectedLanguage = "Eng" }
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(28.dp))
+
+                        // Title
                         Text(
-                            text = "Cancel",
+                            text = "Let’s get you started",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MainTextCol
+                        )
+
+                        Spacer(modifier = Modifier.height(6.dp))
+
+                        // Subtitle
+                        Text(
+                            text = "Tell us a bit about yourself so we can set up your driver profile.",
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
                             color = grayTextColor
                         )
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        // Full Name
+                        Text(
+                            text = "Full Name",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = MainTextCol
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = fullName,
+                            onValueChange = { fullName = it },
+                            shape = RoundedCornerShape(12.dp),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = PinkPrimary,
+                                unfocusedBorderColor = Color(0xFFE0E0E0),
+                                cursorColor = PinkPrimary
+                            ),
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth(),
+                            placeholder = {
+                                Text(
+                                    text = "Enter your full name",
+                                    color = Color(0xFFBBBBBB),
+                                    fontSize = 14.sp
+                                )
+                            },
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        // City
+                        Text(
+                            text = "City",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = MainTextCol
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = city,
+                            onValueChange = { city = it },
+                            placeholder = {
+                                Text(
+                                    text = "Select your city",
+                                    color = Color(0xFFBBBBBB),
+                                    fontSize = 14.sp
+                                )
+                            },
+                            shape = RoundedCornerShape(12.dp),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = PinkPrimary,
+                                unfocusedBorderColor = Color(0xFFE0E0E0),
+                                cursorColor = PinkPrimary
+                            ),
+                            singleLine = true,
+                            trailingIcon = {
+                                Image(
+                                    imageVector = icDownArrow,
+                                    contentDescription = "Dropdown",
+                                    modifier = Modifier.size(15.dp)
+                                )
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        // Phone Number
+                        Text(
+                            text = "Phone Number",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = MainTextCol
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = phoneNumber,
+                            onValueChange = { phoneNumber = it },
+                            placeholder = {
+                                Text(
+                                    text = "Enter your phone number",
+                                    color = Color(0xFFBBBBBB),
+                                    fontSize = 14.sp
+                                )
+                            },
+                            shape = RoundedCornerShape(12.dp),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = PinkPrimary,
+                                unfocusedBorderColor = Color(0xFFE0E0E0),
+                                cursorColor = PinkPrimary
+                            ),
+                            singleLine = true,
+                            leadingIcon = {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier.padding(start = 12.dp, end = 8.dp)
+                                ) {
+                                    Image(
+                                        painter = painterResource(Res.drawable.ic_eng),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .size(24.dp)
+                                            .clip(CircleShape)
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = "+1",
+                                        fontSize = 14.sp,
+                                        color = MainTextCol
+                                    )
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                    Image(
+                                        imageVector = icDownArrow,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(14.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(12.dp))
+                                    // Vertical Divider
+                                    Box(
+                                        modifier = Modifier
+                                            .height(24.dp)
+                                            .width(1.dp)
+                                            .background(Color(0xFFE0E0E0))
+                                    )
+                                }
+                            },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        // Email
+                        Text(
+                            text = "Email",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = MainTextCol
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = email,
+                            onValueChange = { email = it },
+                            placeholder = {
+                                Text(
+                                    text = "Enter your email",
+                                    color = Color(0xFFBBBBBB),
+                                    fontSize = 14.sp
+                                )
+                            },
+                            shape = RoundedCornerShape(12.dp),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = PinkPrimary,
+                                unfocusedBorderColor = Color(0xFFE0E0E0),
+                                cursorColor = PinkPrimary,
+
+                                ),
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        // Password
+                        Text(
+                            text = "Password",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = MainTextCol
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = password,
+                            onValueChange = { password = it },
+                            placeholder = {
+                                Text(
+                                    text = "Create strong password",
+                                    color = Color(0xFFBBBBBB),
+                                    fontSize = 14.sp
+                                )
+                            },
+                            shape = RoundedCornerShape(12.dp),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = PinkPrimary,
+                                unfocusedBorderColor = Color(0xFFE0E0E0),
+                                cursorColor = PinkPrimary
+                            ),
+                            singleLine = true,
+                            visualTransformation = PasswordVisualTransformation(),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        // Confirm Password
+                        Text(
+                            text = "Confirm Password",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = MainTextCol
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = confirmPassword,
+                            onValueChange = { confirmPassword = it },
+                            placeholder = {
+                                Text(
+                                    text = "Re-enter your password",
+                                    color = Color(0xFFBBBBBB),
+                                    fontSize = 14.sp
+                                )
+                            },
+                            shape = RoundedCornerShape(12.dp),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = PinkPrimary,
+                                unfocusedBorderColor = Color(0xFFE0E0E0),
+                                cursorColor = PinkPrimary
+                            ),
+                            singleLine = true,
+                            visualTransformation = PasswordVisualTransformation(),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(32.dp))
+
+                        // Cancel and Next buttons
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 24.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            TextButton(
+                                onClick = onCancelClick,
+                                modifier = Modifier.weight(1f).border(1.dp, MuteColor, RoundedCornerShape(50.dp))
+                            ) {
+                                Text(
+                                    text = "Cancel",
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    color = grayTextColor,
+
+                                )
+                            }
+                            PrimaryButton(
+                                title = "Next",
+                                onClick = onNextClick,
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
                     }
-                    PrimaryButton(
-                        title = "Next",
-                        onClick = onNextClick,
-                        modifier = Modifier.weight(1f)
-                    )
                 }
             }
         }
@@ -413,7 +435,7 @@ fun SignupScreen(
 }
 
 @Composable
-private fun LanguageToggleButton(
+fun LanguageToggleButton(
     label: String,
     selected: Boolean,
     showFlag: Boolean,
