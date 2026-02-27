@@ -115,7 +115,9 @@ fun SignupModal(
                             modifier = Modifier.size(18.dp)
                         )
                     },
-                    modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth(0.45f)
+                    modifier = Modifier
+                        .padding(bottom = 32.dp)
+                        .fillMaxWidth(0.45f)
                 )
             }
         }

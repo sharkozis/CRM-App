@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import org.example.project.presentation.component.Navbar
 import org.example.project.presentation.component.NavbarTab
 import org.example.project.presentation.screen.MainAuthScreen.MainAuthScreen
+
 import org.example.project.presentation.screen.campaign.PastCampaignScreen
 import org.example.project.presentation.screen.campaign.UpcomingCampaignScreen
 import org.example.project.presentation.screen.campaign.activeCampaign.ActiveCampaignScreen
@@ -28,76 +29,78 @@ import org.example.project.presentation.screen.login.LoginScreen
 //import org.example.project.presentation.screen.login.SignupScreen
 import org.example.project.presentation.screen.profile.ProfileScreen
 import org.example.project.presentation.screen.signup.SignupScreen
-//import org.example.project.presentation.screen.
+
+
 import org.example.project.presentation.screen.splash.SplashScreen
 import org.example.project.presentation.screen.wallet.WalletScreen
 import org.example.project.presentation.theme.AppTheme
 
-// @Composable
-// fun App() {
-//     AppTheme {
-//         var currentTab by remember { mutableStateOf(NavbarTab.Campaigns) }
-//         var campaignSubTab by remember { mutableStateOf("Upcoming") }
-//
-//         Scaffold(
-//             modifier = Modifier.fillMaxSize(),
-//             bottomBar = {
-//                 Navbar(
-//                     currentTab = currentTab,
-//                     onTabSelected = { currentTab = it }
-//                 )
-//             }
-//         ) { innerPadding ->
-//             val screenModifier = Modifier.padding(innerPadding)
-//
-//             when (currentTab) {
-//                 NavbarTab.Campaigns -> {
-//                     when (campaignSubTab) {
-//                         "Active" -> ActiveCampaignScreen(
-//                             modifier = screenModifier,
-//                             selectedTab = campaignSubTab,
-//                             onTabSelected = { campaignSubTab = it }
-//                         )
-//                         "Past" -> PastCampaignScreen(
-//                             modifier = screenModifier,
-//                             selectedTab = campaignSubTab,
-//                             onTabSelected = { campaignSubTab = it }
-//                         )
-//                         "Upcoming" -> UpcomingCampaignScreen(
-//                             modifier = screenModifier,
-//                             selectedTab = campaignSubTab,
-//                             onTabSelected = { campaignSubTab = it }
-//                         )
-//                     }
-//                 }
-//                 NavbarTab.Wallet   -> WalletScreen(modifier = screenModifier)
-//                 NavbarTab.Chat     -> ChatScreen(modifier = screenModifier)
-//                 NavbarTab.Profile  -> ProfileScreen(modifier = screenModifier)
-//             }
-//         }
-//     }
-// }
-// @Preview
-// @Composable
-// fun AppPreview() {
-//     App()
-// }
+ @Composable
+ fun App() {
+     AppTheme {
+         var currentTab by remember { mutableStateOf(NavbarTab.Campaigns) }
+         var campaignSubTab by remember { mutableStateOf("Upcoming") }
 
-@Composable
-fun App(){
-    var currentScreen by remember { mutableStateOf("login") }
+         Scaffold(
+             modifier = Modifier.fillMaxSize(),
+             bottomBar = {
+                 Navbar(
+                     currentTab = currentTab,
+                     onTabSelected = { currentTab = it }
+                 )
+             }
+         ) { innerPadding ->
+             val screenModifier = Modifier.padding(innerPadding)
 
-    AppTheme {
-//        when (currentScreen) {
-//            "login" -> LoginScreen(
-//                onSignUpClick = { currentScreen = "signup" }
-//            )
-//            "signup" -> Signup(
-//                onBackClick = { currentScreen = "login" }
-//            )
-//        }
-//        LoginScreen {  }
-//        SignupScreen {  }
-        MainAuthScreen()
-    }
-}
+             when (currentTab) {
+                 NavbarTab.Campaigns -> {
+                     when (campaignSubTab) {
+                         "Active" -> ActiveCampaignScreen(
+                             modifier = screenModifier,
+                             selectedTab = campaignSubTab,
+                             onTabSelected = { campaignSubTab = it }
+                         )
+                         "Past" -> PastCampaignScreen(
+                             modifier = screenModifier,
+                             selectedTab = campaignSubTab,
+                             onTabSelected = { campaignSubTab = it }
+                         )
+                         "Upcoming" -> UpcomingCampaignScreen(
+                             modifier = screenModifier,
+                             selectedTab = campaignSubTab,
+                             onTabSelected = { campaignSubTab = it }
+                         )
+                     }
+                 }
+                 NavbarTab.Wallet   -> WalletScreen(modifier = screenModifier)
+                 NavbarTab.Chat     -> ChatScreen(modifier = screenModifier)
+                 NavbarTab.Profile  -> ProfileScreen(modifier = screenModifier)
+             }
+         }
+     }
+ }
+ @Preview
+ @Composable
+ fun AppPreview() {
+     App()
+ }
+
+//@Composable
+//fun App(){
+//    var currentScreen by remember { mutableStateOf("login") }
+//
+//    AppTheme {
+////        when (currentScreen) {
+////            "login" -> LoginScreen(
+////                onSignUpClick = { currentScreen = "signup" }
+////            )
+////            "signup" -> Signup(
+////                onBackClick = { currentScreen = "login" }
+////            )
+////        }
+////        LoginScreen {  }
+////        SignupScreen {  }
+////        MainAuthScreen()
+//
+//    }
+//}
