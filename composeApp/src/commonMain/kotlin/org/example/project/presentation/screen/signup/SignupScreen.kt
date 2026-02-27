@@ -64,21 +64,27 @@ fun SignupScreen(
     onNextClick: () -> Unit = {}
 ) {
     var fullName by remember { mutableStateOf("") }
-    var city by remember { mutableStateOf("") }
-    var phoneNumber by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("") }
+    var otpCode by remember { mutableStateOf("") }
+    var platform by remember { mutableStateOf("") }
+    var city by remember { mutableStateOf("") }
+    var drivingArea by remember { mutableStateOf("") }
+    var drivingHours by remember { mutableStateOf("") }
+    var vehicleModel by remember { mutableStateOf("") }
+    var vehicleYear by remember { mutableStateOf("") }
+    var vehicleColor by remember { mutableStateOf("") }
+    
     var selectedLanguage by remember { mutableStateOf("Spa") }
     var currentStep by remember { mutableStateOf(0) }
 
-    val steps = listOf(
-        "Full Name",
-        "City",
-        "Phone Number",
-        "Email",
-        "Password",
-        "Confirm Password"
+    val stepData = listOf(
+        StepInfo("Welcome to Empty", "Please enter your phone number to access your account.", "Continue"),
+        StepInfo("Verification code", "Please enter the 6-digit code we sent to your number to verify your account.", "Confirm"),
+        StepInfo("Which platform do you drive for?", "Choose the platform you work with so we can set up your profile correctly.", "Confirm"),
+        StepInfo("Where do you drive?", "Tell us where and when you usually drive so we can set up your driver profile properly.", "Next"),
+        StepInfo("About Yourself", "Enter your basic details to create your driver account.", "Next"),
+        StepInfo("Tell us about your ride", "Enter your vehicle details so we can match you with suitable campaigns.", "Next")
     )
 
     BoxWithConstraints(
@@ -121,15 +127,8 @@ fun SignupScreen(
                         .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
                         .background(Color.White)
                 ) {
-                    // Back Button (Always present to go back to previous screen if at step 0)
                     CircularIconButton(
-                        onClick = {
-                            if (currentStep > 0) {
-                                currentStep--
-                            } else {
-                                onBackClick()
-                            }
-                        },
+                        onClick = onBackClick,
                         modifier = Modifier
                             .padding(16.dp)
                             .align(Alignment.TopStart)
@@ -168,7 +167,7 @@ fun SignupScreen(
                         Spacer(modifier = Modifier.height(28.dp))
 
                         Text(
-                            text = "Let’s get you started",
+                            text = stepData[currentStep].title,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                             color = MainTextCol
@@ -177,7 +176,7 @@ fun SignupScreen(
                         Spacer(modifier = Modifier.height(6.dp))
 
                         Text(
-                            text = "Tell us a bit about yourself so we can set up your driver profile.",
+                            text = stepData[currentStep].subtitle,
                             fontSize = 16.sp,
                             color = grayTextColor
                         )
@@ -187,72 +186,7 @@ fun SignupScreen(
                         // Stepper Input
                         when (currentStep) {
                             0 -> {
-                                // Full Name
-                                Text(
-                                    text = "Full Name",
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    color = MainTextCol
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                OutlinedTextField(
-                                    value = fullName,
-                                    onValueChange = { fullName = it },
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        focusedBorderColor = PinkPrimary,
-                                        unfocusedBorderColor = Color(0xFFE0E0E0),
-                                        cursorColor = PinkPrimary
-                                    ),
-                                    singleLine = true,
-                                    modifier = Modifier.fillMaxWidth(),
-                                    placeholder = {
-                                        Text(
-                                            text = "Enter your full name",
-                                            color = Color(0xFFBBBBBB),
-                                            fontSize = 14.sp
-                                        )
-                                    },
-                                )
-                            }
-                            1 -> {
-                                // City
-                                Text(
-                                    text = "City",
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    color = MainTextCol
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                OutlinedTextField(
-                                    value = city,
-                                    onValueChange = { city = it },
-                                    placeholder = {
-                                        Text(
-                                            text = "Select your city",
-                                            color = Color(0xFFBBBBBB),
-                                            fontSize = 14.sp
-                                        )
-                                    },
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        focusedBorderColor = PinkPrimary,
-                                        unfocusedBorderColor = Color(0xFFE0E0E0),
-                                        cursorColor = PinkPrimary
-                                    ),
-                                    singleLine = true,
-                                    trailingIcon = {
-                                        Image(
-                                            imageVector = icDownArrow,
-                                            contentDescription = "Dropdown",
-                                            modifier = Modifier.size(15.dp)
-                                        )
-                                    },
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                            }
-                            2 -> {
-                                // Phone Number
+                                // Step 1: Phone Number
                                 Text(
                                     text = "Phone Number",
                                     fontSize = 14.sp,
@@ -314,21 +248,57 @@ fun SignupScreen(
                                     modifier = Modifier.fillMaxWidth()
                                 )
                             }
-                            3 -> {
-                                // Email
+                            1 -> {
+                                // Step 2: 6-digit OTP
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    repeat(6) { index ->
+                                        val char = otpCode.getOrNull(index)?.toString() ?: ""
+                                        Box(
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .height(56.dp)
+                                                .border(1.dp, if (char.isNotEmpty()) PinkPrimary else Color(0xFFE0E0E0), RoundedCornerShape(12.dp))
+                                                .background(Color.White),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            if (char.isEmpty() && index == otpCode.length) {
+                                                // Placeholder or cursor could go here
+                                            }
+                                            Text(
+                                                text = char,
+                                                fontSize = 18.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MainTextCol
+                                            )
+                                        }
+                                    }
+                                }
+                                // Hidden TextField to capture input
+                                OutlinedTextField(
+                                    value = otpCode,
+                                    onValueChange = { if (it.length <= 6) otpCode = it },
+                                    modifier = Modifier.fillMaxWidth().height(0.dp),
+                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                                )
+                            }
+                            2 -> {
+                                // Step 3: Platform Dropdown
                                 Text(
-                                    text = "Email",
+                                    text = "Platform",
                                     fontSize = 14.sp,
                                     fontWeight = FontWeight.Medium,
                                     color = MainTextCol
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 OutlinedTextField(
-                                    value = email,
-                                    onValueChange = { email = it },
+                                    value = platform,
+                                    onValueChange = { platform = it },
                                     placeholder = {
                                         Text(
-                                            text = "Enter your email",
+                                            text = "Select platform",
                                             color = Color(0xFFBBBBBB),
                                             fontSize = 14.sp
                                         )
@@ -337,80 +307,246 @@ fun SignupScreen(
                                     colors = OutlinedTextFieldDefaults.colors(
                                         focusedBorderColor = PinkPrimary,
                                         unfocusedBorderColor = Color(0xFFE0E0E0),
-                                        cursorColor = PinkPrimary,
+                                        cursorColor = PinkPrimary
                                     ),
-                                    singleLine = true,
-                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                                    readOnly = true,
+                                    trailingIcon = {
+                                        Image(
+                                            imageVector = icDownArrow,
+                                            contentDescription = null,
+                                            modifier = Modifier.size(15.dp)
+                                        )
+                                    },
                                     modifier = Modifier.fillMaxWidth()
                                 )
+                            }
+                            3 -> {
+                                // Step 4: City, Area, Hours
+                                val fields = listOf(
+                                    Triple("City", city, "Select your city"),
+                                    Triple("Area you drive in most", drivingArea, "Select area"),
+                                    Triple("Typical weekly driving hours", drivingHours, "Select hours")
+                                )
+                                
+                                Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                                    fields.forEach { (label, value, placeholder) ->
+                                        Column {
+                                            Text(
+                                                text = label,
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Medium,
+                                                color = MainTextCol
+                                            )
+                                            Spacer(modifier = Modifier.height(8.dp))
+                                            OutlinedTextField(
+                                                value = value,
+                                                onValueChange = { /* Update logic based on label */ },
+                                                placeholder = {
+                                                    Text(
+                                                        text = placeholder,
+                                                        color = Color(0xFFBBBBBB),
+                                                        fontSize = 14.sp
+                                                    )
+                                                },
+                                                shape = RoundedCornerShape(12.dp),
+                                                colors = OutlinedTextFieldDefaults.colors(
+                                                    focusedBorderColor = PinkPrimary,
+                                                    unfocusedBorderColor = Color(0xFFE0E0E0),
+                                                    cursorColor = PinkPrimary
+                                                ),
+                                                readOnly = true,
+                                                trailingIcon = {
+                                                    Image(
+                                                        imageVector = icDownArrow,
+                                                        contentDescription = null,
+                                                        modifier = Modifier.size(15.dp)
+                                                    )
+                                                },
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                        }
+                                    }
+                                }
                             }
                             4 -> {
-                                // Password
-                                Text(
-                                    text = "Password",
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    color = MainTextCol
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                OutlinedTextField(
-                                    value = password,
-                                    onValueChange = { password = it },
-                                    placeholder = {
+                                // Step 5: About Yourself
+                                Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                                    // Full Name
+                                    Column {
                                         Text(
-                                            text = "Create strong password",
-                                            color = Color(0xFFBBBBBB),
-                                            fontSize = 14.sp
+                                            text = "Full Name",
+                                            fontSize = 14.sp,
+                                            fontWeight = FontWeight.Medium,
+                                            color = MainTextCol
                                         )
-                                    },
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        focusedBorderColor = PinkPrimary,
-                                        unfocusedBorderColor = Color(0xFFE0E0E0),
-                                        cursorColor = PinkPrimary
-                                    ),
-                                    singleLine = true,
-                                    visualTransformation = PasswordVisualTransformation(),
-                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                                    modifier = Modifier.fillMaxWidth()
-                                )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        OutlinedTextField(
+                                            value = fullName,
+                                            onValueChange = { fullName = it },
+                                            placeholder = {
+                                                Text(
+                                                    text = "Enter your full name",
+                                                    color = Color(0xFFBBBBBB),
+                                                    fontSize = 14.sp
+                                                )
+                                            },
+                                            shape = RoundedCornerShape(12.dp),
+                                            colors = OutlinedTextFieldDefaults.colors(
+                                                focusedBorderColor = PinkPrimary,
+                                                unfocusedBorderColor = Color(0xFFE0E0E0),
+                                                cursorColor = PinkPrimary
+                                            ),
+                                            modifier = Modifier.fillMaxWidth()
+                                        )
+                                    }
+                                    // Email
+                                    Column {
+                                        Text(
+                                            text = "Email",
+                                            fontSize = 14.sp,
+                                            fontWeight = FontWeight.Medium,
+                                            color = MainTextCol
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        OutlinedTextField(
+                                            value = email,
+                                            onValueChange = { email = it },
+                                            placeholder = {
+                                                Text(
+                                                    text = "steve_henry@gmail.com",
+                                                    color = Color(0xFFBBBBBB),
+                                                    fontSize = 14.sp
+                                                )
+                                            },
+                                            shape = RoundedCornerShape(12.dp),
+                                            colors = OutlinedTextFieldDefaults.colors(
+                                                focusedBorderColor = PinkPrimary,
+                                                unfocusedBorderColor = Color(0xFFE0E0E0),
+                                                cursorColor = PinkPrimary
+                                            ),
+                                            modifier = Modifier.fillMaxWidth()
+                                        )
+                                    }
+                                }
                             }
                             5 -> {
-                                // Confirm Password
-                                Text(
-                                    text = "Confirm Password",
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    color = MainTextCol
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                OutlinedTextField(
-                                    value = confirmPassword,
-                                    onValueChange = { confirmPassword = it },
-                                    placeholder = {
+                                // Step 6: Vehicle Details
+                                Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                                    // Model
+                                    Column {
                                         Text(
-                                            text = "Re-enter your password",
-                                            color = Color(0xFFBBBBBB),
-                                            fontSize = 14.sp
+                                            text = "Vehicle Model",
+                                            fontSize = 14.sp,
+                                            fontWeight = FontWeight.Medium,
+                                            color = MainTextCol
                                         )
-                                    },
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = OutlinedTextFieldDefaults.colors(
-                                        focusedBorderColor = PinkPrimary,
-                                        unfocusedBorderColor = Color(0xFFE0E0E0),
-                                        cursorColor = PinkPrimary
-                                    ),
-                                    singleLine = true,
-                                    visualTransformation = PasswordVisualTransformation(),
-                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                                    modifier = Modifier.fillMaxWidth()
-                                )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        OutlinedTextField(
+                                            value = vehicleModel,
+                                            onValueChange = { vehicleModel = it },
+                                            placeholder = {
+                                                Text(
+                                                    text = "Enter vehicle model",
+                                                    color = Color(0xFFBBBBBB),
+                                                    fontSize = 14.sp
+                                                )
+                                            },
+                                            shape = RoundedCornerShape(12.dp),
+                                            colors = OutlinedTextFieldDefaults.colors(
+                                                focusedBorderColor = PinkPrimary,
+                                                unfocusedBorderColor = Color(0xFFE0E0E0),
+                                                cursorColor = PinkPrimary
+                                            ),
+                                            modifier = Modifier.fillMaxWidth()
+                                        )
+                                    }
+                                    // Year
+                                    Column {
+                                        Text(
+                                            text = "Vehicle Year",
+                                            fontSize = 14.sp,
+                                            fontWeight = FontWeight.Medium,
+                                            color = MainTextCol
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        OutlinedTextField(
+                                            value = vehicleYear,
+                                            onValueChange = { vehicleYear = it },
+                                            placeholder = {
+                                                Text(
+                                                    text = "Select year",
+                                                    color = Color(0xFFBBBBBB),
+                                                    fontSize = 14.sp
+                                                )
+                                            },
+                                            shape = RoundedCornerShape(12.dp),
+                                            colors = OutlinedTextFieldDefaults.colors(
+                                                focusedBorderColor = PinkPrimary,
+                                                unfocusedBorderColor = Color(0xFFE0E0E0),
+                                                cursorColor = PinkPrimary
+                                            ),
+                                            readOnly = true,
+                                            trailingIcon = {
+                                                Image(
+                                                    imageVector = icDownArrow,
+                                                    contentDescription = null,
+                                                    modifier = Modifier.size(15.dp)
+                                                )
+                                            },
+                                            modifier = Modifier.fillMaxWidth()
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        Text(
+                                            text = "We accept vehicles up to 12 years old.",
+                                            color = PinkPrimary,
+                                            fontSize = 12.sp
+                                        )
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(PinkPrimary.copy(alpha = 0.3f)))
+                                    }
+                                    // Color
+                                    Column {
+                                        Text(
+                                            text = "Vehicle Color",
+                                            fontSize = 14.sp,
+                                            fontWeight = FontWeight.Medium,
+                                            color = MainTextCol
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        OutlinedTextField(
+                                            value = vehicleColor,
+                                            onValueChange = { vehicleColor = it },
+                                            placeholder = {
+                                                Text(
+                                                    text = "Select color",
+                                                    color = Color(0xFFBBBBBB),
+                                                    fontSize = 14.sp
+                                                )
+                                            },
+                                            shape = RoundedCornerShape(12.dp),
+                                            colors = OutlinedTextFieldDefaults.colors(
+                                                focusedBorderColor = PinkPrimary,
+                                                unfocusedBorderColor = Color(0xFFE0E0E0),
+                                                cursorColor = PinkPrimary
+                                            ),
+                                            readOnly = true,
+                                            trailingIcon = {
+                                                Image(
+                                                    imageVector = icDownArrow,
+                                                    contentDescription = null,
+                                                    modifier = Modifier.size(15.dp)
+                                                )
+                                            },
+                                            modifier = Modifier.fillMaxWidth()
+                                        )
+                                    }
+                                }
                             }
                         }
 
                         Spacer(modifier = Modifier.height(32.dp))
 
-                        // Cancel/Back and Next buttons
+                        // Button logic
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -422,7 +558,7 @@ fun SignupScreen(
                                     if (currentStep > 0) {
                                         currentStep--
                                     } else {
-                                        onCancelClick()
+                                        onBackClick() // Use onBackClick as requested
                                     }
                                 },
                                 modifier = Modifier
@@ -437,9 +573,9 @@ fun SignupScreen(
                                 )
                             }
                             PrimaryButton(
-                                title = if (currentStep < steps.size - 1) "Next" else "Sign Up",
+                                title = stepData[currentStep].buttonText,
                                 onClick = {
-                                    if (currentStep < steps.size - 1) {
+                                    if (currentStep < stepData.size - 1) {
                                         currentStep++
                                     } else {
                                         onNextClick()
@@ -454,6 +590,12 @@ fun SignupScreen(
         }
     }
 }
+
+data class StepInfo(
+    val title: String,
+    val subtitle: String,
+    val buttonText: String
+)
 
 @Composable
 fun LanguageToggleButton(
