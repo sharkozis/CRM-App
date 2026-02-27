@@ -34,6 +34,7 @@ import kotlinproject.composeapp.generated.resources.ic_avatar
 import kotlinproject.composeapp.generated.resources.ic_nexus
 import kotlinproject.composeapp.generated.resources.ic_profileCarIcon
 import org.example.project.presentation.component.IconButton
+import org.example.project.presentation.screen.profile.composables.AccountsSection
 import org.example.project.presentation.screen.profile.composables.CarPhotoSection
 import org.example.project.presentation.screen.profile.composables.LocationSection
 import org.example.project.presentation.screen.profile.composables.PreferenceSection
@@ -131,24 +132,27 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
 
 
 
-                PreferenceSection()
+                AccountsSection()
                 Spacer(modifier = Modifier.height(40.dp))
 
-                LocationSection()
-                Spacer(modifier = Modifier.height(40.dp))
-
-                SupportSection {  }
-                Spacer(modifier = Modifier.height(40.dp))
-
-                CarPhotoSection {  }
-                Spacer(modifier = Modifier.height(40.dp))
-
-                UberProfileSection()
-                Spacer(modifier = Modifier.height(40.dp))
-
-
-                UberTripHistorySection {  }
-                Spacer(modifier = Modifier.height(40.dp))
+//                PreferenceSection()
+//                Spacer(modifier = Modifier.height(40.dp))
+//
+               LocationSection()
+               Spacer(modifier = Modifier.height(40.dp))
+//
+//                SupportSection {  }
+//                Spacer(modifier = Modifier.height(40.dp))
+//
+//                CarPhotoSection {  }
+//                Spacer(modifier = Modifier.height(40.dp))
+//
+//                UberProfileSection()
+//                Spacer(modifier = Modifier.height(40.dp))
+//
+//
+//                UberTripHistorySection {  }
+//                Spacer(modifier = Modifier.height(40.dp))
 
             }
         }

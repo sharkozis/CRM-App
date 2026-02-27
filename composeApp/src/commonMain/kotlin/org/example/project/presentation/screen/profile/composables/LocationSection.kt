@@ -29,7 +29,7 @@ fun LocationSection(
 ) {
     Column(modifier = modifier.fillMaxWidth().padding(horizontal = 20.dp)) {
         Text(
-            text = "Location & Device",
+            text = "Device",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = MainTextCol
@@ -44,35 +44,35 @@ fun LocationSection(
                 .border(1.dp, Color(0xFFF1F1F1), RoundedCornerShape(12.dp))
         ) {
             // Where you drive Row
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 14.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Where you drive:",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MainTextCol
-                )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text(
-                        text = whereYouDrive,
-                        fontSize = 16.sp,
-                        color = actionTextPurple
-                    )
-                    Image(
-                        imageVector = icDownArrow,
-                        contentDescription = null,
-                        modifier = Modifier.size(12.dp)
-                    )
-                }
-            }
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(horizontal = 16.dp, vertical = 14.dp),
+//                horizontalArrangement = Arrangement.SpaceBetween,
+//                verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                Text(
+//                    text = "Where you drive:",
+//                    fontSize = 16.sp,
+//                    fontWeight = FontWeight.Medium,
+//                    color = MainTextCol
+//                )
+//                Row(
+//                    verticalAlignment = Alignment.CenterVertically,
+//                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+//                ) {
+//                    Text(
+//                        text = whereYouDrive,
+//                        fontSize = 16.sp,
+//                        color = actionTextPurple
+//                    )
+//                    Image(
+//                        imageVector = icDownArrow,
+//                        contentDescription = null,
+//                        modifier = Modifier.size(12.dp)
+//                    )
+//                }
+//            }
 
             HorizontalDivider(
                 modifier = Modifier.padding(horizontal = 16.dp),
