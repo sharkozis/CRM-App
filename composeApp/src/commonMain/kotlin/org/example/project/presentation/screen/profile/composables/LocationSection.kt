@@ -1,6 +1,6 @@
 package org.example.project.presentation.screen.profile.composables
 
-import androidx.compose.foundation.Image
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -15,7 +15,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.composables.icDownArrow
 import com.composables.icCopyicon
 import org.example.project.presentation.component.IconButton
 import org.example.project.presentation.theme.MainTextCol
@@ -24,7 +23,6 @@ import org.example.project.presentation.theme.actionTextPurple
 @Composable
 fun LocationSection(
     modifier: Modifier = Modifier,
-    whereYouDrive: String = "Southside",
     deviceId: String = "#IOT-8839201"
 ) {
     Column(modifier = modifier.fillMaxWidth().padding(horizontal = 20.dp)) {
@@ -43,36 +41,7 @@ fun LocationSection(
                 .background(Color.White, RoundedCornerShape(12.dp))
                 .border(1.dp, Color(0xFFF1F1F1), RoundedCornerShape(12.dp))
         ) {
-            // Where you drive Row
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(horizontal = 16.dp, vertical = 14.dp),
-//                horizontalArrangement = Arrangement.SpaceBetween,
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//                Text(
-//                    text = "Where you drive:",
-//                    fontSize = 16.sp,
-//                    fontWeight = FontWeight.Medium,
-//                    color = MainTextCol
-//                )
-//                Row(
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-//                ) {
-//                    Text(
-//                        text = whereYouDrive,
-//                        fontSize = 16.sp,
-//                        color = actionTextPurple
-//                    )
-//                    Image(
-//                        imageVector = icDownArrow,
-//                        contentDescription = null,
-//                        modifier = Modifier.size(12.dp)
-//                    )
-//                }
-//            }
+
 
             HorizontalDivider(
                 modifier = Modifier.padding(horizontal = 16.dp),

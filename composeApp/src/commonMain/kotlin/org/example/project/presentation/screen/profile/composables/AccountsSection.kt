@@ -13,6 +13,7 @@ import com.composables.icProfileNotification
 import com.composables.icProfileUser
 import org.example.project.presentation.screen.profile.components.GroupSection
 import org.example.project.presentation.screen.profile.components.GroupSectionItem
+import org.example.project.presentation.theme.GradientPrimary
 import org.example.project.presentation.theme.PinkPrimary
 
 @Composable
@@ -42,7 +43,7 @@ fun AccountsSection(
                     onCheckedChange = { notificationsEnabled = it },
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = Color.White,
-                        checkedTrackColor = PinkPrimary,
+                        checkedTrackColor = GradientPrimary,
                         uncheckedThumbColor = Color.White,
                         uncheckedTrackColor = Color(0xFFE0E0E0),
                         uncheckedBorderColor = Color.Transparent

@@ -25,7 +25,8 @@ data class GroupSectionItem(
     val title: String,
     val icon: ImageVector,
     val onClick: () -> Unit = {},
-    val trailingContent: @Composable (() -> Unit)? = null
+    val trailingContent: @Composable (() -> Unit)? = null,
+    val titleColor: Color? = null
 )
 
 @Composable
@@ -99,7 +100,7 @@ private fun GroupRow(
                     text = item.title,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
-                    color = MainTextCol
+                    color = item.titleColor ?: MainTextCol
                 )
             }
 

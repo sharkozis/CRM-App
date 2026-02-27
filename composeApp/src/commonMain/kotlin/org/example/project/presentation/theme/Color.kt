@@ -39,6 +39,7 @@ val grayTextColor = Color(0xFF7A767F)
 val actionTextPurple = Color(0xFF661FAA)
 val yellowTextColor = Color(0xFFEEBA31)
 val maroonTextColor = Color(0xFF8B345A)
+val errorTextColor = Color(0xFFE35959)
 
 
 
@@ -48,6 +49,7 @@ val maroonTextColor = Color(0xFF8B345A)
 // ─── Gradient Colors ─────────────────────────────────────────────
 
 val GradientMainStart = Color(0xFFEE2A7B)
+val GradientPrimary = GradientMainStart
 val GradientMainMid = Color(0xFFF65399)
 val GradientMainEnd = Color(0xFFFF7DB8)
 

@@ -28,23 +28,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.composables.icPen
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.ic_avatar
-import kotlinproject.composeapp.generated.resources.ic_nexus
-import kotlinproject.composeapp.generated.resources.ic_profileCarIcon
 import org.example.project.presentation.component.IconButton
 import org.example.project.presentation.screen.profile.composables.AccountsSection
-import org.example.project.presentation.screen.profile.composables.CarPhotoSection
 import org.example.project.presentation.screen.profile.composables.DocumentSection
 import org.example.project.presentation.screen.profile.composables.LocationSection
-//import org.example.project.presentation.screen.profile.composables.PreferenceSection
-//import org.example.project.presentation.screen.profile.composables.SupportSection
-//import org.example.project.presentation.screen.profile.composables.UberProfileSection
-//import org.example.project.presentation.screen.profile.composables.UberTripHistorySection
+import org.example.project.presentation.screen.profile.composables.LoggerSection
 import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PinkPrimary
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
 @Preview
@@ -125,36 +117,14 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
 //                    icon = painterResource(),
                     onClick = { /* Handle edit */ }
                 )
-
-
                 Spacer(modifier = Modifier.height(40.dp))
-
-                // Preferences Section
-
-
-
                 AccountsSection()
                 Spacer(modifier = Modifier.height(40.dp))
-
-//                PreferenceSection()
-//                Spacer(modifier = Modifier.height(40.dp))
-//
                LocationSection()
                Spacer(modifier = Modifier.height(40.dp))
-//
                 DocumentSection {  }
+                LoggerSection {  }
                 Spacer(modifier = Modifier.height(40.dp))
-//
-//                CarPhotoSection {  }
-//                Spacer(modifier = Modifier.height(40.dp))
-//
-//                UberProfileSection()
-//                Spacer(modifier = Modifier.height(40.dp))
-//
-//
-//                UberTripHistorySection {  }
-//                Spacer(modifier = Modifier.height(40.dp))
-
             }
         }
     }
