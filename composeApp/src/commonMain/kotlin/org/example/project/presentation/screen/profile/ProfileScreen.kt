@@ -36,11 +36,12 @@ import kotlinproject.composeapp.generated.resources.ic_profileCarIcon
 import org.example.project.presentation.component.IconButton
 import org.example.project.presentation.screen.profile.composables.AccountsSection
 import org.example.project.presentation.screen.profile.composables.CarPhotoSection
+import org.example.project.presentation.screen.profile.composables.DocumentSection
 import org.example.project.presentation.screen.profile.composables.LocationSection
-import org.example.project.presentation.screen.profile.composables.PreferenceSection
-import org.example.project.presentation.screen.profile.composables.SupportSection
-import org.example.project.presentation.screen.profile.composables.UberProfileSection
-import org.example.project.presentation.screen.profile.composables.UberTripHistorySection
+//import org.example.project.presentation.screen.profile.composables.PreferenceSection
+//import org.example.project.presentation.screen.profile.composables.SupportSection
+//import org.example.project.presentation.screen.profile.composables.UberProfileSection
+//import org.example.project.presentation.screen.profile.composables.UberTripHistorySection
 import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PinkPrimary
 import org.jetbrains.compose.resources.DrawableResource
@@ -141,8 +142,8 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                LocationSection()
                Spacer(modifier = Modifier.height(40.dp))
 //
-//                SupportSection {  }
-//                Spacer(modifier = Modifier.height(40.dp))
+                DocumentSection {  }
+                Spacer(modifier = Modifier.height(40.dp))
 //
 //                CarPhotoSection {  }
 //                Spacer(modifier = Modifier.height(40.dp))
