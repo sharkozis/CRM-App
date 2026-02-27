@@ -18,13 +18,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
 fun IconButton(
     title: String,
-    icon: ImageVector? = null,
+    icon: ImageVector? = null,    // For ImageVector-based icons
+    painter: Painter? = null,      // For Painter-based icons (e.g., from resources)
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -37,21 +39,31 @@ fun IconButton(
             .padding(horizontal = 12.dp, vertical = 6.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                text = title,
-                fontSize = 12.sp,
-                color = Color(0xFF1B0E2F)
-            )
-            Spacer(modifier = Modifier.width(4.dp))
+            // Show icon if provided, with priority to ImageVector
             if (icon != null) {
                 Image(
                     imageVector = icon,
                     contentDescription = null,
                     modifier = Modifier.size(18.dp)
                 )
-
-//                Spacer(modifier = Modifier.width(8.dp))
+            } else if (painter != null) {
+                Image(
+                    painter = painter,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
             }
+
+            // Add spacing only if an icon is shown
+            if (icon != null || painter != null) {
+                Spacer(modifier = Modifier.width(4.dp))
+            }
+
+            Text(
+                text = title,
+                fontSize = 12.sp,
+                color = Color(0xFF1B0E2F)
+            )
         }
     }
 }

@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.sp
 import com.composables.icPen
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.ic_avatar
+import kotlinproject.composeapp.generated.resources.ic_nexus
+import kotlinproject.composeapp.generated.resources.ic_profileCarIcon
 import org.example.project.presentation.component.IconButton
 import org.example.project.presentation.screen.profile.composables.CarPhotoSection
 import org.example.project.presentation.screen.profile.composables.LocationSection
@@ -40,6 +42,7 @@ import org.example.project.presentation.screen.profile.composables.UberProfileSe
 import org.example.project.presentation.screen.profile.composables.UberTripHistorySection
 import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PinkPrimary
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
 @Preview
@@ -72,8 +75,8 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                 .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
                 .background(
                     brush = Brush.verticalGradient(
-                        0.0f to PinkPrimary.copy(alpha = 0.6f), // 20% Pink area starts here
-                        0.2f to Color.White                    // Remaining 80% is white
+                        0.0f to PinkPrimary.copy(alpha = 0.8f), // 20% Pink area starts here
+                        0.1f to Color.White                    // Remaining 80% is white
                     )
                 )
         ) {
@@ -111,23 +114,23 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                UserInfoText(label = "Full Name", value = "Joseph Anthony")
-                UserInfoText(label = "Email", value = "joseph@email.com")
-                UserInfoText(label = "Phone", value = "555-0199")
-                UserInfoText(label = "Car Model", value = "Toyota Camry")
-
+                UserInfoText(value = "+1 514 XXX-XXXX")
                 Spacer(modifier = Modifier.height(20.dp))
 
                 // Edit Button
                 IconButton(
-                    title = "Edit",
-                    icon = icPen,
+                    title = "Honda Civic",
+//                    icon = painterResource(),
                     onClick = { /* Handle edit */ }
                 )
+
 
                 Spacer(modifier = Modifier.height(40.dp))
 
                 // Preferences Section
+
+
+
                 PreferenceSection()
                 Spacer(modifier = Modifier.height(40.dp))
 
@@ -153,9 +156,18 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun UserInfoText(label: String, value: String) {
+private fun UserInfoText(
+    label: String? = null,  // Make label optional, default null
+    value: String
+) {
+    val displayText = if (!label.isNullOrBlank()) {
+        "$label: $value"
+    } else {
+        value
+    }
+
     Text(
-        text = "$label: $value",
+        text = displayText,
         fontSize = 18.sp,
         fontWeight = FontWeight.Normal,
         color = Color(0xFF666666),
