@@ -1,3 +1,4 @@
+
 // File: org/example/project/presentation/screen/signup/SignupScreen.kt
 package org.example.project.presentation.screen.signup
 
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,7 +29,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,7 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.icDownArrow
@@ -49,14 +48,14 @@ import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.ic_eng
 import kotlinproject.composeapp.generated.resources.ic_es
 import org.example.project.presentation.component.CircularIconButton
-import org.example.project.presentation.component.PrimaryButton
+import org.example.project.presentation.component.GradientPrimaryButton
 import org.example.project.presentation.theme.DeepMaroon
 import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PinkPrimary
 import org.example.project.presentation.theme.grayTextColor
-import org.example.project.presentation.theme.MuteColor
 import org.jetbrains.compose.resources.painterResource
 
+@Preview
 @Composable
 fun SignupScreen(
     onBackClick: () -> Unit = {},
@@ -74,7 +73,7 @@ fun SignupScreen(
     var vehicleModel by remember { mutableStateOf("") }
     var vehicleYear by remember { mutableStateOf("") }
     var vehicleColor by remember { mutableStateOf("") }
-    
+
     var selectedLanguage by remember { mutableStateOf("Spa") }
     var currentStep by remember { mutableStateOf(0) }
 
@@ -127,22 +126,25 @@ fun SignupScreen(
                         .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
                         .background(Color.White)
                 ) {
-                    CircularIconButton(
-                        onClick = onBackClick,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.TopStart)
-                    )
-
-                    Column(
+                    // Top bar: back button left, language toggle right
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 24.dp, vertical = 0.dp),
-                        verticalArrangement = Arrangement.Top
+                            .padding(horizontal = 16.dp, vertical = 16.dp)
+                            .align(Alignment.TopStart),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Spacer(modifier = Modifier.height(screenHeight * 0.12f))
+                        CircularIconButton(
+                            onClick = {
+                                if (currentStep > 0) {
+                                    currentStep--
+                                } else {
+                                    onBackClick()
+                                }
+                            }
+                        )
 
-                        // Language Toggle
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
@@ -163,6 +165,15 @@ fun SignupScreen(
                                 onClick = { selectedLanguage = "Eng" }
                             )
                         }
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp, vertical = 0.dp),
+                        verticalArrangement = Arrangement.Top
+                    ) {
+                        Spacer(modifier = Modifier.height(screenHeight * 0.12f))
 
                         Spacer(modifier = Modifier.height(28.dp))
 
@@ -183,10 +194,8 @@ fun SignupScreen(
 
                         Spacer(modifier = Modifier.height(24.dp))
 
-                        // Stepper Input
                         when (currentStep) {
                             0 -> {
-                                // Step 1: Phone Number
                                 Text(
                                     text = "Phone Number",
                                     fontSize = 14.sp,
@@ -249,7 +258,6 @@ fun SignupScreen(
                                 )
                             }
                             1 -> {
-                                // Step 2: 6-digit OTP
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -260,13 +268,14 @@ fun SignupScreen(
                                             modifier = Modifier
                                                 .weight(1f)
                                                 .height(56.dp)
-                                                .border(1.dp, if (char.isNotEmpty()) PinkPrimary else Color(0xFFE0E0E0), RoundedCornerShape(12.dp))
+                                                .border(
+                                                    1.dp,
+                                                    if (char.isNotEmpty()) PinkPrimary else Color(0xFFE0E0E0),
+                                                    RoundedCornerShape(12.dp)
+                                                )
                                                 .background(Color.White),
                                             contentAlignment = Alignment.Center
                                         ) {
-                                            if (char.isEmpty() && index == otpCode.length) {
-                                                // Placeholder or cursor could go here
-                                            }
                                             Text(
                                                 text = char,
                                                 fontSize = 18.sp,
@@ -276,16 +285,16 @@ fun SignupScreen(
                                         }
                                     }
                                 }
-                                // Hidden TextField to capture input
                                 OutlinedTextField(
                                     value = otpCode,
                                     onValueChange = { if (it.length <= 6) otpCode = it },
-                                    modifier = Modifier.fillMaxWidth().height(0.dp),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(0.dp),
                                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                                 )
                             }
                             2 -> {
-                                // Step 3: Platform Dropdown
                                 Text(
                                     text = "Platform",
                                     fontSize = 14.sp,
@@ -321,13 +330,12 @@ fun SignupScreen(
                                 )
                             }
                             3 -> {
-                                // Step 4: City, Area, Hours
                                 val fields = listOf(
                                     Triple("City", city, "Select your city"),
                                     Triple("Area you drive in most", drivingArea, "Select area"),
                                     Triple("Typical weekly driving hours", drivingHours, "Select hours")
                                 )
-                                
+
                                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                                     fields.forEach { (label, value, placeholder) ->
                                         Column {
@@ -340,7 +348,7 @@ fun SignupScreen(
                                             Spacer(modifier = Modifier.height(8.dp))
                                             OutlinedTextField(
                                                 value = value,
-                                                onValueChange = { /* Update logic based on label */ },
+                                                onValueChange = { },
                                                 placeholder = {
                                                     Text(
                                                         text = placeholder,
@@ -369,9 +377,7 @@ fun SignupScreen(
                                 }
                             }
                             4 -> {
-                                // Step 5: About Yourself
                                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                                    // Full Name
                                     Column {
                                         Text(
                                             text = "Full Name",
@@ -399,7 +405,6 @@ fun SignupScreen(
                                             modifier = Modifier.fillMaxWidth()
                                         )
                                     }
-                                    // Email
                                     Column {
                                         Text(
                                             text = "Email",
@@ -430,9 +435,7 @@ fun SignupScreen(
                                 }
                             }
                             5 -> {
-                                // Step 6: Vehicle Details
                                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                                    // Model
                                     Column {
                                         Text(
                                             text = "Vehicle Model",
@@ -460,7 +463,6 @@ fun SignupScreen(
                                             modifier = Modifier.fillMaxWidth()
                                         )
                                     }
-                                    // Year
                                     Column {
                                         Text(
                                             text = "Vehicle Year",
@@ -502,9 +504,13 @@ fun SignupScreen(
                                             fontSize = 12.sp
                                         )
                                         Spacer(modifier = Modifier.height(4.dp))
-                                        Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(PinkPrimary.copy(alpha = 0.3f)))
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(1.dp)
+                                                .background(PinkPrimary.copy(alpha = 0.3f))
+                                        )
                                     }
-                                    // Color
                                     Column {
                                         Text(
                                             text = "Vehicle Color",
@@ -546,44 +552,19 @@ fun SignupScreen(
 
                         Spacer(modifier = Modifier.height(32.dp))
 
-                        // Button logic
-                        Row(
+                        GradientPrimaryButton(
+                            title = stepData[currentStep].buttonText,
+                            onClick = {
+                                if (currentStep < stepData.size - 1) {
+                                    currentStep++
+                                } else {
+                                    onNextClick()
+                                }
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(bottom = 24.dp),
-                            horizontalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            TextButton(
-                                onClick = {
-                                    if (currentStep > 0) {
-                                        currentStep--
-                                    } else {
-                                        onBackClick() // Use onBackClick as requested
-                                    }
-                                },
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .border(1.dp, MuteColor, RoundedCornerShape(50.dp))
-                            ) {
-                                Text(
-                                    text = if (currentStep > 0) "Back" else "Cancel",
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    color = grayTextColor,
-                                )
-                            }
-                            PrimaryButton(
-                                title = stepData[currentStep].buttonText,
-                                onClick = {
-                                    if (currentStep < stepData.size - 1) {
-                                        currentStep++
-                                    } else {
-                                        onNextClick()
-                                    }
-                                },
-                                modifier = Modifier.weight(1f)
-                            )
-                        }
+                                .padding(bottom = 24.dp)
+                        )
                     }
                 }
             }

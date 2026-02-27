@@ -62,3 +62,15 @@ val GradientMain = Brush.linearGradient(
     start = Offset.Zero,
     end = Offset(800f, 400f) // approximates 299.64deg
 )
+
+// ─── Gradient Brushes ────────────────────────────────────────────
+val GradientSubStart = Color(0xFF7F00FF)
+val GradientSubEnd = Color(0xFFE100FF)
+val GradientSub = Brush.linearGradient(
+    colors = listOf(
+        GradientSubStart,
+        GradientSubEnd
+    ),
+    start = Offset.Zero,
+    end = Offset(800f, 400f) // approximates 299.64deg
+)
