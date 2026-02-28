@@ -26,6 +26,10 @@ class ProfileViewModel : ViewModel() {
     var isCarPhotoModalVisible by mutableStateOf(false)
         private set
 
+    // Rideshare profile photo modal visibility
+    var isRideshareProfilePhotoModalVisible by mutableStateOf(false)
+        private set
+
     // Personal Information States
     var fullName by mutableStateOf("Joseph Ahmed")
         private set
@@ -60,6 +64,10 @@ class ProfileViewModel : ViewModel() {
     var carPhotoUri by mutableStateOf("")
         private set
 
+    // Rideshare Profile Photo State
+    var rideshareProfilePhotoUri by mutableStateOf("")
+        private set
+
     // Initial values for personal info (for reset)
     private var initialFullName = fullName
     private var initialEmail = email
@@ -81,6 +89,9 @@ class ProfileViewModel : ViewModel() {
 
     // Initial values for car photo
     private var initialCarPhotoUri = carPhotoUri
+
+    // Initial values for rideshare profile photo
+    private var initialRideshareProfilePhotoUri = rideshareProfilePhotoUri
 
     // Personal Modal Controls
     fun showModal() {
@@ -274,5 +285,35 @@ class ProfileViewModel : ViewModel() {
 
     fun saveCarPhotoChanges() {
         initialCarPhotoUri = carPhotoUri
+    }
+
+    // Rideshare Profile Photo Modal Controls
+    fun showRideshareProfilePhotoModal() {
+        isRideshareProfilePhotoModalVisible = true
+    }
+
+    fun hideRideshareProfilePhotoModal() {
+        isRideshareProfilePhotoModalVisible = false
+    }
+
+    fun updateRideshareProfilePhoto(uri: String) {
+        rideshareProfilePhotoUri = uri
+    }
+
+    fun onRideshareProfilePhotoResetClick() {
+        resetRideshareProfilePhotoFields()
+    }
+
+    fun onRideshareProfilePhotoSaveClick() {
+        saveRideshareProfilePhotoChanges()
+        hideRideshareProfilePhotoModal()
+    }
+
+    fun resetRideshareProfilePhotoFields() {
+        rideshareProfilePhotoUri = initialRideshareProfilePhotoUri
+    }
+
+    fun saveRideshareProfilePhotoChanges() {
+        initialRideshareProfilePhotoUri = rideshareProfilePhotoUri
     }
 }
