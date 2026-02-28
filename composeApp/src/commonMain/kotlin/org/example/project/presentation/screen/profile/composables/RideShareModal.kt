@@ -108,14 +108,15 @@ fun RideShareModal(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // Car image box
+                    // Rideshare profile image — left-aligned, large but not full width
                     Image(
                         painter = painterResource(Res.drawable.ic_ProfileRideshareImg),
-                        contentDescription = "Car image placeholder",
+                        contentDescription = "Rideshare profile image",
                         modifier = Modifier
-                            .fillMaxWidth()
-                            
-                            .aspectRatio(80f / 56f)
+                            .fillMaxWidth(0.82f)
+                            .align(Alignment.Start)
+                            .aspectRatio(3f / 4f)
+                            .clip(RoundedCornerShape(10.dp))
                     )
                 }
             }
