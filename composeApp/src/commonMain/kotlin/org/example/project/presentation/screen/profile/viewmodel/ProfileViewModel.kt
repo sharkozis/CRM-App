@@ -18,6 +18,10 @@ class ProfileViewModel : ViewModel() {
     var isVehicleModalVisible by mutableStateOf(false)
         private set
 
+    // License modal visibility
+    var isLicenseModalVisible by mutableStateOf(false)
+        private set
+
     // Personal Information States
     var fullName by mutableStateOf("Joseph Ahmed")
         private set
@@ -44,6 +48,10 @@ class ProfileViewModel : ViewModel() {
     var vehicleColor by mutableStateOf("")
         private set
 
+    // License State
+    var licenseImageUri by mutableStateOf("")
+        private set
+
     // Initial values for personal info (for reset)
     private var initialFullName = fullName
     private var initialEmail = email
@@ -59,6 +67,9 @@ class ProfileViewModel : ViewModel() {
     private var initialVehicleModel = vehicleModel
     private var initialVehicleYear = vehicleYear
     private var initialVehicleColor = vehicleColor
+
+    // Initial values for license
+    private var initialLicenseImageUri = licenseImageUri
 
     // Personal Modal Controls
     fun showModal() {
@@ -131,8 +142,6 @@ class ProfileViewModel : ViewModel() {
 
     fun onDrivingResetClick() {
         resetDrivingFields()
-        // Optionally hide the modal if desired, but typical reset keeps modal open
-        // hideDrivingModal()
     }
 
     fun onDrivingSaveClick() {
@@ -148,12 +157,10 @@ class ProfileViewModel : ViewModel() {
     }
 
     fun saveDrivingChanges() {
-        // Persist driving changes
         initialPlatform = platform
         initialCity = city
         initialAreas = areas
         initialHours = hours
-        // Additional persistence logic (e.g., API call) would go here
     }
 
     // Vehicle Modal Controls
@@ -179,8 +186,6 @@ class ProfileViewModel : ViewModel() {
 
     fun onVehicleResetClick() {
         resetVehicleFields()
-        // Optionally hide the modal if desired, but typical reset keeps modal open
-        // hideVehicleModal()
     }
 
     fun onVehicleSaveClick() {
@@ -195,10 +200,38 @@ class ProfileViewModel : ViewModel() {
     }
 
     fun saveVehicleChanges() {
-        // Persist vehicle changes
         initialVehicleModel = vehicleModel
         initialVehicleYear = vehicleYear
         initialVehicleColor = vehicleColor
-        // Additional persistence logic (e.g., API call) would go here
+    }
+
+    // License Modal Controls
+    fun showLicenseModal() {
+        isLicenseModalVisible = true
+    }
+
+    fun hideLicenseModal() {
+        isLicenseModalVisible = false
+    }
+
+    fun updateLicenseImage(uri: String) {
+        licenseImageUri = uri
+    }
+
+    fun onLicenseResetClick() {
+        resetLicenseFields()
+    }
+
+    fun onLicenseSaveClick() {
+        saveLicenseChanges()
+        hideLicenseModal()
+    }
+
+    fun resetLicenseFields() {
+        licenseImageUri = initialLicenseImageUri
+    }
+
+    fun saveLicenseChanges() {
+        initialLicenseImageUri = licenseImageUri
     }
 }

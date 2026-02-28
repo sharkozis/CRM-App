@@ -107,7 +107,7 @@ fun ProfileScreen(
                     UserInfoText(value = "+1 ${viewModel.phoneNumber}")
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    // Edit Button
+                    // Edit Button (Vehicle Info Display)
                     IconButton(
                         title = "Honda Civic",
                         onClick = { /* Handle edit */ }
@@ -118,8 +118,8 @@ fun ProfileScreen(
                         onItemClick = { type ->
                             when (type) {
                                 "personal_info" -> viewModel.showModal()
-                                "driving_info" -> viewModel.showDrivingModal()
                                 "vehicle_info" -> viewModel.showVehicleModal()
+                                "driving_info" -> viewModel.showDrivingModal()
                                 // Handle other types if needed
                             }
                         }
@@ -128,7 +128,15 @@ fun ProfileScreen(
                     Spacer(modifier = Modifier.height(40.dp))
                     LocationSection()
                     Spacer(modifier = Modifier.height(40.dp))
-                    DocumentSection { }
+
+                    // DocumentSection with click handling
+                    DocumentSection { type ->
+                        when (type) {
+                            "license_photo" -> viewModel.showLicenseModal()
+                            // Handle other document types if needed
+                        }
+                    }
+
                     LoggerSection { }
                     Spacer(modifier = Modifier.height(40.dp))
                 }
@@ -188,6 +196,25 @@ fun ProfileScreen(
             VehicleModal(
                 viewModel = viewModel,
                 onDismiss = { viewModel.hideVehicleModal() },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+        // License Modal Overlay
+        androidx.compose.animation.AnimatedVisibility(
+            visible = viewModel.isLicenseModalVisible,
+            enter = androidx.compose.animation.slideInVertically(
+                initialOffsetY = { it },
+                animationSpec = androidx.compose.animation.core.tween(400)
+            ),
+            exit = androidx.compose.animation.slideOutVertically(
+                targetOffsetY = { it },
+                animationSpec = androidx.compose.animation.core.tween(300)
+            )
+        ) {
+            LicenseModal(
+                viewModel = viewModel,
+                onDismiss = { viewModel.hideLicenseModal() },
                 modifier = Modifier.fillMaxSize()
             )
         }
