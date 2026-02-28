@@ -1,6 +1,8 @@
 package org.example.project.presentation.screen.profile.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,19 +37,33 @@ fun ProfileModal(
     onPrimaryClick: () -> Unit,
     onSecondaryClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onDismiss: () -> Unit = {},
     content: @Composable () -> Unit = {}
 ) {
     BoxWithConstraints(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.5f))
+        modifier = modifier.fillMaxSize()
     ) {
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.5f))
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) { onDismiss() }
+        )
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.9f) // 90% height as per standard modals in this app
+                .fillMaxHeight(0.95f)
                 .align(Alignment.BottomCenter)
-                .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ) { }
+                .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
                 .background(Color.White)
         ) {
             Column(
@@ -55,8 +72,9 @@ fun ProfileModal(
                     .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Drag handle
+
                 Spacer(modifier = Modifier.height(12.dp))
+
                 Box(
                     modifier = Modifier
                         .width(60.dp)
@@ -67,7 +85,6 @@ fun ProfileModal(
 
                 Spacer(modifier = Modifier.height(30.dp))
 
-                // Title
                 Text(
                     text = title,
                     fontSize = 20.sp,
@@ -78,14 +95,12 @@ fun ProfileModal(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Dynamic Content
                 Box(modifier = Modifier.weight(1f)) {
                     content()
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Footer Buttons
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -96,9 +111,9 @@ fun ProfileModal(
                         onClick = onPrimaryClick,
                         useGradient = true
                     )
-                    
+
                     Spacer(modifier = Modifier.height(12.dp))
-                    
+
                     GradientPrimaryButton(
                         title = secondaryButtonText,
                         onClick = onSecondaryClick,

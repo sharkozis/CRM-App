@@ -46,7 +46,8 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun PersonalModal(
     viewModel: ProfileViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onDismiss: () -> Unit = {}
 ) {
     ProfileModal(
         title = "Personal information",
@@ -54,6 +55,7 @@ fun PersonalModal(
         secondaryButtonText = "Reset",
         onPrimaryClick = { viewModel.onSaveClick() },
         onSecondaryClick = { viewModel.onResetClick() },
+        onDismiss = onDismiss,
         modifier = modifier
     ) {
         Column(

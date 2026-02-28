@@ -3,15 +3,7 @@ package org.example.project.presentation.screen.profile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,11 +24,7 @@ import androidx.compose.ui.unit.sp
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.ic_avatar
 import org.example.project.presentation.component.IconButton
-import org.example.project.presentation.screen.profile.composables.AccountsSection
-import org.example.project.presentation.screen.profile.composables.DocumentSection
-import org.example.project.presentation.screen.profile.composables.LocationSection
-import org.example.project.presentation.screen.profile.composables.LoggerSection
-import org.example.project.presentation.screen.profile.composables.PersonalModal
+import org.example.project.presentation.screen.profile.composables.*
 import org.example.project.presentation.screen.profile.viewmodel.ProfileViewModel
 import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PinkPrimary
@@ -49,7 +37,7 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = remember { ProfileViewModel() }
 ) {
     val scrollState = rememberScrollState()
-    
+
     Box(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -77,8 +65,8 @@ fun ProfileScreen(
                     .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
                     .background(
                         brush = Brush.verticalGradient(
-                            0.0f to PinkPrimary.copy(alpha = 0.8f), // 20% Pink area starts here
-                            0.1f to Color.White                    // Remaining 80% is white
+                            0.0f to PinkPrimary.copy(alpha = 0.8f),
+                            0.1f to Color.White
                         )
                     )
             ) {
@@ -108,7 +96,7 @@ fun ProfileScreen(
 
                     // User Info
                     Text(
-                        text = viewModel.fullName, // Dynamic from ViewModel
+                        text = viewModel.fullName,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = MainTextCol
@@ -116,25 +104,26 @@ fun ProfileScreen(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    UserInfoText(value = "+1 ${viewModel.phoneNumber}") // Dynamic from ViewModel
+                    UserInfoText(value = "+1 ${viewModel.phoneNumber}")
                     Spacer(modifier = Modifier.height(20.dp))
 
                     // Edit Button
                     IconButton(
                         title = "Honda Civic",
-//                    icon = painterResource(),
                         onClick = { /* Handle edit */ }
                     )
                     Spacer(modifier = Modifier.height(40.dp))
-                    
+
                     AccountsSection(
                         onItemClick = { type ->
-                            if (type == "personal_info") {
-                                viewModel.showModal()
+                            when (type) {
+                                "personal_info" -> viewModel.showModal()
+                                "driving_info" -> viewModel.showDrivingModal()
+                                // Handle other types if needed
                             }
                         }
                     )
-                    
+
                     Spacer(modifier = Modifier.height(40.dp))
                     LocationSection()
                     Spacer(modifier = Modifier.height(40.dp))
@@ -146,9 +135,39 @@ fun ProfileScreen(
         }
 
         // Personal Modal Overlay
-        if (viewModel.isModalVisible) {
+        androidx.compose.animation.AnimatedVisibility(
+            visible = viewModel.isModalVisible,
+            enter = androidx.compose.animation.slideInVertically(
+                initialOffsetY = { it },
+                animationSpec = androidx.compose.animation.core.tween(400)
+            ),
+            exit = androidx.compose.animation.slideOutVertically(
+                targetOffsetY = { it },
+                animationSpec = androidx.compose.animation.core.tween(300)
+            )
+        ) {
             PersonalModal(
                 viewModel = viewModel,
+                onDismiss = { viewModel.hideModal() },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+        // Driving Modal Overlay
+        androidx.compose.animation.AnimatedVisibility(
+            visible = viewModel.isDrivingModalVisible,
+            enter = androidx.compose.animation.slideInVertically(
+                initialOffsetY = { it },
+                animationSpec = androidx.compose.animation.core.tween(400)
+            ),
+            exit = androidx.compose.animation.slideOutVertically(
+                targetOffsetY = { it },
+                animationSpec = androidx.compose.animation.core.tween(300)
+            )
+        ) {
+            DrivingModal(
+                viewModel = viewModel,
+                onDismiss = { viewModel.hideDrivingModal() },
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -157,7 +176,7 @@ fun ProfileScreen(
 
 @Composable
 private fun UserInfoText(
-    label: String? = null,  // Make label optional, default null
+    label: String? = null,
     value: String
 ) {
     val displayText = if (!label.isNullOrBlank()) {
