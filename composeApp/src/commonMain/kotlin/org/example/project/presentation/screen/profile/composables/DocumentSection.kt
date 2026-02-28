@@ -2,14 +2,12 @@ package org.example.project.presentation.screen.profile.composables
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.composables.icProfileCarStar
 import com.composables.icProfileDocument
 import com.composables.icProfileSubtitle
 import com.composables.icProfileUser
 import org.example.project.presentation.screen.profile.components.GroupSection
 import org.example.project.presentation.screen.profile.components.GroupSectionItem
-import org.example.project.presentation.screen.profile.composables.DocumentSection
 
 @Composable
 fun DocumentSection(
@@ -44,6 +42,4 @@ fun DocumentSection(
         items = documentItems,
         modifier = modifier
     )
-
 }
-

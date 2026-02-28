@@ -129,10 +129,11 @@ fun ProfileScreen(
                     LocationSection()
                     Spacer(modifier = Modifier.height(40.dp))
 
-                    // DocumentSection with click handling
+                    // DocumentSection with click handling for all items
                     DocumentSection { type ->
                         when (type) {
                             "license_photo" -> viewModel.showLicenseModal()
+                            "car_photo" -> viewModel.showCarPhotoModal()
                             // Handle other document types if needed
                         }
                     }
@@ -215,6 +216,25 @@ fun ProfileScreen(
             LicenseModal(
                 viewModel = viewModel,
                 onDismiss = { viewModel.hideLicenseModal() },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+        // Car Photo Modal Overlay
+        androidx.compose.animation.AnimatedVisibility(
+            visible = viewModel.isCarPhotoModalVisible,
+            enter = androidx.compose.animation.slideInVertically(
+                initialOffsetY = { it },
+                animationSpec = androidx.compose.animation.core.tween(400)
+            ),
+            exit = androidx.compose.animation.slideOutVertically(
+                targetOffsetY = { it },
+                animationSpec = androidx.compose.animation.core.tween(300)
+            )
+        ) {
+            CarPhotoModal(
+                viewModel = viewModel,
+                onDismiss = { viewModel.hideCarPhotoModal() },
                 modifier = Modifier.fillMaxSize()
             )
         }

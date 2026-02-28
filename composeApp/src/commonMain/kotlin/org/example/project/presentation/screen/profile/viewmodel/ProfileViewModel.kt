@@ -22,6 +22,10 @@ class ProfileViewModel : ViewModel() {
     var isLicenseModalVisible by mutableStateOf(false)
         private set
 
+    // Car photo modal visibility
+    var isCarPhotoModalVisible by mutableStateOf(false)
+        private set
+
     // Personal Information States
     var fullName by mutableStateOf("Joseph Ahmed")
         private set
@@ -52,6 +56,10 @@ class ProfileViewModel : ViewModel() {
     var licenseImageUri by mutableStateOf("")
         private set
 
+    // Car Photo State
+    var carPhotoUri by mutableStateOf("")
+        private set
+
     // Initial values for personal info (for reset)
     private var initialFullName = fullName
     private var initialEmail = email
@@ -70,6 +78,9 @@ class ProfileViewModel : ViewModel() {
 
     // Initial values for license
     private var initialLicenseImageUri = licenseImageUri
+
+    // Initial values for car photo
+    private var initialCarPhotoUri = carPhotoUri
 
     // Personal Modal Controls
     fun showModal() {
@@ -233,5 +244,35 @@ class ProfileViewModel : ViewModel() {
 
     fun saveLicenseChanges() {
         initialLicenseImageUri = licenseImageUri
+    }
+
+    // Car Photo Modal Controls
+    fun showCarPhotoModal() {
+        isCarPhotoModalVisible = true
+    }
+
+    fun hideCarPhotoModal() {
+        isCarPhotoModalVisible = false
+    }
+
+    fun updateCarPhoto(uri: String) {
+        carPhotoUri = uri
+    }
+
+    fun onCarPhotoResetClick() {
+        resetCarPhotoFields()
+    }
+
+    fun onCarPhotoSaveClick() {
+        saveCarPhotoChanges()
+        hideCarPhotoModal()
+    }
+
+    fun resetCarPhotoFields() {
+        carPhotoUri = initialCarPhotoUri
+    }
+
+    fun saveCarPhotoChanges() {
+        initialCarPhotoUri = carPhotoUri
     }
 }
