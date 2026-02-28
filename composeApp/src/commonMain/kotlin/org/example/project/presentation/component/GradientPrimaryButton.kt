@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.example.project.presentation.theme.GradientMain
 import org.example.project.presentation.theme.GradientSub
+import org.example.project.presentation.theme.MainTextCol
+import org.example.project.presentation.theme.MuteColor
 import org.example.project.presentation.theme.actionTextPurple
 
 @Composable

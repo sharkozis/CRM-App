@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,97 +36,121 @@ import org.example.project.presentation.screen.profile.composables.AccountsSecti
 import org.example.project.presentation.screen.profile.composables.DocumentSection
 import org.example.project.presentation.screen.profile.composables.LocationSection
 import org.example.project.presentation.screen.profile.composables.LoggerSection
+import org.example.project.presentation.screen.profile.composables.PersonalModal
+import org.example.project.presentation.screen.profile.viewmodel.ProfileViewModel
 import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PinkPrimary
 import org.jetbrains.compose.resources.painterResource
 
 @Preview
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier) {
+fun ProfileScreen(
+    modifier: Modifier = Modifier,
+    viewModel: ProfileViewModel = remember { ProfileViewModel() }
+) {
     val scrollState = rememberScrollState()
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(top = 16.dp)
-            .verticalScroll(scrollState)
-    ) {
-        // Title
-        Text(
-            text = "Profile",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            color = MainTextCol,
-            modifier = Modifier.padding(horizontal = 10.dp)
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        // Gradient Section
-        Box(
+    
+    Box(modifier = modifier.fillMaxSize()) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
-                .background(
-                    brush = Brush.verticalGradient(
-                        0.0f to PinkPrimary.copy(alpha = 0.8f), // 20% Pink area starts here
-                        0.1f to Color.White                    // Remaining 80% is white
-                    )
-                )
+                .fillMaxSize()
+                .background(Color.White)
+                .padding(top = 16.dp)
+                .verticalScroll(scrollState)
         ) {
-            Column(
+            // Title
+            Text(
+                text = "Profile",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = MainTextCol,
+                modifier = Modifier.padding(horizontal = 10.dp)
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Gradient Section
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                // Avatar
-                Box(
-                    modifier = Modifier
-                        .size(90.dp)
-                        .clip(CircleShape)
-                        .border(4.dp, Color.White, CircleShape)
-                        .background(Color.White)
-                ) {
-                    Image(
-                        painter = painterResource(Res.drawable.ic_avatar),
-                        contentDescription = "Avatar",
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
+                    .wrapContentHeight()
+                    .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
+                    .background(
+                        brush = Brush.verticalGradient(
+                            0.0f to PinkPrimary.copy(alpha = 0.8f), // 20% Pink area starts here
+                            0.1f to Color.White                    // Remaining 80% is white
+                        )
                     )
-                }
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    // Avatar
+                    Box(
+                        modifier = Modifier
+                            .size(90.dp)
+                            .clip(CircleShape)
+                            .border(4.dp, Color.White, CircleShape)
+                            .background(Color.White)
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.ic_avatar),
+                            contentDescription = "Avatar",
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                // User Info
-                Text(
-                    text = "Joseph A.",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MainTextCol
-                )
+                    // User Info
+                    Text(
+                        text = viewModel.fullName, // Dynamic from ViewModel
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MainTextCol
+                    )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                UserInfoText(value = "+1 514 XXX-XXXX")
-                Spacer(modifier = Modifier.height(20.dp))
+                    UserInfoText(value = "+1 ${viewModel.phoneNumber}") // Dynamic from ViewModel
+                    Spacer(modifier = Modifier.height(20.dp))
 
-                // Edit Button
-                IconButton(
-                    title = "Honda Civic",
+                    // Edit Button
+                    IconButton(
+                        title = "Honda Civic",
 //                    icon = painterResource(),
-                    onClick = { /* Handle edit */ }
-                )
-                Spacer(modifier = Modifier.height(40.dp))
-                AccountsSection()
-                Spacer(modifier = Modifier.height(40.dp))
-               LocationSection()
-               Spacer(modifier = Modifier.height(40.dp))
-                DocumentSection {  }
-                LoggerSection {  }
-                Spacer(modifier = Modifier.height(40.dp))
+                        onClick = { /* Handle edit */ }
+                    )
+                    Spacer(modifier = Modifier.height(40.dp))
+                    
+                    AccountsSection(
+                        onItemClick = { type ->
+                            if (type == "personal_info") {
+                                viewModel.showModal()
+                            }
+                        }
+                    )
+                    
+                    Spacer(modifier = Modifier.height(40.dp))
+                    LocationSection()
+                    Spacer(modifier = Modifier.height(40.dp))
+                    DocumentSection { }
+                    LoggerSection { }
+                    Spacer(modifier = Modifier.height(40.dp))
+                }
             }
+        }
+
+        // Personal Modal Overlay
+        if (viewModel.isModalVisible) {
+            PersonalModal(
+                viewModel = viewModel,
+                modifier = Modifier.fillMaxSize()
+            )
         }
     }
 }
