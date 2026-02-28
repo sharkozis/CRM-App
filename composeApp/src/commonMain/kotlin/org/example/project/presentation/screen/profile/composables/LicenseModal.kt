@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import com.composables.icProfileExport
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.ic_ProfileLicense
-//import kotlinproject.composeapp.generated.resources.ic_creationImg
 import org.jetbrains.compose.resources.painterResource
 import org.example.project.presentation.screen.profile.components.ProfileModal
 import org.example.project.presentation.screen.profile.viewmodel.ProfileViewModel
