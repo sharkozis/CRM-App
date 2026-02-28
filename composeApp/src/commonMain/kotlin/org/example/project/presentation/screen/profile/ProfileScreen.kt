@@ -134,6 +134,7 @@ fun ProfileScreen(
                         when (type) {
                             "license_photo" -> viewModel.showLicenseModal()
                             "car_photo" -> viewModel.showCarPhotoModal()
+                            "rideshare_profile_photo" -> viewModel.showRideshareProfilePhotoModal()
                             // Handle other document types if needed
                         }
                     }
@@ -235,6 +236,25 @@ fun ProfileScreen(
             CarPhotoModal(
                 viewModel = viewModel,
                 onDismiss = { viewModel.hideCarPhotoModal() },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+        // RideShare Modal Overlay
+        androidx.compose.animation.AnimatedVisibility(
+            visible = viewModel.isRideshareProfilePhotoModalVisible,
+            enter = androidx.compose.animation.slideInVertically(
+                initialOffsetY = { it },
+                animationSpec = androidx.compose.animation.core.tween(400)
+            ),
+            exit = androidx.compose.animation.slideOutVertically(
+                targetOffsetY = { it },
+                animationSpec = androidx.compose.animation.core.tween(300)
+            )
+        ) {
+            RideShareModal(
+                viewModel = viewModel,
+                onDismiss = { viewModel.hideRideshareProfilePhotoModal() },
                 modifier = Modifier.fillMaxSize()
             )
         }
