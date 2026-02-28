@@ -14,6 +14,10 @@ class ProfileViewModel : ViewModel() {
     var isDrivingModalVisible by mutableStateOf(false)
         private set
 
+    // Vehicle modal visibility
+    var isVehicleModalVisible by mutableStateOf(false)
+        private set
+
     // Personal Information States
     var fullName by mutableStateOf("Joseph Ahmed")
         private set
@@ -32,6 +36,14 @@ class ProfileViewModel : ViewModel() {
     var hours by mutableStateOf("")
         private set
 
+    // Vehicle Information States
+    var vehicleModel by mutableStateOf("")
+        private set
+    var vehicleYear by mutableStateOf("")
+        private set
+    var vehicleColor by mutableStateOf("")
+        private set
+
     // Initial values for personal info (for reset)
     private var initialFullName = fullName
     private var initialEmail = email
@@ -42,6 +54,11 @@ class ProfileViewModel : ViewModel() {
     private var initialCity = city
     private var initialAreas = areas
     private var initialHours = hours
+
+    // Initial values for vehicle info (for reset)
+    private var initialVehicleModel = vehicleModel
+    private var initialVehicleYear = vehicleYear
+    private var initialVehicleColor = vehicleColor
 
     // Personal Modal Controls
     fun showModal() {
@@ -136,6 +153,52 @@ class ProfileViewModel : ViewModel() {
         initialCity = city
         initialAreas = areas
         initialHours = hours
+        // Additional persistence logic (e.g., API call) would go here
+    }
+
+    // Vehicle Modal Controls
+    fun showVehicleModal() {
+        isVehicleModalVisible = true
+    }
+
+    fun hideVehicleModal() {
+        isVehicleModalVisible = false
+    }
+
+    fun updateVehicleModel(newModel: String) {
+        vehicleModel = newModel
+    }
+
+    fun updateVehicleYear(newYear: String) {
+        vehicleYear = newYear
+    }
+
+    fun updateVehicleColor(newColor: String) {
+        vehicleColor = newColor
+    }
+
+    fun onVehicleResetClick() {
+        resetVehicleFields()
+        // Optionally hide the modal if desired, but typical reset keeps modal open
+        // hideVehicleModal()
+    }
+
+    fun onVehicleSaveClick() {
+        saveVehicleChanges()
+        hideVehicleModal()
+    }
+
+    fun resetVehicleFields() {
+        vehicleModel = initialVehicleModel
+        vehicleYear = initialVehicleYear
+        vehicleColor = initialVehicleColor
+    }
+
+    fun saveVehicleChanges() {
+        // Persist vehicle changes
+        initialVehicleModel = vehicleModel
+        initialVehicleYear = vehicleYear
+        initialVehicleColor = vehicleColor
         // Additional persistence logic (e.g., API call) would go here
     }
 }

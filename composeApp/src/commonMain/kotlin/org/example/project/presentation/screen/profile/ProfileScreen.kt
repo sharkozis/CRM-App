@@ -119,6 +119,7 @@ fun ProfileScreen(
                             when (type) {
                                 "personal_info" -> viewModel.showModal()
                                 "driving_info" -> viewModel.showDrivingModal()
+                                "vehicle_info" -> viewModel.showVehicleModal()
                                 // Handle other types if needed
                             }
                         }
@@ -168,6 +169,25 @@ fun ProfileScreen(
             DrivingModal(
                 viewModel = viewModel,
                 onDismiss = { viewModel.hideDrivingModal() },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+        // Vehicle Modal Overlay
+        androidx.compose.animation.AnimatedVisibility(
+            visible = viewModel.isVehicleModalVisible,
+            enter = androidx.compose.animation.slideInVertically(
+                initialOffsetY = { it },
+                animationSpec = androidx.compose.animation.core.tween(400)
+            ),
+            exit = androidx.compose.animation.slideOutVertically(
+                targetOffsetY = { it },
+                animationSpec = androidx.compose.animation.core.tween(300)
+            )
+        ) {
+            VehicleModal(
+                viewModel = viewModel,
+                onDismiss = { viewModel.hideVehicleModal() },
                 modifier = Modifier.fillMaxSize()
             )
         }

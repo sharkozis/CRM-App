@@ -14,7 +14,6 @@ import com.composables.icProfileUser
 import org.example.project.presentation.screen.profile.components.GroupSection
 import org.example.project.presentation.screen.profile.components.GroupSectionItem
 import org.example.project.presentation.theme.GradientPrimary
-import org.example.project.presentation.theme.PinkPrimary
 
 @Composable
 fun AccountsSection(
