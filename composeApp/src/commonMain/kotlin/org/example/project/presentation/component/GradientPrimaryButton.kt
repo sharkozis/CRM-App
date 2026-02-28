@@ -30,6 +30,7 @@ fun GradientPrimaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    useGradient: Boolean = true,
     trailingIcon: @Composable (() -> Unit)? = null
 ) {
     val shape = RoundedCornerShape(15.dp)
@@ -40,15 +41,28 @@ fun GradientPrimaryButton(
             .fillMaxWidth()
             .height(52.dp)
             .clip(shape)
-            .border(
-                width = 1.dp,
-                brush = GradientSub,
-                shape = shape
-            )
-            .background(
-                brush = if (enabled) GradientMain
-                else GradientMain.also { /* handled via alpha below */ },
-                alpha = if (enabled) 1f else 0.5f
+            .then(
+                if (useGradient) {
+                    Modifier
+                        .border(
+                            width = 1.dp,
+                            brush = GradientSub,
+                            shape = shape
+                        )
+                        .background(
+                            brush = if (enabled) GradientMain
+                            else GradientMain,
+                            alpha = if (enabled) 1f else 0.5f
+                        )
+                } else {
+                    Modifier
+                        .border(
+                            width = 1.dp,
+                            color = MuteColor,
+                            shape = shape
+                        )
+                        .background(Color.White)
+                }
             )
             .clickable(enabled = enabled, onClick = onClick)
     ) {
@@ -60,7 +74,11 @@ fun GradientPrimaryButton(
                 text = title,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = Color.White.copy(alpha = if (enabled) 1f else 0.7f)
+                color = when {
+                    !enabled -> Color.White.copy(alpha = 0.7f)
+                    useGradient -> Color.White
+                    else -> MainTextCol
+                }
             )
             if (trailingIcon != null) {
                 Spacer(modifier = Modifier.width(8.dp))
