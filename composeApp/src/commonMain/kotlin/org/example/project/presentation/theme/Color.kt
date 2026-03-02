@@ -37,7 +37,7 @@ val WhiteBg = Color(0xFFFFFFFF)
 
 //Text colors
 val MainTextCol = Color (0xFF1B0E2F)
-val grayTextColor = Color(0xFF7A767F)
+val grayTextColor = Color(0xFF7A767F)  //#37323F
 val actionTextPurple = Color(0xFF661FAA)
 val yellowTextColor = Color(0xFFEEBA31)
 val maroonTextColor = Color(0xFF8B345A)

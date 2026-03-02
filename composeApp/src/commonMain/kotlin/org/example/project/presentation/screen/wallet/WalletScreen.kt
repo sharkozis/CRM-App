@@ -158,7 +158,7 @@ fun WalletScreen(modifier: Modifier = Modifier) {
                         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
 //                        border = CardDefaults.outlinedCardBorder()
                     ) {
-                        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp)) {
+                        Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 25.dp)) {
                             SummaryRow(label = "Lifetime Earnings:", value = "$450.00", valueColor = MainTextCol)
                             Spacer(modifier = Modifier.height(14.dp))
                             SummaryRow(label = "Upcoming Payouts:", value = "$200.00", valueColor = MainTextCol)
@@ -182,7 +182,7 @@ fun WalletScreen(modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Upcoming Payments",
+                    text = "UPCOMING PAYMENTS",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = MainTextCol
@@ -314,7 +314,7 @@ private fun SummaryRow(label: String, value: String, valueColor: Color) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text = label, fontSize = 13.sp, color = grayTextColor)
-        Text(text = value, fontSize = 13.sp, fontWeight = FontWeight.Medium, color = valueColor)
+        Text(text = value, fontSize = 15.sp, fontWeight = FontWeight.Medium, color = valueColor)
     }
 }
 
