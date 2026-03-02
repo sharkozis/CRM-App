@@ -74,8 +74,8 @@ fun WalletScreen(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    0.0f to PinkPrimary.copy(alpha = 0.2f),
-                    0.3f to Color.White
+                    0.0f to Color.White,
+                    0.3f to PinkPrimary.copy(alpha = 0.9f)
                 )
             )
     ) {
@@ -177,12 +177,12 @@ fun WalletScreen(modifier: Modifier = Modifier) {
 
             // --- Upcoming Payments ---
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Upcoming Payments",
+                    text = "UPCOMING PAYMENTS",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = MainTextCol
@@ -270,13 +270,13 @@ fun WalletScreen(modifier: Modifier = Modifier) {
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,
                         color = MainTextCol,
-                        letterSpacing = 0.5.sp
+//                        letterSpacing = 0.5.sp
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     PaymentHistoryRow(date = "Dec 15", amount = "$150.00", status = "Paid", statusColor = SuccessActive)
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                     PaymentHistoryRow(date = "Jan 15", amount = "$150.00", status = "Due", statusColor = yellowTextColor)
 
                 }
@@ -422,7 +422,7 @@ fun DashedDivider(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun WalletScreenPreview() {
     WalletScreen()

@@ -32,6 +32,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.composables.icDiscount
 import com.composables.icDollarCircle
 import com.composables.icDownArrow
+import org.example.project.presentation.theme.DiffWhiteBg
+import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.PageSecondaryBg
 import org.example.project.presentation.theme.PinkPrimary
 import org.example.project.presentation.theme.actionTextPurple
@@ -49,22 +51,22 @@ fun TransactionHistoryList(modifier: Modifier = Modifier) {
                 text = "TRANSACTION HISTORY",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF1B0E2F)
+                color = MainTextCol
             )
 
             Box(
                 modifier = Modifier
                     .background(Color.White, RoundedCornerShape(20.dp))
                     .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(20.dp))
-                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                    .padding(horizontal = 15.dp, vertical = 8.dp)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = "All",
                         fontSize = 12.sp,
-                        color = Color(0xFF1B0E2F)
+                        color = MainTextCol
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
+                    Spacer(modifier = Modifier.width(17.dp))
                     Image(
                         imageVector = icDownArrow,
                         contentDescription = null,
@@ -74,7 +76,7 @@ fun TransactionHistoryList(modifier: Modifier = Modifier) {
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         TransactionItem(
             name = "John D.",
@@ -107,7 +109,7 @@ private fun TransactionItem(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth()
-            .border(1.dp, PageSecondaryBg),
+            .border(1.dp, DiffWhiteBg, RoundedCornerShape(14.dp)),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
@@ -139,7 +141,7 @@ private fun TransactionItem(
                     text = name,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF1B0E2F)
+                    color = MainTextCol
                 )
                 Row {
                     Text(
