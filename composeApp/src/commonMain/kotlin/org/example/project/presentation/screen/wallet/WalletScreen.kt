@@ -177,12 +177,12 @@ fun WalletScreen(modifier: Modifier = Modifier) {
 
             // --- Upcoming Payments ---
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "UPCOMING PAYMENTS",
+                    text = "Upcoming Payments",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = MainTextCol
