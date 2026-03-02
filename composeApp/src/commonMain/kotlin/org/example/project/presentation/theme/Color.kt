@@ -32,6 +32,8 @@ val AlertTextCol = Color(0xFFC63C3C)
 val PinkPrimary = Color(0xFFD77CA4)
 val DiffWhiteBg = Color(0xFFF0F0F0)
 val PageSecondaryBg = Color(0xFFF8F7FA)
+val WhiteBg = Color(0xFFFFFFFF)
+
 
 //Text colors
 val MainTextCol = Color (0xFF1B0E2F)

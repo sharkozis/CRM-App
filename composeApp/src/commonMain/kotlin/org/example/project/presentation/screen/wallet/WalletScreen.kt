@@ -46,20 +46,23 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.Brush
 import com.composables.icAction
 import com.composables.icCalendarTic
+import com.composables.icDownArrow
 import com.composables.icRightArrowMaroon
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.ic_nexus
-import kotlinx.coroutines.NonCancellable.start
+import org.example.project.presentation.screen.wallet.composables.TransactionHistoryList
 import org.example.project.presentation.theme.DiffWhiteBg
 import org.example.project.presentation.theme.GradientMain
-import org.jetbrains.compose.resources.painterResource
 import org.example.project.presentation.theme.MainTextCol
 import org.example.project.presentation.theme.MuteColor
 import org.example.project.presentation.theme.PageSecondaryBg
 import org.example.project.presentation.theme.PinkPrimary
+import org.example.project.presentation.theme.SuccessActive
+import org.example.project.presentation.theme.WhiteBg
 import org.example.project.presentation.theme.grayTextColor
 import org.example.project.presentation.theme.maroonTextColor
 import org.example.project.presentation.theme.yellowTextColor
+import org.jetbrains.compose.resources.painterResource
 
 
 @Composable
@@ -69,71 +72,61 @@ fun WalletScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
-            .verticalScroll(scrollState)
-
+            .background(
+                brush = Brush.verticalGradient(
+                    0.0f to PinkPrimary.copy(alpha = 0.2f),
+                    0.3f to Color.White
+                )
+            )
     ) {
-        Box(
+        // Top Bar
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
-                .background(
-                    brush = Brush.verticalGradient(
-                        0.2f to Color.White,
-                        0.9f to PinkPrimary.copy(alpha = 0.3f)
-                    )
-                )
+                .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 25.dp),
 
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(modifier = Modifier.padding(top = 16.dp)) {
-                // Top Bar
-                Row(
+            Text(
+                text = "Wallet",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = MainTextCol
+            )
+            Box {
+                Icon(
+                    imageVector = icAction,
+                    contentDescription = "Notifications",
+                    tint = MainTextCol,
+                    modifier = Modifier.size(18.dp)
+                )
+                // Notification Badge Dot
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 20.dp, end = 20.dp, bottom = 25.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Wallet",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MainTextCol
-                    )
-                    Box {
-                        Icon(
-                            imageVector = icAction,
-                            contentDescription = "Notifications",
-                            tint = MainTextCol,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        // Notification Badge Dot
-                        Box(
-                            modifier = Modifier
-                                .size(8.dp)
-                                .clip(CircleShape)
-                                .background(GradientMain)
-                                .align(Alignment.TopEnd)
-                                .padding(2.dp)
-//                                .border(1.dp, Color.White, CircleShape)
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(20.dp))
+                        .size(8.dp)
+                        .clip(CircleShape)
+                        .background(GradientMain)
+                        .align(Alignment.TopEnd)
+                        .padding(2.dp)
+                )
             }
         }
 
-        // Main Content Area
+        // Main Content Area with White Background and Rounded Corners
         Column(
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 20.dp)
-
-
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
+                .background(Color.White)
+                .verticalScroll(scrollState)
+                .padding(horizontal = 20.dp, vertical = 20.dp)
         ) {
             // --- Income Summary ---
             Card(
                 modifier = Modifier.fillMaxWidth()
-                    .border(1.dp, MuteColor, RoundedCornerShape(14.dp))
-                ,
+                    .border(1.dp, MuteColor, RoundedCornerShape(14.dp)),
                 shape = RoundedCornerShape(14.dp),
                 colors = CardDefaults.cardColors(containerColor = PageSecondaryBg),
                 elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
@@ -158,11 +151,12 @@ fun WalletScreen(modifier: Modifier = Modifier) {
 
                     // Inner white card
                     Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier.fillMaxWidth()
+                            .border(1.dp, MuteColor,RoundedCornerShape(12.dp)),
+//                        shape = RoundedCornerShape(12.dp),
                         colors = CardDefaults.cardColors(containerColor = Color.White),
                         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-                        border = CardDefaults.outlinedCardBorder()
+//                        border = CardDefaults.outlinedCardBorder()
                     ) {
                         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp)) {
                             SummaryRow(label = "Lifetime Earnings:", value = "$450.00", valueColor = MainTextCol)
@@ -172,26 +166,24 @@ fun WalletScreen(modifier: Modifier = Modifier) {
                             SummaryRow(
                                 label = "Banking:",
                                 value = "[Stripe Connected]",
-                                valueColor = Color(0xFF2E7D32)
+                                valueColor = SuccessActive
                             )
                         }
                     }
                 }
             }
-        }
 
-        Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-        // --- Upcoming Payments ---
-        Column(modifier = Modifier.padding(horizontal = 10.dp)) {
+            // --- Upcoming Payments ---
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "Upcoming Payments",
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = MainTextCol
                 )
@@ -201,7 +193,7 @@ fun WalletScreen(modifier: Modifier = Modifier) {
                 ) {
                     Text(
                         text = "All Previous Campaigns",
-                        fontSize = 12.sp,
+                        fontSize = 11.sp,
                         color = maroonTextColor,
                         fontWeight = FontWeight.Medium
                     )
@@ -219,30 +211,33 @@ fun WalletScreen(modifier: Modifier = Modifier) {
 
             // Campaign Card
             Card(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFF7F7F9)),
-                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-                border = CardDefaults.outlinedCardBorder()
+                modifier = Modifier.fillMaxWidth()
+                    .border(1.dp, MuteColor, RoundedCornerShape(14.dp)),
+                shape = RoundedCornerShape(14.dp),
+                colors = CardDefaults.cardColors(containerColor = WhiteBg),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
+                            .background(DiffWhiteBg, RoundedCornerShape(10.dp))
+                            .padding(horizontal = 10.dp),
+
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
                             painter = painterResource(Res.drawable.ic_nexus),
                             contentDescription = "Campaign image",
                             modifier = Modifier
-                                .size(70.dp)
+                                .size(100.dp)
                                 .clip(RoundedCornerShape(8.dp)),
-                            contentScale = ContentScale.Crop
+                            contentScale = ContentScale.FillWidth
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column {
                             Text(
                                 text = "OLYNBEE",
-                                fontSize = 16.sp,
+                                fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = MainTextCol
                             )
@@ -250,17 +245,17 @@ fun WalletScreen(modifier: Modifier = Modifier) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text(
                                     text = "Dec 1 - Feb 7",
-                                    fontSize = 13.sp,
+                                    fontSize = 10.sp,
                                     color = grayTextColor
                                 )
                                 Text(
                                     text = "  •  ",
-                                    fontSize = 13.sp,
+                                    fontSize = 10.sp,
                                     color = grayTextColor
                                 )
                                 Text(
                                     text = "$600.00",
-                                    fontSize = 13.sp,
+                                    fontSize = 10.sp,
                                     color = grayTextColor
                                 )
                             }
@@ -280,12 +275,33 @@ fun WalletScreen(modifier: Modifier = Modifier) {
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    PaymentHistoryRow(date = "Dec 15", amount = "$150.00", status = "Paid", statusColor = Color(0xFF2E7D32))
+                    PaymentHistoryRow(date = "Dec 15", amount = "$150.00", status = "Paid", statusColor = SuccessActive)
                     Spacer(modifier = Modifier.height(12.dp))
                     PaymentHistoryRow(date = "Jan 15", amount = "$150.00", status = "Due", statusColor = yellowTextColor)
+
                 }
+
             }
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // --- Transaction History ---
+//            Row(
+//                modifier = Modifier.fillMaxWidth(),
+//                horizontalArrangement = Arrangement.SpaceBetween,
+//                verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                Text(
+//                    text = "TRANSACTION HISTORY",
+//                    fontSize = 18.sp,
+//                    fontWeight = FontWeight.Bold,
+//                    color = MainTextCol
+//                )
+//                AllDropdown()
+//            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            TransactionHistoryList()
         }
     }
 }
@@ -317,7 +333,7 @@ private fun PaymentHistoryRow(date: String, amount: String, status: String, stat
         Text(
             text = "$date: $amount",
             fontSize = 13.sp,
-            color = MainTextCol
+            color = grayTextColor
         )
         Spacer(modifier = Modifier.width(6.dp))
         Text(
@@ -326,6 +342,33 @@ private fun PaymentHistoryRow(date: String, amount: String, status: String, stat
             color = statusColor,
             fontWeight = FontWeight.Medium
         )
+    }
+}
+
+@Composable
+private fun AllDropdown() {
+    var expanded by remember { mutableStateOf(false) }
+    Box {
+        Card(
+            onClick = { expanded = true },
+            shape = RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.White),
+            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+            border = CardDefaults.outlinedCardBorder()
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = "All", fontSize = 14.sp, color = MainTextCol)
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(text = "▾", fontSize = 12.sp, color = grayTextColor)
+            }
+        }
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            DropdownMenuItem(text = { Text("All") }, onClick = { expanded = false })
+            DropdownMenuItem(text = { Text("This week") }, onClick = { expanded = false })
+        }
     }
 }
 
@@ -341,12 +384,17 @@ private fun AllTimeDropdown() {
             border = CardDefaults.outlinedCardBorder()
         ) {
             Row(
-                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "All time", fontSize = 12.sp, color = grayTextColor)
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "▾", fontSize = 11.sp, color = grayTextColor)
+                Text(text = "All time", fontSize = 12.sp, color = MainTextCol, fontWeight = FontWeight.Bold)
+                Spacer(modifier = Modifier.width(20.dp))
+                Image(
+                    imageVector = icDownArrow,
+                    contentDescription = null,
+                    modifier = Modifier.size(12.dp)
+                )
             }
         }
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
