@@ -3,6 +3,8 @@ package org.example.project.presentation.screen.wallet
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +16,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
@@ -39,16 +43,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Brush
 import com.composables.icAction
 import com.composables.icCalendarTic
+import com.composables.icRightArrowMaroon
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.ic_nexus
+import kotlinx.coroutines.NonCancellable.start
+import org.example.project.presentation.theme.DiffWhiteBg
+import org.example.project.presentation.theme.GradientMain
 import org.jetbrains.compose.resources.painterResource
 import org.example.project.presentation.theme.MainTextCol
+import org.example.project.presentation.theme.MuteColor
 import org.example.project.presentation.theme.PageSecondaryBg
+import org.example.project.presentation.theme.PinkPrimary
 import org.example.project.presentation.theme.grayTextColor
 import org.example.project.presentation.theme.maroonTextColor
 import org.example.project.presentation.theme.yellowTextColor
+
 
 @Composable
 fun WalletScreen(modifier: Modifier = Modifier) {
@@ -57,46 +69,76 @@ fun WalletScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(PageSecondaryBg)
+            .background(Color.White)
             .verticalScroll(scrollState)
-    ) {
-        Spacer(modifier = Modifier.height(32.dp))
 
-        // Top Bar
-        Row(
+    ) {
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .wrapContentHeight()
+                .background(
+                    brush = Brush.verticalGradient(
+                        0.2f to Color.White,
+                        0.9f to PinkPrimary.copy(alpha = 0.3f)
+                    )
+                )
+
         ) {
-            Text(
-                text = "Wallet",
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = MainTextCol
-            )
-            Icon(
-                imageVector = icAction,
-                contentDescription = "Notifications",
-                tint = maroonTextColor,
-                modifier = Modifier.size(28.dp)
-            )
+            Column(modifier = Modifier.padding(top = 16.dp)) {
+                // Top Bar
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp, end = 20.dp, bottom = 25.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Wallet",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MainTextCol
+                    )
+                    Box {
+                        Icon(
+                            imageVector = icAction,
+                            contentDescription = "Notifications",
+                            tint = MainTextCol,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        // Notification Badge Dot
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .clip(CircleShape)
+                                .background(GradientMain)
+                                .align(Alignment.TopEnd)
+                                .padding(2.dp)
+//                                .border(1.dp, Color.White, CircleShape)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+            }
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
+        // Main Content Area
+        Column(
+            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 20.dp)
 
-        // Main White Card
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+
         ) {
-            Column(modifier = Modifier.padding(vertical = 16.dp)) {
-
-                // --- Income Summary ---
-                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+            // --- Income Summary ---
+            Card(
+                modifier = Modifier.fillMaxWidth()
+                    .border(1.dp, MuteColor, RoundedCornerShape(14.dp))
+                ,
+                shape = RoundedCornerShape(14.dp),
+                colors = CardDefaults.cardColors(containerColor = PageSecondaryBg),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -104,7 +146,7 @@ fun WalletScreen(modifier: Modifier = Modifier) {
                     ) {
                         Text(
                             text = "INCOME SUMMARY",
-                            fontSize = 13.sp,
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = MainTextCol,
                             letterSpacing = 0.5.sp
@@ -114,19 +156,19 @@ fun WalletScreen(modifier: Modifier = Modifier) {
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Inner card
+                    // Inner white card
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(10.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFFFAFAFA)),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
                         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
                         border = CardDefaults.outlinedCardBorder()
                     ) {
-                        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
+                        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp)) {
                             SummaryRow(label = "Lifetime Earnings:", value = "$450.00", valueColor = MainTextCol)
-                            Spacer(modifier = Modifier.height(10.dp))
+                            Spacer(modifier = Modifier.height(14.dp))
                             SummaryRow(label = "Upcoming Payouts:", value = "$200.00", valueColor = MainTextCol)
-                            Spacer(modifier = Modifier.height(10.dp))
+                            Spacer(modifier = Modifier.height(14.dp))
                             SummaryRow(
                                 label = "Banking:",
                                 value = "[Stripe Connected]",
@@ -135,110 +177,115 @@ fun WalletScreen(modifier: Modifier = Modifier) {
                         }
                     }
                 }
+            }
+        }
 
-                DashedDivider(Modifier.padding(vertical = 16.dp, horizontal = 16.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
-                // --- Upcoming Payments ---
-                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+        // --- Upcoming Payments ---
+        Column(modifier = Modifier.padding(horizontal = 10.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Upcoming Payments",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MainTextCol
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.clickable { /* Handle click */ }
+                ) {
+                    Text(
+                        text = "All Previous Campaigns",
+                        fontSize = 12.sp,
+                        color = maroonTextColor,
+                        fontWeight = FontWeight.Medium
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Icon(
+                        imageVector = icRightArrowMaroon,
+                        contentDescription = null,
+                        modifier = Modifier.size(14.dp),
+                        tint = maroonTextColor
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Campaign Card
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFF7F7F9)),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+                border = CardDefaults.outlinedCardBorder()
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = "Upcoming Payments",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MainTextCol
+                        Image(
+                            painter = painterResource(Res.drawable.ic_nexus),
+                            contentDescription = "Campaign image",
+                            modifier = Modifier
+                                .size(70.dp)
+                                .clip(RoundedCornerShape(8.dp)),
+                            contentScale = ContentScale.Crop
                         )
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Column {
                             Text(
-                                text = "All Previous Campaigns",
-                                fontSize = 11.sp,
-                                color = maroonTextColor,
-                                fontWeight = FontWeight.Medium
+                                text = "OLYNBEE",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = MainTextCol
                             )
-                            Text(
-                                text = " >",
-                                fontSize = 11.sp,
-                                color = maroonTextColor,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    // Campaign Card
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(10.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFFFAFAFA)),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-                        border = CardDefaults.outlinedCardBorder()
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(12.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Image(
-                                painter = painterResource(Res.drawable.ic_nexus),
-                                contentDescription = "Campaign image",
-                                modifier = Modifier
-                                    .size(64.dp)
-                                    .clip(RoundedCornerShape(8.dp)),
-                                contentScale = ContentScale.Crop
-                            )
-                            Spacer(modifier = Modifier.width(12.dp))
-                            Column {
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text(
-                                    text = "OLYNBEE",
-                                    fontSize = 15.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = MainTextCol
+                                    text = "Dec 1 - Feb 7",
+                                    fontSize = 13.sp,
+                                    color = grayTextColor
                                 )
-                                Spacer(modifier = Modifier.height(4.dp))
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text(
-                                        text = "Dec 1 - Feb 7",
-                                        fontSize = 12.sp,
-                                        color = grayTextColor
-                                    )
-                                    Text(
-                                        text = "  •  ",
-                                        fontSize = 12.sp,
-                                        color = grayTextColor
-                                    )
-                                    Text(
-                                        text = "$600.00",
-                                        fontSize = 12.sp,
-                                        color = grayTextColor
-                                    )
-                                }
+                                Text(
+                                    text = "  •  ",
+                                    fontSize = 13.sp,
+                                    color = grayTextColor
+                                )
+                                Text(
+                                    text = "$600.00",
+                                    fontSize = 13.sp,
+                                    color = grayTextColor
+                                )
                             }
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
-                    // Payment History
+                    // Payment History inside Campaign Card
                     Text(
                         text = "PAYMENT HISTORY",
-                        fontSize = 12.sp,
+                        fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,
                         color = MainTextCol,
                         letterSpacing = 0.5.sp
                     )
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
 
                     PaymentHistoryRow(date = "Dec 15", amount = "$150.00", status = "Paid", statusColor = Color(0xFF2E7D32))
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
                     PaymentHistoryRow(date = "Jan 15", amount = "$150.00", status = "Due", statusColor = yellowTextColor)
-
-                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
