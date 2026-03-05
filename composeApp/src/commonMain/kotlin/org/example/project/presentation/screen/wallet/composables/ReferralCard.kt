@@ -63,7 +63,7 @@ fun ReferralCard(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ReferralContent(
+fun ReferralContent(modifier: Modifier = Modifier,
     onGoToReferralClick: () -> Unit
 ) {
     Column(

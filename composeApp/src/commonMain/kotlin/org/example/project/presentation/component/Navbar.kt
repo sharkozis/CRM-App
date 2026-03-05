@@ -47,6 +47,7 @@ fun Navbar(
         Triple(NavbarTab.Campaigns, icHome, "Campaigns"),
         Triple(NavbarTab.Wallet, icWallet, "Wallet"),
         Triple(NavbarTab.Chat, icMessage, "Chat"),
+        Triple(NavbarTab.Referral, icMessage, "Referral"),
         Triple(NavbarTab.Profile, icUser, "Profile"),
     )
 
@@ -187,5 +188,6 @@ enum class NavbarTab {
     Campaigns,
     Wallet,
     Chat,
-    Profile
+    Profile,
+    Referral
 }

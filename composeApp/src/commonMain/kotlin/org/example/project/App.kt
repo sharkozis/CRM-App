@@ -33,6 +33,7 @@ import org.example.project.presentation.screen.signup.SignupScreen
 
 import org.example.project.presentation.screen.splash.SplashScreen
 import org.example.project.presentation.screen.wallet.WalletScreen
+import org.example.project.presentation.screen.wallet.composables.ReferralContent
 import org.example.project.presentation.theme.AppTheme
 
  @Composable
@@ -74,7 +75,9 @@ import org.example.project.presentation.theme.AppTheme
                  }
                  NavbarTab.Wallet   -> WalletScreen(modifier = screenModifier)
                  NavbarTab.Chat     -> ChatScreen(modifier = screenModifier)
+//                 NavbarTab.Referral     -> ReferralContent(modifier = screenModifier)
                  NavbarTab.Profile  -> ProfileScreen(modifier = screenModifier)
+                 else -> {}
              }
          }
      }
